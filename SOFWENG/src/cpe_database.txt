@@ -1,0 +1,20 @@
+#Create database;
+create database if not exists cpe_database;
+use cpe_database;	
+#Users Table;
+create table if not exists users(`ID` varchar(8), `Name` varchar(40), `Password` varchar(20), `email` varchar(30),`gender` varchar(30), `contact` varchar(11), `department` varchar(10), `pin` varchar(20), `level` int, `verified` int, `subject1` varchar(10), `subject2` varchar(10), `subject3` varchar(10), `subject4` varchar(10), `subject5` varchar(10), `subject6` varchar(10), `subject7` varchar(10), `subject8` varchar(10), `subject9` varchar(10), `subject10` varchar(10), primary key (`ID`));
+insert ignore into users values('20000000','admin','20000000','cpe_admin@dlsu.edu.ph','male','na','na','0000','1','1','na','na','na','na','na','na','na','na','na','na');
+insert ignore into users values('20000001','checoordinator','20000001','che_coordinartor@dlsu.edu.ph','male','na','che','0001','2','1','na','na','na','na','na','na','na','na','na','na');
+insert ignore into users values('20000002','civcoordinator','20000002','civ_coordinartor@dlsu.edu.ph','male','na','civ','0002','2','1','na','na','na','na','na','na','na','na','na','na');
+insert ignore into users values('20000003','ececoordinator','20000003','ece_coordinartor@dlsu.edu.ph','male','na','ece','0003','2','1','na','na','na','na','na','na','na','na','na','na');
+insert ignore into users values('20000004','iecoordinator','20000004','ie_coordinartor@dlsu.edu.ph','male','na','ie','0004','2','1','na','na','na','na','na','na','na','na','na','na');
+insert ignore into users values('20000005','memcoordinator','20000005','mem_coordinartor@dlsu.edu.ph','male','na','mem','0005','2','1','na','na','na','na','na','na','na','na','na','na');
+insert ignore into users values('20000006','meecoordinator','20000006','mee_coordinartor@dlsu.edu.ph','male','na','mee','0006','2','1','na','na','na','na','na','na','na','na','na','na');
+insert ignore into users values('11527943','maverick','maverick','maverick_rivera@dlsu.edu.ph','male','na','ece','0918','3','1','SOFWENG','CPETHIC','na','na','na','na','na','na','na','na');
+#students Table;
+create table if not exists students(`ID` varchar(8), `term` varchar(4), `subject1` varchar(10),`grade1` float(2,1), `so1` int, `subject2` varchar(10), `grade2` float(2,1), `so2` int,`subject3` varchar(10),`grade3` float(2,1), `so3` int,`subject4` varchar(10),`grade4` float(2,1),`so4` int,`subject5` varchar(7),`section5` varchar(2),`grade5` float(2,1),`so5` int,`subject6` varchar(10),`grade6` float(2,1), `so6` int,`subject7` varchar(10),`grade7` float(2,1), `so7` int,`subject8` varchar(10),`grade8` float(2,1), `so8` int,`subject9` varchar(10),`grade9` float(2,1), `so9` int,`subject10` varchar(10),`grade10` float(2,1), `so10` int);
+#Classes Table;
+create table if not exists classes(`Name` varchar(7), `Detail` text);
+	
+
+
