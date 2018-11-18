@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 /**
  *
  * @author PauloSenires
@@ -25,7 +26,9 @@ public class InputGrades extends javax.swing.JFrame {
     public String ID  = "11515228";
     public String subject  = "ENGALG1";
     public String[] soList;
+    public String[] soGradeFieldList;
     int soCount=0;
+    int gradeFieldCount=0;
     /**
      * Creates new form InputGrades
      */
@@ -357,11 +360,13 @@ public class InputGrades extends javax.swing.JFrame {
                 soList[i]=("SO "+(soArray[i]));
                 System.out.println(soList[i]);
             }
-            soPanel.setLayout(new GridLayout(10,1));
+            soPanel.setLayout(new GridLayout(5,1));
             for (String studentOutcome : soList) {
                 JLabel soLabel = new JLabel(studentOutcome);
+                JTextField soTextField = new JTextField();
                 soLabel.setVisible(true);
                soPanel.add(soLabel);
+               soPanel.add(soTextField);
             }
             soPanel.validate();
             soPanel.repaint();
