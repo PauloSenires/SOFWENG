@@ -16,8 +16,8 @@ create table if not exists students(`ID` varchar(8), `term` varchar(4), `subject
 #Test
 insert ignore into students values('11515228','T2Y3','ENGALG1','EQ','3.5','60,40,90,30','ENGTRIG','EQ','2.5','50,40,30','MPROSYS','EQ','4.0','80,90,100','DIGITDE','EQ','3.5','90,100,70','CPEPROG','EQ','85','75,80,60','DISMATH','EQ','3.0','80,70,60','SOLIMEN','EQ','2.5','50,80,90','STATICS','EQ','3.5','90,50,40','na','na','0.0','na','na','na','0.0','na');
 #Classes Table;
-create table if not exists classes(`Name` varchar(7), `Detail` text, `SO` varchar(16), primary key (`Name`));
-insert ignore into classes values('ENGALG1','Álgebra1','Á,B,C,D');
+create table if not exists classes(`Name` varchar(7), `Detail` text, `SO` varchar(16),`work` varchar(30),`percent` int, primary key (`Name`));
+insert ignore into classes values('ENGALG1','Álgebra1','Á,B,C,D','Q,FE,TE,Project','40,35,5,20');
 	
 
 
