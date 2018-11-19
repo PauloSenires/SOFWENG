@@ -371,7 +371,7 @@ public class InputGrades extends javax.swing.JFrame {
             soPanel.validate();
             soPanel.repaint();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
