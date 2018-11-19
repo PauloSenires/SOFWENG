@@ -15,7 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -541,6 +543,10 @@ public class InputGrades extends javax.swing.JFrame {
             data.execute("update students set so"+(subjectCount+1)+"='" + soGrade + "' where ID ='" + ID + "';");
             data.execute("update students set grade"+(subjectCount+1)+"='" + finalGrade + "' where ID='" + ID + "';");
             data.execute("update students set rawScore"+(subjectCount+1)+"='" + rawScores + "' where ID='" + ID + "';");
+            
+            String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            System.out.println(timeStamp);
+            data.execute("update students set time"+(subjectCount+1)+"='" + timeStamp + "' where ID='" + ID + "';");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
