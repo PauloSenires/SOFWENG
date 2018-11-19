@@ -26,6 +26,8 @@ public class Login extends javax.swing.JFrame {
 
     private String idNumber;
     private String password;
+    private String level;
+
     /**
      * Creates new form NewJFrame
      */
@@ -144,42 +146,39 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_idNumberFieldActionPerformed
 
     private void idNumberFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idNumberFieldKeyPressed
-       // Action when either field is Empty
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            if(idNumberField.getText().equals("")|| passwordField.getText().equals("")){
+        // Action when either field is Empty
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (idNumberField.getText().equals("") || passwordField.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Incomplete! Please input either ID number or password");
-            }else{
+            } else {
                 idNumber = idNumberField.getText();
                 password = passwordField.getText();
                 Login(idNumber, password);
-                this.dispose();
             }
         }
     }//GEN-LAST:event_idNumberFieldKeyPressed
 
     private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
         // Action when either field is Empty
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            if(idNumberField.getText().equals("")|| passwordField.getText().equals("")){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (idNumberField.getText().equals("") || passwordField.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Incomplete! Please input either ID number or password");
-            }else{
+            } else {
                 idNumber = idNumberField.getText();
                 password = passwordField.getText();
                 Login(idNumber, password);
-                this.dispose();
             }
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
 
     private void signInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInBtnActionPerformed
-        if(idNumberField.getText().equals("")|| passwordField.getText().equals("")){
+        if (idNumberField.getText().equals("") || passwordField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Incomplete! Please input either ID number or password");
-        }else{
+        } else {
             idNumber = idNumberField.getText();
             password = passwordField.getText();
             Login(idNumber, password);
         }
-        this.dispose();
     }//GEN-LAST:event_signInBtnActionPerformed
 
     /**
@@ -219,14 +218,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+
     //Public Functions
-    public void Login(String idNumber, String Password){
+    public void Login(String idNumber, String Password) {
         //Checking of Connection.
         String url = "jdbc:mysql://localhost:3306/cpe_database";
         Properties prop = new Properties();
         prop.setProperty("user", "root");
         prop.setProperty("password", "");
-        try{
+        try {
             Driver d = new com.mysql.jdbc.Driver();
             Connection con = d.connect(url, prop);
             if (con == null) {
@@ -236,28 +236,98 @@ public class Login extends javax.swing.JFrame {
                 System.out.println("Connected.");
             }
             Statement stat = con.createStatement();
-            
+
             //Database variables
-            String databasePassword;
-            ResultSet result = stat.executeQuery("Select Password from users where ID = \'"+idNumber+"\'");
-            
+            String databasePassword = "";
+            String databaseVerified = "";
+            ResultSet result = stat.executeQuery("Select Password from users where ID = \'" + idNumber + "\'");
+
             //databasePassword acquisition and comparison to password variable.
-            if(!result.next()){
+            if (!result.next()) {
                 System.out.println("ID not in database!");
-            }else{
-                do{
+            } else {
+                do {
                     databasePassword = result.getString(1);
                     //System.out.println("password: "+databasePassword);
-                }while(result.next());
-                
-                if(databasePassword.equals(password)){
-                    JOptionPane.showMessageDialog(null, "You have successfully logged in");
-                }else{
+                } while (result.next());
+
+                if (databasePassword.equals(password)) {
+                    //acquire verification of user.
+                    result = stat.executeQuery("Select verified from users where ID = \'" + idNumber + "\'");
+                    while (result.next()) {
+                        databaseVerified = result.getString(1);
+                    }
+
+                    //Checks verification, if verified then user continues,
+                    //if not then user must wait for admin to verify their account
+                    switch (databaseVerified) {
+                        default: //not yet verified
+                            JOptionPane.showMessageDialog(null, "Your account "
+                                    + "has not been verified, please wait for "
+                                    + "Admin, thank you.");
+                            break;
+                        case "1": //verified
+                            JOptionPane.showMessageDialog(null, "You have successfully logged in");
+                            toUserWindow(idNumber, stat);
+                            this.dispose();
+                            break;
+                        case "2": //rejected
+                            JOptionPane.showMessageDialog(null, "This account"
+                                    + "has been rejected by Admin.");
+                            break;
+                    }
+                } else {
                     JOptionPane.showMessageDialog(null, "Incorrect password!");
                 }
             }
-        }catch(Exception e){
-            System.out.println("Did not connect to DB - Error: "+e);
+        } catch (Exception e) {
+            System.out.println("Did not connect to DB - Error: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    public void toUserWindow(String idNumber, Statement stat) {
+        //get the data needed to know which window to open after login
+        try {
+            //Database variables
+            String databaseLevel = "";
+            ResultSet result = stat.executeQuery("Select level from users where ID = \'" + idNumber + "\'");
+
+            //databaseLevel acquisition and comparison to determine which class
+            //to go to next.
+            while (result.next()) {
+                databaseLevel = result.getString(1);
+                //System.out.println("Level: "+databaseLevel);
+            }
+            switch (databaseLevel) {
+                default: //Faculty
+                    FacultyScreen1 facultyWindow = new FacultyScreen1();
+                    facultyWindow.setVisible(true);
+                    facultyWindow.setLocationRelativeTo(this);
+                    this.dispose();
+                    break;
+                case "1": //Quality Coordinator
+                    QualityCoordinator qualityCoordWindow = new QualityCoordinator();
+                    qualityCoordWindow.setVisible(true);
+                    qualityCoordWindow.setLocationRelativeTo(this);
+                    this.dispose();
+                    break;
+                case "2": //Department Coordinator
+                    QualityCoordinator deptCoordWindow = new QualityCoordinator();
+                    deptCoordWindow.setVisible(true);
+                    deptCoordWindow.setLocationRelativeTo(this);
+                    this.dispose();
+                    break;
+                case "3": //Administrator
+                    QualityCoordinator adminWindow = new QualityCoordinator();
+                    adminWindow.setVisible(true);
+                    adminWindow.setLocationRelativeTo(this);
+                    this.dispose();
+                    break;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Did not connect to DB - Error: " + e);
             e.printStackTrace();
         }
     }
