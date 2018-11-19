@@ -8,12 +8,14 @@ package sofweng;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import static java.lang.Float.parseFloat;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -28,11 +30,13 @@ public class InputGrades extends javax.swing.JFrame {
     public String subject  = "ENGALG1";
     public String section = "EQ";
     public String soGrade = "";
+    public String rawScores = "";
     float finalGrade;
     public String[] soList;
     public String[] bdArray;
     public String[] gradesList;
     public String[] soGradesList;
+    public String[] rawScoresList;
     public JTextField[] soGradeFieldList;
     int soCount=0;
     int subjectCount=0;
@@ -50,6 +54,7 @@ public class InputGrades extends javax.swing.JFrame {
         initComponents();
         fetchSOs(subject);
         fetchStudent(ID);
+       
     }
 
     /**
@@ -341,7 +346,7 @@ public class InputGrades extends javax.swing.JFrame {
         feScore=Integer.parseInt(finalExam.getText())*Integer.parseInt(bdArray[1])/100;
         pgScore=Integer.parseInt(projectGrade.getText())*Integer.parseInt(bdArray[2])/100;
         ogScore=Integer.parseInt(othersGrade.getText())*Integer.parseInt(bdArray[3])/100;
-        
+        rawScores=(quizAverage.getText()+","+finalExam.getText()+","+projectGrade.getText()+","+othersGrade.getText());
         int totalGrade= qaScore+feScore+pgScore+ogScore;
         if(totalGrade>=95){
             finalGrade=(float) 4.0;
@@ -471,7 +476,7 @@ public class InputGrades extends javax.swing.JFrame {
             PreparedStatement pst = conn.prepareStatement("Select * from students where ID = ?");
             pst.setString(1,ID);
             ResultSet rs = pst.executeQuery();
-            rs.next();
+            rs.next();          
             
             while(!subject.equals(rs.getString("subject"+(subjectCount+1))) && subjectCount<10){
                 System.out.println(rs.getString("subject"+(subjectCount+1)));
@@ -484,7 +489,32 @@ public class InputGrades extends javax.swing.JFrame {
             subjectLabel.setText(subject);
             studentNumberLabel.setText(ID);
             sectionLabel.setText(section);
-            finalGradeLabel.setText(rs.getString("grade"+(subjectCount+1)));
+            
+            if(rs.getString("grade"+(subjectCount+1)).equals("na")||rs.getString("grade"+(subjectCount+1))==null){
+                finalGrade=(float)0.0;
+            }else{
+            finalGrade=parseFloat(rs.getString("grade"+(subjectCount+1)));
+            }
+            finalGradeLabel.setText(String.valueOf(finalGrade));
+            
+            rawScores=rs.getString("rawScore"+(subjectCount+1));
+            if(rawScores.equals("na")||rawScores==null){
+                rawScores="0,0,0,0";
+            }
+            String[] rawScoresArray = rawScores.split(",");
+            quizAverage.setText(rawScoresArray[0]);
+            finalExam.setText(rawScoresArray[1]);
+            projectGrade.setText(rawScoresArray[2]);
+            othersGrade.setText(rawScoresArray[3]);
+            
+            String studentOutcomes = rs.getString("so"+(subjectCount+1));
+            String[] soGradesArray = studentOutcomes.split(",");
+            System.out.println(Arrays.toString(soGradesArray));
+            for(int i=0;i<soCount;i++){
+            soGradeFieldList[i].setText(soGradesArray[i]);
+            }
+            
+            
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -500,7 +530,7 @@ public class InputGrades extends javax.swing.JFrame {
             data.execute("use cpe_database;");
             data.execute("update students set so"+(subjectCount+1)+"='" + soGrade + "' where ID ='" + ID + "';");
             data.execute("update students set grade"+(subjectCount+1)+"='" + finalGrade + "' where ID='" + ID + "';");
-            
+            data.execute("update students set rawScore"+(subjectCount+1)+"='" + rawScores + "' where ID='" + ID + "';");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
