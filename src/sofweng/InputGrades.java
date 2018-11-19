@@ -26,12 +26,16 @@ public class InputGrades extends javax.swing.JFrame {
     public String ID  = "11515228";
     public String subject  = "ENGALG1";
     public String section = "EQ";
+    public String soGrade = "";
+    float finalGrade;
     public String[] soList;
+    public String[] bdArray;
     public String[] gradesList;
     public String[] soGradesList;
     public JTextField[] soGradeFieldList;
     int soCount=0;
     int subjectCount=0;
+    int qaScore,feScore,pgScore,ogScore;
     /**
      * Creates new form InputGrades
      */
@@ -77,8 +81,8 @@ public class InputGrades extends javax.swing.JFrame {
         othersGrade = new javax.swing.JTextField();
         finalGradeLabel = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        submitButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
         soPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -135,23 +139,24 @@ public class InputGrades extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel12.setText("Final Grade");
 
-        quizAverage.setText("QA");
         quizAverage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 quizAverageActionPerformed(evt);
             }
         });
 
-        finalExam.setText("FE");
+        finalExam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finalExamActionPerformed(evt);
+            }
+        });
 
-        projectGrade.setText("PG");
         projectGrade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 projectGradeActionPerformed(evt);
             }
         });
 
-        othersGrade.setText("OG");
         othersGrade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 othersGradeActionPerformed(evt);
@@ -163,14 +168,14 @@ public class InputGrades extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel14.setText("Student Outcomes");
 
-        submitButton.setText("Submit");
-        submitButton.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitButtonActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
 
-        cancelButton.setText("Cancel");
+        backButton.setText("Back");
 
         javax.swing.GroupLayout soPanelLayout = new javax.swing.GroupLayout(soPanel);
         soPanel.setLayout(soPanelLayout);
@@ -232,9 +237,9 @@ public class InputGrades extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(subjectPanelLayout.createSequentialGroup()
                 .addGap(172, 172, 172)
-                .addComponent(cancelButton)
+                .addComponent(backButton)
                 .addGap(18, 18, 18)
-                .addComponent(submitButton)
+                .addComponent(updateButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         subjectPanelLayout.setVerticalGroup(
@@ -272,8 +277,8 @@ public class InputGrades extends javax.swing.JFrame {
                     .addComponent(soPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(submitButton)
-                    .addComponent(cancelButton))
+                    .addComponent(updateButton)
+                    .addComponent(backButton))
                 .addGap(19, 19, 19))
         );
 
@@ -317,16 +322,51 @@ public class InputGrades extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_othersGradeActionPerformed
 
-    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
+        soGrade="";
         soGradesList = new String[soCount];
         gradesList = new String[soCount];
         for (int i = 0; i < soCount; i++) {
                 soGradesList[i]=soGradeFieldList[i].getText();
-                System.out.println(soGradesList[i]);
-            }
+                if(i<soCount-1){
+                soGrade=soGrade+soGradesList[i]+",";
+                }
+                else{
+                soGrade=soGrade+soGradesList[i];    
+                }
+        }
+        qaScore=Integer.parseInt(quizAverage.getText())*Integer.parseInt(bdArray[0])/100;
+        feScore=Integer.parseInt(finalExam.getText())*Integer.parseInt(bdArray[1])/100;
+        pgScore=Integer.parseInt(projectGrade.getText())*Integer.parseInt(bdArray[2])/100;
+        ogScore=Integer.parseInt(othersGrade.getText())*Integer.parseInt(bdArray[3])/100;
         
-    }//GEN-LAST:event_submitButtonActionPerformed
+        int totalGrade= qaScore+feScore+pgScore+ogScore;
+        if(totalGrade>=95){
+            finalGrade=(float) 4.0;
+        }else if(totalGrade>=90&&totalGrade<95){
+            finalGrade = (float) 3.5;
+        }else if(totalGrade>=85&&totalGrade<90){
+            finalGrade = (float) 3.0;
+        }else if(totalGrade>=80&&totalGrade<85){
+            finalGrade = (float) 2.5;
+        }else if(totalGrade>=75&&totalGrade<80){
+            finalGrade = (float) 2.0;
+        }else if(totalGrade>=70&&totalGrade<75){
+            finalGrade = (float) 1.5;
+        }else if(totalGrade>=65&&totalGrade<70){
+            finalGrade = (float) 1.0;
+        }else if(totalGrade<65){
+            finalGrade = (float) 0.0;
+        }
+        System.out.println(totalGrade);
+        finalGradeLabel.setText(String.valueOf(finalGrade));
+        System.out.println(soGrade);
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void finalExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalExamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_finalExamActionPerformed
 
     /**
      * @param args the command line arguments
@@ -388,7 +428,7 @@ public class InputGrades extends javax.swing.JFrame {
             fePercentageLabel.setText(breakdownArray[1]+"%");
             pgPercentageLabel.setText(breakdownArray[2]+"%");
             ogPercentageLabel.setText(breakdownArray[3]+"%");
-            
+            bdArray=breakdownArray;
             
             System.out.println(soArray.length);
             soList = new String[soArray.length];
@@ -401,7 +441,7 @@ public class InputGrades extends javax.swing.JFrame {
             
             for (String studentOutcome : soList) {
                 JLabel soLabel = new JLabel(studentOutcome);
-                JTextField soTextField = new JTextField(studentOutcome);
+                JTextField soTextField = new JTextField();
                 soGradeFieldList[soCount]=soTextField;
                 soLabel.setVisible(true);
                soPanel.add(soLabel);
@@ -444,7 +484,7 @@ public class InputGrades extends javax.swing.JFrame {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton backButton;
     private javax.swing.JLabel fePercentageLabel;
     private javax.swing.JTextField finalExam;
     private javax.swing.JLabel finalGradeLabel;
@@ -467,6 +507,6 @@ public class InputGrades extends javax.swing.JFrame {
     private javax.swing.JLabel studentNumberLabel;
     private javax.swing.JLabel subjectLabel;
     private javax.swing.JPanel subjectPanel;
-    private javax.swing.JButton submitButton;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

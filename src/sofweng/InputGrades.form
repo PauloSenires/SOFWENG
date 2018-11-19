@@ -166,9 +166,9 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="172" max="-2" attributes="0"/>
-                  <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="backButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="submitButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="updateButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -216,8 +216,8 @@
                   </Group>
                   <EmptySpace pref="18" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="submitButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="updateButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="backButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               </Group>
@@ -282,30 +282,21 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="quizAverage">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="QA"/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="quizAverageActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="finalExam">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="FE"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="finalExamActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="projectGrade">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="PG"/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="projectGradeActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="othersGrade">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="OG"/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="othersGradeActionPerformed"/>
           </Events>
@@ -323,17 +314,17 @@
             <Property name="text" type="java.lang.String" value="Student Outcomes"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="submitButton">
+        <Component class="javax.swing.JButton" name="updateButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Submit"/>
+            <Property name="text" type="java.lang.String" value="Update"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="cancelButton">
+        <Component class="javax.swing.JButton" name="backButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
+            <Property name="text" type="java.lang.String" value="Back"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="soPanel">
