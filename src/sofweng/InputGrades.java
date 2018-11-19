@@ -551,6 +551,78 @@ public class InputGrades extends javax.swing.JFrame {
             Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void fetchStudent(String ID) throws SQLException{
+        try {
+            java.lang.Class.forName("com.mysql.jdbc.Driver");
+            
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+            
+            PreparedStatement pst = conn.prepareStatement("Select * from students where ID = ?");
+            pst.setString(1,ID);
+            ResultSet rs = pst.executeQuery();
+            rs.next();          
+            
+            while(!subject.equals(rs.getString("subject"+(subjectCount+1))) && subjectCount<10){
+                System.out.println(rs.getString("subject"+(subjectCount+1)));
+                subjectCount++;
+                if(subjectCount==10){
+                    break;
+                }
+            }
+            section= rs.getString("section"+(subjectCount+1));
+            subjectLabel.setText(subject);
+            studentNumberLabel.setText(ID);
+            sectionLabel.setText(section);
+            
+            if(rs.getString("grade"+(subjectCount+1)).equals("na")||rs.getString("grade"+(subjectCount+1))==null){
+                finalGrade=(float)0.0;
+            }else{
+            finalGrade=parseFloat(rs.getString("grade"+(subjectCount+1)));
+            }
+            finalGradeLabel.setText(String.valueOf(finalGrade));
+            
+            rawScores=rs.getString("rawScore"+(subjectCount+1));
+            if(rawScores.equals("na")||rawScores==null){
+                rawScores="0,0,0,0";
+            }
+            String[] rawScoresArray = rawScores.split(",");
+            quizAverage.setText(rawScoresArray[0]);
+            finalExam.setText(rawScoresArray[1]);
+            projectGrade.setText(rawScoresArray[2]);
+            othersGrade.setText(rawScoresArray[3]);
+            
+            String studentOutcomes = rs.getString("so"+(subjectCount+1));
+            String[] soGradesArray = studentOutcomes.split(",");
+            System.out.println(Arrays.toString(soGradesArray));
+            for(int i=0;i<soCount;i++){
+            soGradeFieldList[i].setText(soGradesArray[i]);
+            }
+            
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void updateDatabase(String ID) throws SQLException{
+        try {
+            java.lang.Class.forName("com.mysql.jdbc.Driver");
+            
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+            
+            Statement data = conn.createStatement();
+            data.execute("use cpe_database;");
+            data.execute("update students set so"+(subjectCount+1)+"='" + soGrade + "' where ID ='" + ID + "';");
+            data.execute("update students set grade"+(subjectCount+1)+"='" + finalGrade + "' where ID='" + ID + "';");
+            data.execute("update students set rawScore"+(subjectCount+1)+"='" + rawScores + "' where ID='" + ID + "';");
+            
+            String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            System.out.println(timeStamp);
+            data.execute("update students set time"+(subjectCount+1)+"='" + timeStamp + "' where ID='" + ID + "';");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JLabel fePercentageLabel;
