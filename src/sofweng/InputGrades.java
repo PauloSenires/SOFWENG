@@ -25,20 +25,25 @@ import javax.swing.JTextField;
 public class InputGrades extends javax.swing.JFrame {
     public String ID  = "11515228";
     public String subject  = "ENGALG1";
+    public String section = "EQ";
     public String[] soList;
-    public String[] soGradeFieldList;
+    public String[] gradesList;
+    public String[] soGradesList;
+    public JTextField[] soGradeFieldList;
     int soCount=0;
-    int gradeFieldCount=0;
+    int subjectCount=0;
     /**
      * Creates new form InputGrades
      */
     public InputGrades() throws SQLException {
         initComponents();
+        fetchSOs(subject);
         fetchStudent(ID);
 
     }
     public InputGrades(String ID,String subject) throws SQLException {
         initComponents();
+        fetchSOs(subject);
         fetchStudent(ID);
     }
 
@@ -52,37 +57,37 @@ public class InputGrades extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        studentNumber = new javax.swing.JLabel();
-        section = new javax.swing.JLabel();
+        subjectLabel = new javax.swing.JLabel();
+        studentNumberLabel = new javax.swing.JLabel();
+        sectionLabel = new javax.swing.JLabel();
         subjectPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        qaPercentageLabel = new javax.swing.JLabel();
+        fePercentageLabel = new javax.swing.JLabel();
+        pgPercentageLabel = new javax.swing.JLabel();
+        ogPercentageLabel = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         quizAverage = new javax.swing.JTextField();
         finalExam = new javax.swing.JTextField();
         projectGrade = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
+        othersGrade = new javax.swing.JTextField();
+        finalGradeLabel = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        submitButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         soPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setText("subjectName");
+        subjectLabel.setText("subjectName");
 
-        studentNumber.setText("studentNumber");
+        studentNumberLabel.setText("studentNumber");
 
-        section.setText("Section");
+        sectionLabel.setText("Section");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,11 +95,11 @@ public class InputGrades extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(subjectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(section, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sectionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(studentNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(studentNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -102,9 +107,9 @@ public class InputGrades extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(studentNumber)
-                    .addComponent(section))
+                    .addComponent(subjectLabel)
+                    .addComponent(studentNumberLabel)
+                    .addComponent(sectionLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -119,13 +124,13 @@ public class InputGrades extends javax.swing.JFrame {
 
         jLabel7.setText("Others");
 
-        jLabel8.setText("(#)%");
+        qaPercentageLabel.setText("(#)%");
 
-        jLabel9.setText("(#)%");
+        fePercentageLabel.setText("(#)%");
 
-        jLabel10.setText("(#)%");
+        pgPercentageLabel.setText("(#)%");
 
-        jLabel11.setText("(#)%");
+        ogPercentageLabel.setText("(#)%");
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel12.setText("Final Grade");
@@ -146,27 +151,32 @@ public class InputGrades extends javax.swing.JFrame {
             }
         });
 
-        jTextField4.setText("OG");
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        othersGrade.setText("OG");
+        othersGrade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                othersGradeActionPerformed(evt);
             }
         });
 
-        jLabel13.setText("finalGrade");
+        finalGradeLabel.setText("finalGrade");
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel14.setText("Student Outcomes");
 
-        jButton1.setText("Submit");
+        submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Cancel");
+        cancelButton.setText("Cancel");
 
         javax.swing.GroupLayout soPanelLayout = new javax.swing.GroupLayout(soPanel);
         soPanel.setLayout(soPanelLayout);
         soPanelLayout.setHorizontalGroup(
             soPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 253, Short.MAX_VALUE)
+            .addGap(0, 277, Short.MAX_VALUE)
         );
         soPanelLayout.setVerticalGroup(
             soPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,18 +189,6 @@ public class InputGrades extends javax.swing.JFrame {
             subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(subjectPanelLayout.createSequentialGroup()
                 .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(subjectPanelLayout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel13)
-                        .addGap(51, 51, 51)
-                        .addComponent(soPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(subjectPanelLayout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
                     .addGroup(subjectPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -206,21 +204,37 @@ public class InputGrades extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(pgPercentageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                                .addComponent(fePercentageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(ogPercentageLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(subjectPanelLayout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)))
+                                        .addComponent(qaPercentageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(quizAverage, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(finalExam, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(projectGrade, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(65, 65, 65)
-                        .addComponent(jLabel14)))
+                                    .addComponent(othersGrade, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(subjectPanelLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(finalGradeLabel)))
+                .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(subjectPanelLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel14))
+                    .addGroup(subjectPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(soPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(subjectPanelLayout.createSequentialGroup()
+                .addGap(172, 172, 172)
+                .addComponent(cancelButton)
+                .addGap(18, 18, 18)
+                .addComponent(submitButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         subjectPanelLayout.setVerticalGroup(
@@ -234,32 +248,32 @@ public class InputGrades extends javax.swing.JFrame {
                     .addGroup(subjectPanelLayout.createSequentialGroup()
                         .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel8)
+                            .addComponent(qaPercentageLabel)
                             .addComponent(quizAverage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel9)
+                            .addComponent(fePercentageLabel)
                             .addComponent(finalExam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel10)
+                            .addComponent(pgPercentageLabel)
                             .addComponent(projectGrade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel11)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ogPercentageLabel)
+                            .addComponent(othersGrade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
                         .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel13)))
+                            .addComponent(finalGradeLabel)))
                     .addComponent(soPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(submitButton)
+                    .addComponent(cancelButton))
                 .addGap(19, 19, 19))
         );
 
@@ -270,7 +284,9 @@ public class InputGrades extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(subjectPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(subjectPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 179, Short.MAX_VALUE)))
@@ -297,9 +313,20 @@ public class InputGrades extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_projectGradeActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void othersGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_othersGradeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_othersGradeActionPerformed
+
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        // TODO add your handling code here:
+        soGradesList = new String[soCount];
+        gradesList = new String[soCount];
+        for (int i = 0; i < soCount; i++) {
+                soGradesList[i]=soGradeFieldList[i].getText();
+                System.out.println(soGradesList[i]);
+            }
+        
+    }//GEN-LAST:event_submitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,7 +366,7 @@ public class InputGrades extends javax.swing.JFrame {
             }
         });
     }
-    public void fetchStudent(String ID) throws SQLException{
+    public void fetchSOs(String subject) throws SQLException{
         try {
             java.lang.Class.forName("com.mysql.jdbc.Driver");
             
@@ -354,50 +381,92 @@ public class InputGrades extends javax.swing.JFrame {
             String[] soArray = studentOutcomes.split(",");
             System.out.println("" + soArray);
             
+            String breakDown = rs.getString("percent");
+            String[] breakdownArray = breakDown.split(",");
+            System.out.println("" + breakdownArray);
+            qaPercentageLabel.setText(breakdownArray[0]+"%");
+            fePercentageLabel.setText(breakdownArray[1]+"%");
+            pgPercentageLabel.setText(breakdownArray[2]+"%");
+            ogPercentageLabel.setText(breakdownArray[3]+"%");
+            
+            
             System.out.println(soArray.length);
             soList = new String[soArray.length];
+            soGradeFieldList = new JTextField[soArray.length];
             for (int i = 0; i < soArray.length; i++) {
                 soList[i]=("SO "+(soArray[i]));
                 System.out.println(soList[i]);
             }
             soPanel.setLayout(new GridLayout(5,1));
+            
             for (String studentOutcome : soList) {
                 JLabel soLabel = new JLabel(studentOutcome);
-                JTextField soTextField = new JTextField();
+                JTextField soTextField = new JTextField(studentOutcome);
+                soGradeFieldList[soCount]=soTextField;
                 soLabel.setVisible(true);
                soPanel.add(soLabel);
                soPanel.add(soTextField);
+               soCount++;
             }
+            
             soPanel.validate();
             soPanel.repaint();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void fetchStudent(String ID) throws SQLException{
+        try {
+            java.lang.Class.forName("com.mysql.jdbc.Driver");
+            
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+            
+            PreparedStatement pst = conn.prepareStatement("Select * from students where ID = ?");
+            pst.setString(1,ID);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            
+            while(!subject.equals(rs.getString("subject"+(subjectCount+1))) && subjectCount<10){
+                System.out.println(rs.getString("subject"+(subjectCount+1)));
+                subjectCount++;
+                if(subjectCount==10){
+                    break;
+                }
+            }
+            section= rs.getString("section"+(subjectCount+1));
+            subjectLabel.setText(subject);
+            studentNumberLabel.setText(ID);
+            sectionLabel.setText(section);
+            finalGradeLabel.setText(rs.getString("grade"+(subjectCount+1)));
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel fePercentageLabel;
     private javax.swing.JTextField finalExam;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel finalGradeLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel ogPercentageLabel;
+    private javax.swing.JTextField othersGrade;
+    private javax.swing.JLabel pgPercentageLabel;
     private javax.swing.JTextField projectGrade;
+    private javax.swing.JLabel qaPercentageLabel;
     private javax.swing.JTextField quizAverage;
-    private javax.swing.JLabel section;
+    private javax.swing.JLabel sectionLabel;
     private javax.swing.JPanel soPanel;
-    private javax.swing.JLabel studentNumber;
+    private javax.swing.JLabel studentNumberLabel;
+    private javax.swing.JLabel subjectLabel;
     private javax.swing.JPanel subjectPanel;
+    private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }
