@@ -8,8 +8,11 @@ package sofweng;
 import acm.program.*;
 import javax.swing.*;
 import acm.graphics.*;
+import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,10 +20,10 @@ import java.util.Properties;
  */
 public class StudentGraph extends Program {
 
-    private final int APPLICATION_WIDTH = 600;
-    private final int APPLICATION_HEIGHT = 600;
-    private final int WIDTH = 600;
-    private final int HEIGHT = 600;
+    private final int APPLICATION_WIDTH = 650;
+    private final int APPLICATION_HEIGHT = 650;
+    private final int WIDTH = 650;
+    private final int HEIGHT = 650;
     private final int ovalDim = 40;
     private final int addWidth = 20;
     private final int numberSO = 12;
@@ -28,7 +31,6 @@ public class StudentGraph extends Program {
     private String currentName = "DISPLAYING: ";
     private final String spaces = "         ";
     private final String[] stringSO = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"};
-    private String name;
 
     private final JLabel label = new JLabel("NAME: ");
     private JLabel[] jLabelArray = new JLabel[10];
@@ -41,18 +43,20 @@ public class StudentGraph extends Program {
     private GOval[] oval = new GOval[10];
     private GLine[] lineArray = new GLine[numberSO];
     private GLine[] aesLine = new GLine[numberSO];
+    
+    private Statement stat;
 
     //initialization process, to create the display when the name is clicked to generate graph
     public StudentGraph() {
-        name = "Ryan Albaladejo"; //actually needs to be an input thrown to this function
+        String IDNumber = "11515880"; //actually needs to be an input thrown to this function
         //remove the main here if interfaced correctly with the rest of the program
-        // then modify the constructor function: public StudentGraph(String name)
+        // then modify the constructor function: public StudentGraph(String IDNumber)
 
         //insert code for database connectivity here
-        currentName = currentName + name + spaces;
+        currentName = currentName + IDNumber + spaces;
 
         this.setSize(APPLICATION_WIDTH, APPLICATION_HEIGHT);
-        this.setTitle(name);
+        this.setTitle(IDNumber);
         canvas.setSize(WIDTH, HEIGHT);
         add(canvas); //the canvas will be the graph itself, data thrown from the database storage
         JLabel currentDisplay = new JLabel(currentName);
@@ -60,9 +64,38 @@ public class StudentGraph extends Program {
         add(label, NORTH);
         add(enterName, NORTH);
         add(search, NORTH);
+        search.addActionListener(this);
         add(previous, NORTH);
+        previous.addActionListener(this);
         add(next, NORTH);
+        next.addActionListener(this);
+        
+        try {
+            String url = "jdbc:mysql://localhost:3306/cpe_database";
+            Properties prop = new Properties();
+            prop.setProperty("user", "root");
+            prop.setProperty("password", "");
+            Driver d = new com.mysql.jdbc.Driver();
+            Connection con = d.connect(url, prop);
+            if (con == null) {
+                System.out.println("connection failed");
+                return;
+            } else {
+                System.out.println("Connected");
+            }
+            stat = con.createStatement();
+            stat.execute("USE cpe_database;");
+            System.out.println("use cpe_database");
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR");
+        }
+        
+        drawCanvas(IDNumber);
 
+    }
+
+    public void drawCanvas(String name){
         for (int i = 1; i <= 10; i++) {
             oval[i - 1] = new GOval(ovalDim * i, ovalDim * i);
             oval[i - 1].setColor(java.awt.Color.LIGHT_GRAY);
@@ -89,11 +122,8 @@ public class StudentGraph extends Program {
 
         double[] SOGrades = new double[numberSO];
         //retrieve SOGrades
-        Connect();
-        for (int i = 0; i < numberSO; i++) {
-            SOGrades[i] = 50; //data set to 0 if there is no value found
-            
-        }
+        SOGrades = getGrades(name);
+
         double offset = 20;
 
         for (int i = 0; i < numberSO; i++) {
@@ -107,17 +137,19 @@ public class StudentGraph extends Program {
                         Math.cos(angle * i) * 200 + centerX + offset,
                         Math.sin(angle * i) * 200 + centerY);
             } else if (angle * i > (Math.PI / 2) || angle * i < (3 * Math.PI / 2)) {
-                canvas.add(new JLabel("SO-" + stringSO[i]),
-                        Math.cos(angle * i) * 200 + centerX - offset,
-                        Math.sin(angle * i) * 200 + centerY);
-            } else if (angle * i == (Math.PI / 2)) {
-                canvas.add(new JLabel("SO-" + stringSO[i]),
-                        Math.cos(angle * i) * 200 + centerX - (offset / 2),
-                        Math.sin(angle * i) * 200 + centerY - offset);
-            } else if (angle * i == (3 * Math.PI / 2)) {
-                canvas.add(new JLabel("SO-" + stringSO[i]),
-                        Math.cos(angle * i) * 200 + centerX - (offset / 2),
-                        Math.sin(angle * i) * 200 + centerY + offset);
+                if (angle * i == (Math.PI / 2)) {
+                    canvas.add(new JLabel("SO-" + stringSO[i]),
+                            Math.cos(angle * i) * 200 + centerX - (offset / 2),
+                            Math.sin(angle * i) * 200 + centerY + offset/2);
+                } else if (angle * i == (3 * Math.PI / 2)) {
+                    canvas.add(new JLabel("SO-" + stringSO[i]),
+                            Math.cos(angle * i) * 200 + centerX - (offset / 2),
+                            Math.sin(angle * i) * 200 + centerY - offset);
+                } else {
+                    canvas.add(new JLabel("SO-" + stringSO[i]),
+                            Math.cos(angle * i) * 200 + centerX - 2 * offset,
+                            Math.sin(angle * i) * 200 + centerY);
+                }
             }
         }
 
@@ -130,10 +162,32 @@ public class StudentGraph extends Program {
             aesLine[i].setColor(java.awt.Color.BLUE);
             canvas.add(aesLine[i]);
         }
-
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == next) {
+            canvas.removeAll();
+            try {
+                stat.execute("SELECT");
+            } catch (SQLException ex) {
+                System.out.println("ERROR");
+            }
+        } else if (e.getSource() == previous) {
+            canvas.removeAll();
+            try {
+                stat.execute("SELECT");
+            } catch (SQLException ex) {
+                System.out.println("ERROR");
+            }
+        } else if (e.getSource() == search) {
+            
+        }
     }
 
-    public void Connect() {
+    public double[] getGrades(String name) {
+        double[] grades = new double[numberSO];
+        double[][] initialGrade = new double[numberSO][numberSO];
+        
         try {
             String url = "jdbc:mysql://localhost:3306/cpe_database";
             Properties prop = new Properties();
@@ -143,14 +197,21 @@ public class StudentGraph extends Program {
             Connection con = d.connect(url, prop);
             if (con == null) {
                 System.out.println("connection failed");
-                return;
+                return null;
             } else {
-                System.out.println("Connected.");
+                System.out.println("Connected");
             }
             Statement stat = con.createStatement();
+            stat.execute("USE cpe_database;");
+            System.out.println("use cpe_database");
+            stat.execute("SELECT ");
+            System.out.println("execute line 1");
+            
         } catch (Exception e) {
             System.out.println("ERROR");
         }
+
+        return grades;
     }
 
     public static void main(String[] args) {
