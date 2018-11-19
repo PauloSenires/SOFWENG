@@ -1,8 +1,8 @@
-﻿#Create database;
+#Create database;
 create database if not exists cpe_database;
 use cpe_database;	
 #Users Table;
-create table if not exists users(`ID` varchar(8), `Name` varchar(40), `Password` varchar(20), `email` varchar(30),`gender` varchar(30), `contact` varchar(11), `department` varchar(10), `pin` varchar(20), `level` int, `verified` int, `subject1` varchar(10), `subject2` varchar(10), `subject3` varchar(10), `subject4` varchar(10), `subject5` varchar(10), `subject6` varchar(10), `subject7` varchar(10), `subject8` varchar(10), `subject9` varchar(10), `subject10` varchar(10), primary key (`ID`));
+create table if not exists users(`ID` varchar(8), `Name` varchar(40), `Password` varchar(20), `email` varchar(30),`gender` varchar(30), `contact` varchar(11), `department` varchar(10), `pin` varchar(20), `level` int, `verified` int, `subject1` varchar(15), `subject2` varchar(15), `subject3` varchar(15), `subject4` varchar(15), `subject5` varchar(15), `subject6` varchar(15), `subject7` varchar(15), `subject8` varchar(15), `subject9` varchar(15), `subject10` varchar(15), primary key (`ID`));
 insert ignore into users values('20000000','admin','20000000','cpe_admin@dlsu.edu.ph','male','na','na','0000','3','1','na','na','na','na','na','na','na','na','na','na');
 insert ignore into users values('20000001','deptcoordinator','20000001','dept_coordinartor@dlsu.edu.ph','male','na','na','0001','2','1','na','na','na','na','na','na','na','na','na','na');
 insert ignore into users values('20000002','qualitycoordinator','20000002','quality_coordinartor@dlsu.edu.ph','male','na','na','0002','1','1','na','na','na','na','na','na','na','na','na','na');
@@ -12,8 +12,8 @@ create table if not exists students(`ID` varchar(8), `term` varchar(4), `subject
 #Test
 insert ignore into students values('11515228','T2Y3','ENGALG1','EQ','3.5','na','60,40,90,30','na','ENGTRIG','EQ','2.5','na','50,40,30','na','MPROSYS','EQ','4.0','na','80,90,100','na','DIGITDE','EQ','3.5','na','90,100,70','na','CPEPROG','EQ','4.0','na','75,80,60','na','DISMATH','EQ','3.0','na','80,70,60','na','SOLIMEN','EQ','2.5','na','50,80,90','na','STATICS','EQ','3.5','na','90,50,40','na','na','na','0.0','na','na','na','na','na','0.0','na','na','na');
 #Classes Table;
-create table if not exists classes(`Name` varchar(7), `Detail` text, `SO` varchar(16),`work` varchar(30),`percent`  varchar(30), primary key (`Name`));
-insert ignore into classes values('ENGALG1','Álgebra1','Á,B,C,D','Q,FE,TE,P','40,35,5,20');
+create table if not exists classes(`Name` varchar(7), `Detail` text, `Department`varchar(3),`SO` varchar(16),`work` varchar(30),`percent`  varchar(30), primary key (`Name`));
+insert ignore into classes values('ENGALG1','Álgebra1','CPE','Á,B,C,D','Q,FE,TE,P','40,35,5,20');
 	
 
 
