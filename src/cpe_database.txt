@@ -13,7 +13,31 @@ create table if not exists students(`ID` varchar(8), `term` varchar(4), `subject
 insert ignore into students values('11515228','T2Y3','ENGALG1','EQ','3.5','na','60,40,90,30','na','ENGTRIG','EQ','2.5','na','50,40,30','na','MPROSYS','EQ','4.0','na','80,90,100','na','DIGITDE','EQ','3.5','na','90,100,70','na','CPEPROG','EQ','4.0','na','75,80,60','na','DISMATH','EQ','3.0','na','80,70,60','na','SOLIMEN','EQ','2.5','na','50,80,90','na','STATICS','EQ','3.5','na','90,50,40','na','na','na','0.0','na','na','na','na','na','0.0','na','na','na');
 #Classes Table;
 create table if not exists classes(`Name` varchar(7), `Detail` text, `Department`varchar(3),`SO` varchar(16),`work` varchar(30),`percent`  varchar(30), primary key (`Name`));
-insert ignore into classes values('ENGALG1','Álgebra1','CPE','Á,B,C,D','Q,FE,TE,P','40,35,5,20');
-	
+
+#POPULATE CLASSES:
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('STATICS', 'Statics', 'MEE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('DYNAMIC', 'Dynamics', 'MEE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('MEDEFOR', 'Medefor', 'MEE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ENGPHY1', 'Engineering Physics 1', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ENGPHY2', 'Engineering Physics 2', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('DIFFCAL', 'Differential Calculus', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('INTECAL', 'Interal Calculus', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('MROPSYS', 'Microprocessing Systems', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('DIGITDE', 'Digital Design', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('LOGICKT', 'Logic Circuits', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('BASICEE', 'Basic Electronics', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ADVECE1', 'Advance Electronics 1', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ADVECE2', 'Advance Electronics 2', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('CPENETW', 'Computer Networks', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('FCONSYS', 'Fundamental of Control Systems', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('CPEPROG', 'OOP Programming', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('DISMATH', 'Discrete Mathematics', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('CPLCTV1', 'CPE Electives 1', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('CPLCTV2', 'CPE Electives 2', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('CPLCTV4', 'CPE Electives 3', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('CPLCTV4', 'CPE Electives 4', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('GRAPONE', 'Graphing 1','CIV', 'A,B,C,D', 'Q,FE,TE,P', '25,35,10,30');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ECONENG', 'Economic Engineering','IE', 'A,B,C,D', 'Q,FE,TE,P', '25,35,10,30');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ENGALG1', 'Algebra1','MEM', 'A,B,C,D', 'Q,FE,TE,P', '25,35,10,30');
 
 
