@@ -182,6 +182,11 @@ public class InputGrades extends javax.swing.JFrame {
         });
 
         backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout soPanelLayout = new javax.swing.GroupLayout(soPanel);
         soPanel.setLayout(soPanelLayout);
@@ -379,6 +384,11 @@ public class InputGrades extends javax.swing.JFrame {
     private void finalExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalExamActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_finalExamActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
