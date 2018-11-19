@@ -7,6 +7,8 @@ package sofweng;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,9 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -25,7 +26,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class FacultyScreen1 extends javax.swing.JFrame {
 
-    public String ID = "11527943";
+    public String ID = "11000009";
     public ArrayList<String> subjectList;
     int subjectCount = 0;
 
@@ -33,7 +34,7 @@ public class FacultyScreen1 extends javax.swing.JFrame {
      * Creates new form Faculty
      */
     public FacultyScreen1() throws SQLException {
-        
+
         initComponents();
         fetchInfo(ID);
         this.setSize(900, 700);
@@ -74,7 +75,7 @@ public class FacultyScreen1 extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jTextPane1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Welcome back, ");
 
@@ -236,19 +237,65 @@ public class FacultyScreen1 extends javax.swing.JFrame {
             Logger.getLogger(FacultyScreen1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void addSubjectTree(){
-        
+
+    private void addSubjectTree() throws SQLException {
+
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Subjects");
-jTree1.setModel(new javax.swing.tree.DefaultTreeModel(root));
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(root));
         for (String string : subjectList) {
-            DefaultMutableTreeNode temp = new DefaultMutableTreeNode(string);
-            root.add(temp);
+            try {
+                DefaultMutableTreeNode temp = new DefaultMutableTreeNode(string);
+                String subj = string.substring(0, string.length() - 3);
+                System.out.println(subj);
+
+                java.lang.Class.forName("com.mysql.jdbc.Driver");
+
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+
+                PreparedStatement pst = conn.prepareStatement("Select * from students where subject1 LIKE ? or subject2 LIKE ? "
+                        + "or subject3 LIKE ? or subject4 LIKE ? or subject5 LIKE ? or subject6 LIKE ? or "
+                        + "subject7 LIKE ? or subject8 LIKE ? or subject9 LIKE ? or subject10 LIKE ?");
+                for (int i = 1; i < 11; i++) {
+                    pst.setString(i, subj + "%");
+                }
+
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+
+                    String id = rs.getString("ID");
+                    DefaultMutableTreeNode student = new DefaultMutableTreeNode(id);
+                    temp.add(student);
+                }
+                root.add(temp);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FacultyScreen1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
+        jTree1.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+                
+                if (me.getClickCount() == 2) {
+    System.out.println("double clicked");
+    doMouseClicked(me);
+  }
+                
+            }
+        });
+
         System.out.println("hello");
     }
-   
-   
+
+    void doMouseClicked(MouseEvent me) {
+        TreePath tp = jTree1.getPathForLocation(me.getX(), me.getY());
+        
+        if (tp != null) {
+            System.out.println(tp.toString());
+        } else {
+            System.out.println("null");
+        }
+    }
+
     private java.awt.ScrollPane scrollPane2;
     private ArrayList<javax.swing.JPanel> studentPanel = new ArrayList<>();
     private ArrayList<Boolean> visibility = new ArrayList<>();
