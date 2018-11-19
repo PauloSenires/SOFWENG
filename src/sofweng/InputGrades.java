@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -362,6 +363,12 @@ public class InputGrades extends javax.swing.JFrame {
         System.out.println(totalGrade);
         finalGradeLabel.setText(String.valueOf(finalGrade));
         System.out.println(soGrade);
+        
+        try {    
+            updateDatabase(ID);
+        } catch (SQLException ex) {
+            Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void finalExamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalExamActionPerformed
@@ -478,6 +485,21 @@ public class InputGrades extends javax.swing.JFrame {
             studentNumberLabel.setText(ID);
             sectionLabel.setText(section);
             finalGradeLabel.setText(rs.getString("grade"+(subjectCount+1)));
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void updateDatabase(String ID) throws SQLException{
+        try {
+            java.lang.Class.forName("com.mysql.jdbc.Driver");
+            
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+            
+            Statement data = conn.createStatement();
+            data.execute("use cpe_database;");
+            data.execute("update students set so"+(subjectCount+1)+"='" + soGrade + "' where ID ='" + ID + "';");
+            data.execute("update students set grade"+(subjectCount+1)+"='" + finalGrade + "' where ID='" + ID + "';");
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
