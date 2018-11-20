@@ -32,12 +32,6 @@ public class EditUserForm extends javax.swing.JFrame {
         DisplayNameLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         MidPanel = new javax.swing.JPanel();
-        IDPanel = new javax.swing.JPanel();
-        IDLabel = new javax.swing.JLabel();
-        PasswordFiel = new javax.swing.JTextField();
-        PasswordPanel = new javax.swing.JPanel();
-        PasswordLabel = new javax.swing.JLabel();
-        PasswordField = new javax.swing.JTextField();
         EmailPanel = new javax.swing.JPanel();
         EmailLabel = new javax.swing.JLabel();
         EmailField = new javax.swing.JTextField();
@@ -67,6 +61,9 @@ public class EditUserForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         ConfirmButton = new javax.swing.JButton();
         CancelButton = new javax.swing.JButton();
+        PasswordPanel = new javax.swing.JPanel();
+        PasswordLabel = new javax.swing.JLabel();
+        PasswordField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,62 +87,6 @@ public class EditUserForm extends javax.swing.JFrame {
                 .addComponent(DisplayNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jSeparator1)
-        );
-
-        IDLabel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        IDLabel.setText("ID: ");
-
-        PasswordFiel.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-
-        PasswordLabel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        PasswordLabel.setText("Password: ");
-
-        PasswordField.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        PasswordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordFieldActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout PasswordPanelLayout = new javax.swing.GroupLayout(PasswordPanel);
-        PasswordPanel.setLayout(PasswordPanelLayout);
-        PasswordPanelLayout.setHorizontalGroup(
-            PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PasswordPanelLayout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(PasswordLabel)
-                .addGap(53, 53, 53)
-                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        PasswordPanelLayout.setVerticalGroup(
-            PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(PasswordLabel)
-                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout IDPanelLayout = new javax.swing.GroupLayout(IDPanel);
-        IDPanel.setLayout(IDPanelLayout);
-        IDPanelLayout.setHorizontalGroup(
-            IDPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(IDPanelLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(IDLabel)
-                .addGap(96, 96, 96)
-                .addComponent(PasswordFiel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(PasswordPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        IDPanelLayout.setVerticalGroup(
-            IDPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(IDPanelLayout.createSequentialGroup()
-                .addGroup(IDPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IDLabel)
-                    .addComponent(PasswordFiel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PasswordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         EmailLabel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -307,7 +248,7 @@ public class EditUserForm extends javax.swing.JFrame {
                 .addComponent(DepartmentLabel)
                 .addGap(37, 37, 37)
                 .addComponent(DepartmentField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         DepartmentPanelLayout.setVerticalGroup(
             DepartmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -389,6 +330,28 @@ public class EditUserForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        PasswordLabel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        PasswordLabel.setText("Password:");
+
+        PasswordField.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+
+        javax.swing.GroupLayout PasswordPanelLayout = new javax.swing.GroupLayout(PasswordPanel);
+        PasswordPanel.setLayout(PasswordPanelLayout);
+        PasswordPanelLayout.setHorizontalGroup(
+            PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PasswordPanelLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(PasswordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
+        );
+        PasswordPanelLayout.setVerticalGroup(
+            PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(PasswordLabel)
+            .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout MidPanelLayout = new javax.swing.GroupLayout(MidPanel);
         MidPanel.setLayout(MidPanelLayout);
         MidPanelLayout.setHorizontalGroup(
@@ -399,18 +362,18 @@ public class EditUserForm extends javax.swing.JFrame {
             .addComponent(DepartmentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(SubjectListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(IDPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(GenderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(LevelPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PasswordPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MidPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addContainerGap()
                 .addComponent(NamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(IDPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PasswordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(EmailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -427,7 +390,7 @@ public class EditUserForm extends javax.swing.JFrame {
                 .addComponent(SubjectListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(MainPanel);
@@ -453,7 +416,7 @@ public class EditUserForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -470,10 +433,6 @@ public class EditUserForm extends javax.swing.JFrame {
     private void NameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NameFieldActionPerformed
-
-    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PasswordFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -527,8 +486,6 @@ public class EditUserForm extends javax.swing.JFrame {
     private javax.swing.JTextField GenderField;
     private javax.swing.JLabel GenderLabel;
     private javax.swing.JPanel GenderPanel;
-    private javax.swing.JLabel IDLabel;
-    private javax.swing.JPanel IDPanel;
     private javax.swing.JTextField LevelField;
     private javax.swing.JLabel LevelLabel;
     private javax.swing.JPanel LevelPanel;
@@ -537,7 +494,6 @@ public class EditUserForm extends javax.swing.JFrame {
     private javax.swing.JTextField NameField;
     private javax.swing.JLabel NameLabel;
     private javax.swing.JPanel NamePanel;
-    private javax.swing.JTextField PasswordFiel;
     private javax.swing.JTextField PasswordField;
     private javax.swing.JLabel PasswordLabel;
     private javax.swing.JPanel PasswordPanel;

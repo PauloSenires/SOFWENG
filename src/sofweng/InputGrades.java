@@ -52,8 +52,9 @@ public class InputGrades extends javax.swing.JFrame {
         fetchStudent(ID);
 
     }
-    public InputGrades(String ID,String subject) throws SQLException {
+    public InputGrades(String ID,String subject, String sec) throws SQLException {
         initComponents();
+        section=sec;
         fetchSOs(subject);
         fetchStudent(ID);
        
@@ -389,7 +390,15 @@ public class InputGrades extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        classList clWindow = null;
+        try {
+            clWindow = new classList(subject,section);
+        } catch (SQLException ex) {
+            Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        clWindow.setVisible(true);
+        clWindow.setLocationRelativeTo(this);
+        this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
     /**

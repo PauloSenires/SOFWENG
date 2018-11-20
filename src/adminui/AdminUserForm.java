@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -439,6 +440,7 @@ public class AdminUserForm extends javax.swing.JFrame {
     private void EditButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                           
         // TODO add your handling code here:
         edituser = new AdminEditUserForm();
+        JOptionPane.showMessageDialog(null, "Remember to only add subjects available on the Course Lists, otherwise add them first!", "Note", JOptionPane.INFORMATION_MESSAGE);
         edituser.setVisible(true);
         this.dispose();
     }  

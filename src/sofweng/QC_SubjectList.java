@@ -5,6 +5,8 @@
  */
 package sofweng;
 
+
+import com.mysql.jdbc.StringUtils;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -21,13 +23,22 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import java.io.FileOutputStream;
 
-/**
- *
- * @author Mave
- */
-public class SubjectList extends javax.swing.JFrame {
+import java.io.File;
+import java.io.IOException;
+import java.util.Locale;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+
+
+public final class QC_SubjectList extends javax.swing.JFrame {
 
     /**
      * Creates new form SubjectList
@@ -45,7 +56,7 @@ public class SubjectList extends javax.swing.JFrame {
     int height=40;
     Font font = new Font("Arial", Font.BOLD,20);
     
-    public SubjectList(String name) {
+    public QC_SubjectList(String name) {
         subject=name;
         initComponents();
         this.setSize(900, 700);
@@ -62,27 +73,27 @@ public class SubjectList extends javax.swing.JFrame {
     public void fetchClassList(){
         String text="";
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-            for(int i=1;i<=10;i++){
-                text=text+"SELECT `subject"+i+"` FROM `users` WHERE subject"+i+" LIKE '"+subject+"_%'";
-                if(i!=10)text=text+ " UNION ";
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
+                for(int i=1;i<=10;i++){
+                    text=text+"SELECT `subject"+i+"` FROM `users` WHERE subject"+i+" LIKE '"+subject+"_%'";
+                    if(i!=10)text=text+ " UNION ";
+                }
+                PreparedStatement pst = conn.prepareStatement(text);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()) {
+                    String str1 = rs.getString("subject1");
+                    classList.add(str1);
+                }
             }
-            PreparedStatement pst = conn.prepareStatement(text);
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()) { 
-                String str1 = rs.getString("subject1");
-                classList.add(str1);
-            }
-            conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public void fetchFacultyList(){
         String text="";
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
                 for(int i=1;i<=classList.size();i++){
                     text="SELECT `name` FROM users WHERE";
                     for(int j=1;j<=10;j++){
@@ -96,10 +107,9 @@ public class SubjectList extends javax.swing.JFrame {
                         facultyList.add(str1);
                     }
                 }
-            
-            conn.close();
+            }
             } catch (SQLException ex) {
-                Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
             }
         
         
@@ -108,22 +118,22 @@ public class SubjectList extends javax.swing.JFrame {
     public void fetchStudentsList(int count){
         String text="";
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-                    int i=count;
-                    text="SELECT `ID` FROM students WHERE";
-                    for(int j=1;j<=10;j++){
-                        text=text + " (subject"+j+"= '"+classList.get(i-1).toString().substring(0,7)+"' AND section"+j+"= '"+classList.get(i-1).toString().substring(8)+"')";
-                        if(j!=10)text=text+" OR";
-                    }
-                    PreparedStatement pst = conn.prepareStatement(text);
-                    ResultSet rs = pst.executeQuery();
-                    while(rs.next()) { 
-                        String str1 = rs.getString("ID");
-                        studentsList.add(str1);
-                    }
-            conn.close();
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
+                int i=count;
+                text="SELECT `ID` FROM students WHERE";
+                for(int j=1;j<=10;j++){
+                    text=text + " (subject"+j+"= '"+classList.get(i-1).substring(0,7)+"' AND section"+j+"= '"+classList.get(i-1).substring(8)+"')";
+                    if(j!=10)text=text+" OR";
+                }
+                PreparedStatement pst = conn.prepareStatement(text);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()) {
+                    String str1 = rs.getString("ID");
+                    studentsList.add(str1);
+                }
+            }
             } catch (SQLException ex) {
-                Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
     
@@ -131,51 +141,51 @@ public class SubjectList extends javax.swing.JFrame {
         String text="";
         boolean submission=true;
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-                    int i=count;
-                    for(int j=1;j<=10;j++){
-                        text="SELECT `time"+j+"` FROM students WHERE";
-                        text=text + " (subject"+j+"= '"+classList.get(i-1).toString().substring(0,7)+"') AND";
-                        text=text+" (section"+j+"= '"+classList.get(i-1).toString().substring(8)+"') AND";
-                        text=text+" ID ='"+ID+"'";
-                        PreparedStatement pst = conn.prepareStatement(text);
-                        ResultSet rs = pst.executeQuery();
-                        while(rs.next()) { 
-                            String str1 = rs.getString("time"+j);
-                            if(str1.equals("na")) submission=false;
-                            if(submission==true){ 
-                                char box=9632;
-                                str1=box+tab+tab+tab+str1;
-                            }
-                            else{
-                                char box=9633;
-                                str1=box+"";
-                            }
-                            studentsInfoList=str1;
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
+                int i=count;
+                for(int j=1;j<=10;j++){
+                    text="SELECT `time"+j+"` FROM students WHERE";
+                    text=text + " (subject"+j+"= '"+classList.get(i-1).substring(0,7)+"') AND";
+                    text=text+" (section"+j+"= '"+classList.get(i-1).substring(8)+"') AND";
+                    text=text+" ID ='"+ID+"'";
+                    PreparedStatement pst = conn.prepareStatement(text);
+                    ResultSet rs = pst.executeQuery();
+                    while(rs.next()) {
+                        String str1 = rs.getString("time"+j);
+                        if(str1.equals("na")) submission=false;
+                        if(submission==true){
+                            char box=9632;
+                            str1=box+tab+tab+tab+str1;
                         }
+                        else{
+                            char box=9633;
+                            str1=box+"";
+                        }
+                        studentsInfoList=str1;
                     }
-            conn.close();
+                }
+            }
             } catch (SQLException ex) {
-                Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
     
     public void courseSummary(){
         String text="";
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-            for(int i=1;i<=10;i++){
-                text="SELECT `detail` FROM `classes` WHERE name='"+subject+"'";
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
+                for(int i=1;i<=10;i++){
+                    text="SELECT `detail` FROM `classes` WHERE name='"+subject+"'";
+                }
+                PreparedStatement pst = conn.prepareStatement(text);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()) {
+                    String str1 = rs.getString("detail");
+                    description.setText(str1);
+                }
             }
-            PreparedStatement pst = conn.prepareStatement(text);
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()) { 
-                String str1 = rs.getString("detail");
-                description.setText(str1);
-            }
-            conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -183,14 +193,14 @@ public class SubjectList extends javax.swing.JFrame {
         String text="";
         char submission=9632;
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
                 for(int i=1;i<=classList.size();i++){
                     fetchStudentsList(i);
                     for(int k=1;k<=studentsList.size();k++){
                         for(int j=1;j<=10;j++){
                             text="SELECT `time"+j+"` FROM students WHERE";
-                            text=text + " (subject"+j+"= '"+classList.get(i-1).toString().substring(0,7)+"') AND";
-                            text=text+" (section"+j+"= '"+classList.get(i-1).toString().substring(8)+"') AND";
+                            text=text + " (subject"+j+"= '"+classList.get(i-1).substring(0,7)+"') AND";
+                            text=text+" (section"+j+"= '"+classList.get(i-1).substring(8)+"') AND";
                             text=text+" ID='"+studentsList.get(k-1)+"'";
                             PreparedStatement pst = conn.prepareStatement(text);
                             ResultSet rs = pst.executeQuery();
@@ -202,9 +212,9 @@ public class SubjectList extends javax.swing.JFrame {
                     }
                     submissionCheckList.add(submission+"");
                 }
-            conn.close();
+            }
             } catch (SQLException ex) {
-                Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
     
@@ -228,6 +238,7 @@ public class SubjectList extends javax.swing.JFrame {
         scrollDetail.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         space=scrollDetail.getHeight();
     }
+    
     public void viewClassList(int open){
         MainPane.removeAll();
         MainPane.revalidate();
@@ -236,7 +247,7 @@ public class SubjectList extends javax.swing.JFrame {
         courseSummary();
         initDetails();
         for (int i=1;i<classList.size()+1;i++){
-            String class1 =classList.get(i-1).toString().substring(8);
+            String class1 =classList.get(i-1).substring(8);
             faculty = new JLabel("Faculty: " + facultyList.get(i-1));
             faculty.setFont(font);
             faculty.setSize(MainPane.getWidth()-50, height);
@@ -247,9 +258,10 @@ public class SubjectList extends javax.swing.JFrame {
             space=space+height;
             classBtn = new JButton("Section " +class1+tab+submissionCheckList.get(i-1));
             classBtn.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     for (int j=0;j<classList.size();j++){
-                        if(e.getActionCommand().contains(classList.get(j).toString().substring(8))){
+                        if(e.getActionCommand().contains(classList.get(j).substring(8))){
                             if(count==j+1) count=0;
                             else count=j+1;
                             viewClassList(count);
@@ -275,9 +287,15 @@ public class SubjectList extends javax.swing.JFrame {
             exportBtn.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     for (int j=1;j<=classList.size();j++){
-                        if(e.getActionCommand().contains(classList.get(j-1).toString().substring(8))){
+                        if(e.getActionCommand().contains(classList.get(j-1).substring(8))){
                            fetchStudentsList(j);
-                           //export(subject,classList.get(j).toString().substring(8));
+                            try {
+                                export(subject,classList.get(j-1).substring(8),j-1,facultyList.get(j-1));
+                            } catch (WriteException ex) {
+                                Logger.getLogger(QC_SubjectList.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (IOException ex) {
+                                Logger.getLogger(QC_SubjectList.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                            viewClassList(count);
                         }
                     }
@@ -290,37 +308,6 @@ public class SubjectList extends javax.swing.JFrame {
         Dimension size = new Dimension(900,space);
         MainPane.setPreferredSize(size);
         space=0;
-    }
-    
-    public void export(String subject, String class1) throws FileNotFoundException{
-        /*FileOutputStream fileOut;
-        fileOut = new FileOutputStream("file.xls");
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet worksheet = workbook.createSheet("Sheet 0");
-        Row row1 = worksheet.createRow((short)0);
-        row1.createCell(0).setCellValue("Name");
-        row1.createCell(1).setCellValue("Address");
-        Row row2 ;*/
-    }
-    
-    public void generateStudents(int section){
-        studentsList.clear();
-        JLabel header = new JLabel("[ID Number]"+tab+"[Submission]"+tab+"[Date and Time of Submission]");
-        header.setFont(font);
-        header.setSize(MainPane.getWidth(),height);
-        header.setLocation(header.getX()+40,header.getY()+space);
-        space=space+height;
-        fetchStudentsList(section);
-        MainPane.add(header);
-        for (int i=1;i<studentsList.size()+1;i++){
-            fetchStudentInfo(studentsList.get(i-1),section);
-            student = new JLabel(studentsList.get(i-1)+tab+tab+studentsInfoList);
-            MainPane.add(student);
-            student.setFont(font);
-            student.setSize(MainPane.getWidth()-10,height);
-            student.setLocation(student.getX()+50,student.getY()+space);
-            space=space+height;
-        }
     }
     
     /**
@@ -407,16 +394,173 @@ public class SubjectList extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new QualityCoordinator().setVisible(true);
+                new QC_Screen().setVisible(true);
                 dispose();
             }
         });
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    public void generateStudents(int section){
+        studentsList.clear();
+        JLabel header = new JLabel("[ID Number]"+tab+"[Submission]"+tab+"[Date and Time of Submission]");
+        header.setFont(font);
+        header.setSize(MainPane.getWidth(),height);
+        header.setLocation(header.getX()+40,header.getY()+space);
+        space=space+height;
+        fetchStudentsList(section);
+        MainPane.add(header);
+        for (int i=1;i<studentsList.size()+1;i++){
+            fetchStudentInfo(studentsList.get(i-1),section);
+            student = new JLabel(studentsList.get(i-1)+tab+tab+studentsInfoList);
+            MainPane.add(student);
+            student.setFont(font);
+            student.setSize(MainPane.getWidth()-10,height);
+            student.setLocation(student.getX()+50,student.getY()+space);
+            space=space+height;
+        }
+    }
+    
+    public void initHeader(String subject, String class1,int classNo, String faculty) throws WriteException{
+        row=new ArrayList<String>();
+        column=new ArrayList<ArrayList<String>>();
+        String[] header1={subject,class1,faculty};
+        row.addAll(Arrays.asList(header1));
+        column.add(row);
+        row.clear();
+        int count1=0;
+        ArrayList<String> header2= new ArrayList<String>();
+        header2.add("ID");
+        header2.add("Final Grade");
+        header2.add("QE");
+        header2.add("FE");
+        header2.add("TE");
+        header2.add("PE");
+        String text="";
+        try {
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
+                for(int i=1;i<=10;i++){
+                    text="SELECT `SO` FROM `classes` WHERE name='"+subject+"'";
+                }
+                String str1="";
+                PreparedStatement pst = conn.prepareStatement(text);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()) 
+                    str1 = rs.getString("SO");
+                    count1=(str1.length()/2)+1;
+                    soCount=count1;
+                    for(int i=0;i<count1;i++){
+                        header2.add(str1.substring(i*2,1+i*2));
+                    }
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        header2.add("Time of Submission");
+        row.addAll(header2);
+        write(row);
+        row.clear();
+    }
+    
+    ArrayList<String> row;
+    ArrayList<ArrayList<String>> column;
+    WritableFont fontFormat;
+    WritableCellFormat cellFormat;
+    WritableSheet sheet;
+    int soCount,counter=0;
+        
+    public void fetchStudentGrade(int section) throws WriteException{
+        row = new ArrayList<String>();
+        column = new ArrayList<ArrayList<String>>();
+        String text="";
+        try {
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
+                int m=section;
+                text="SELECT `ID` FROM students WHERE";
+                for(int j=1;j<=10;j++){
+                    text=text + " (subject"+j+"= '"+classList.get(m).substring(0,7)+"') AND";
+                    text=text+" (section"+j+"= '"+classList.get(m).substring(8)+"')";
+                    if(j!=10)text=text+" OR";
+                }
+                PreparedStatement pst = conn.prepareStatement(text);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()) {
+                    String str1 = rs.getString("ID");
+                    studentsList.add(str1);
+                }
+                    for(int j=1;j<=10;j++){
+                        text="SELECT * FROM students WHERE";
+                        text=text + " (subject"+j+"= '"+classList.get(m).substring(0,7)+"') AND";
+                        text=text+" (section"+j+"= '"+classList.get(m).substring(8)+"')" ;
+                        PreparedStatement ps = conn.prepareStatement(text);
+                        ResultSet rs1 = ps.executeQuery();
+                        while(rs1.next()) {
+                            String str1="";
+                            row.add(rs1.getString("ID"));
+                            row.add(rs1.getString("grade"+j));
+                            str1=rs1.getString("rawscore"+j);
+                            String[] data=new String[4];
+                            if(str1.equals("na")) java.util.Arrays.fill(data, "na");
+                            else data=str1.split(",");
+                            row.addAll(Arrays.asList(data));
+                            str1=rs1.getString("so"+j);
+                            data=new String[soCount];
+                            if(str1.equals("na")) java.util.Arrays.fill(data, "na");
+                            else data=str1.split(",");
+                            row.addAll(Arrays.asList(data));
+                            row.add(rs1.getString("time"+j));
+                            write(row);
+                            row.clear();
+                        }
+                    }
+                
+            }
+            } catch (SQLException ex) {
+                Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+    public void export(String subject, String class1,int classNo, String faculty) throws WriteException, IOException{
+        fontFormat = new WritableFont(WritableFont.TAHOMA, 12);
+        cellFormat = new WritableCellFormat(fontFormat);
+        String dir="C:\\Data\\";
+        String text="C:\\Data\\"+subject+"_"+class1+".xls";
+        File directory=new File(dir);
+        if(!directory.exists())directory.mkdir();
+        File file = new File(text);
+        WorkbookSettings wbSettings = new WorkbookSettings();
+        wbSettings.setLocale(new Locale("en", "EN"));
+        WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
+        workbook.createSheet(subject+"_"+class1, 0);
+        sheet = workbook.getSheet(0);
+        sheet.setColumnView(0, 12);
+        sheet.setColumnView(1, 8);
+        initHeader(subject,class1,classNo,faculty);
+        fetchStudentGrade(classNo);
+        workbook.write();
+        workbook.close();
+        counter=0;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new QC_ExcelNotification().setVisible(true);
+            }
+        });
+    }
+    
+    public void write(ArrayList<String> text) throws WriteException{
+        Label input=null;
+        for(int i=0;i<text.size();i++){
+            input = new Label(i,counter,text.get(i),cellFormat);
+            sheet.addCell(input);
+        }
+        counter++;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String name) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -430,21 +574,23 @@ public class SubjectList extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SubjectList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QC_SubjectList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SubjectList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QC_SubjectList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SubjectList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QC_SubjectList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SubjectList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QC_SubjectList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SubjectList("").setVisible(true);
+                new QC_SubjectList(name).setVisible(true);
             }
         });
     }
