@@ -5,7 +5,9 @@
  */
 package sofweng;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -43,12 +45,18 @@ public class classList extends javax.swing.JFrame {
     public classList() throws SQLException {
         initComponents();
         fetchStudents(subject,section);
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
+        
     }
     public classList(String subject, String section) throws SQLException {
         initComponents();
         this.subject = subject;
         this.section = section;
         fetchStudents(subject,section);
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
+        
     }
 
     /**
@@ -68,7 +76,7 @@ public class classList extends javax.swing.JFrame {
         displayPane = new javax.swing.JScrollPane();
         displayPanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         subLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         subLabel.setText("Subject");
@@ -110,11 +118,9 @@ public class classList extends javax.swing.JFrame {
                         .addGap(43, 43, 43)
                         .addComponent(jLabel4)
                         .addGap(119, 119, 119)
-                        .addComponent(jLabel5)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(secLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel5))
+                    .addComponent(secLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(displayPane)
@@ -266,7 +272,7 @@ public class classList extends javax.swing.JFrame {
         InputGrades inputGradesWindow = new InputGrades(student, subject, section);
         inputGradesWindow.setVisible(true);
         inputGradesWindow.setLocationRelativeTo(this);
-        this.dispose();
+        
     }  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane displayPane;

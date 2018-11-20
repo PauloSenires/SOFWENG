@@ -29,8 +29,8 @@ import javax.swing.JTextField;
  */
 public class InputGrades extends javax.swing.JFrame {
     public String ID  = "11500001";
-    public String subject  = "ENGALG1";
-    public String section = "EJ";
+    public String subject  = "BASICEE";
+    public String section = "EE";
     public String soGrade = "";
     public String rawScores = "";
     float finalGrade;
@@ -50,14 +50,20 @@ public class InputGrades extends javax.swing.JFrame {
         initComponents();
         fetchSOs(subject);
         fetchStudent(ID);
-
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
+        
     }
     public InputGrades(String ID,String subject, String sec) throws SQLException {
-        initComponents();
+        this.ID = ID;
+        this.subject = subject;
         section=sec;
+        initComponents();
         fetchSOs(subject);
         fetchStudent(ID);
-       
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
+        
     }
 
     /**
@@ -94,7 +100,7 @@ public class InputGrades extends javax.swing.JFrame {
         backButton = new javax.swing.JButton();
         soPanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         subjectLabel.setText("subjectName");
 
@@ -373,9 +379,9 @@ public class InputGrades extends javax.swing.JFrame {
         }else if(totalGrade<65){
             finalGrade = (float) 0.0;
         }
-        System.out.println(totalGrade);
+        //System.out.println(totalGrade);
         finalGradeLabel.setText(String.valueOf(finalGrade));
-        System.out.println(soGrade);
+        //System.out.println(soGrade);
         
         try {    
             updateDatabase(ID);
@@ -390,14 +396,7 @@ public class InputGrades extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        classList clWindow = null;
-        try {
-            clWindow = new classList(subject,section);
-        } catch (SQLException ex) {
-            Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        clWindow.setVisible(true);
-        clWindow.setLocationRelativeTo(this);
+        
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -439,7 +438,7 @@ public class InputGrades extends javax.swing.JFrame {
             }
         });
     }
-    public void fetchSOs(String subject) throws SQLException{
+    private void fetchSOs(String subject) throws SQLException{
         try {
             java.lang.Class.forName("com.mysql.jdbc.Driver");
             
@@ -452,23 +451,23 @@ public class InputGrades extends javax.swing.JFrame {
             
             String studentOutcomes = rs.getString("SO");
             String[] soArray = studentOutcomes.split(",");
-            System.out.println("" + soArray);
+            //System.out.println("" + soArray);
             
             String breakDown = rs.getString("percent");
             String[] breakdownArray = breakDown.split(",");
-            System.out.println("" + breakdownArray);
+            //System.out.println("" + breakdownArray);
             qaPercentageLabel.setText(breakdownArray[0]+"%");
             fePercentageLabel.setText(breakdownArray[1]+"%");
             pgPercentageLabel.setText(breakdownArray[2]+"%");
             ogPercentageLabel.setText(breakdownArray[3]+"%");
             bdArray=breakdownArray;
             
-            System.out.println(soArray.length);
+            //System.out.println(soArray.length);
             soList = new String[soArray.length];
             soGradeFieldList = new JTextField[soArray.length];
             for (int i = 0; i < soArray.length; i++) {
                 soList[i]=("SO "+(soArray[i]));
-                System.out.println(soList[i]);
+                //System.out.println(soList[i]);
             }
             soPanel.setLayout(new GridLayout(5,1));
             
@@ -488,7 +487,7 @@ public class InputGrades extends javax.swing.JFrame {
             Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void fetchStudent(String ID) throws SQLException{
+    private void fetchStudent(String ID) throws SQLException{
         try {
             java.lang.Class.forName("com.mysql.jdbc.Driver");
             
@@ -500,7 +499,7 @@ public class InputGrades extends javax.swing.JFrame {
             rs.next();          
             
             while(!subject.equals(rs.getString("subject"+(subjectCount+1))) && subjectCount<10){
-                System.out.println(rs.getString("subject"+(subjectCount+1)));
+                //System.out.println(rs.getString("subject"+(subjectCount+1)));
                 subjectCount++;
                 if(subjectCount==10){
                     break;
@@ -529,10 +528,13 @@ public class InputGrades extends javax.swing.JFrame {
             othersGrade.setText(rawScoresArray[3]);
             
             String studentOutcomes = rs.getString("so"+(subjectCount+1));
+            System.out.println(studentOutcomes);
             String[] soGradesArray = studentOutcomes.split(",");
             System.out.println(Arrays.toString(soGradesArray));
+            if(soGradesArray.length>1){
             for(int i=0;i<soCount;i++){
             soGradeFieldList[i].setText(soGradesArray[i]);
+            }
             }
             
             
@@ -554,7 +556,7 @@ public class InputGrades extends javax.swing.JFrame {
             data.execute("update students set rawScore"+(subjectCount+1)+"='" + rawScores + "' where ID='" + ID + "';");
             
             String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
-            System.out.println(timeStamp);
+            //System.out.println(timeStamp);
             data.execute("update students set time"+(subjectCount+1)+"='" + timeStamp + "' where ID='" + ID + "';");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);

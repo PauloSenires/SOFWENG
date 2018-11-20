@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,7 +20,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
 /**
@@ -27,7 +31,7 @@ import javax.swing.tree.TreePath;
  */
 public class FacultyScreen1 extends javax.swing.JFrame {
 
-    public String ID = "11000009";
+    public String ID = "11000005";
     public ArrayList<String> subjectList;
     int subjectCount = 0;
 
@@ -35,19 +39,20 @@ public class FacultyScreen1 extends javax.swing.JFrame {
      * Creates new form Faculty
      */
     public FacultyScreen1() throws SQLException {
-
+this.setSize(900, 700);
         initComponents();
         fetchInfo(ID);
         this.setSize(900, 700);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
-
+        
     }
 
     public FacultyScreen1(String ID) throws SQLException {
+        this.setSize(900, 700);
         initComponents();
         fetchInfo(ID);
-        this.setSize(900, 700);
+        
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
 
@@ -72,11 +77,13 @@ public class FacultyScreen1 extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTree2 = new javax.swing.JTree();
 
         jScrollPane1.setViewportView(jTextPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(900, 700));
 
         jLabel1.setText("Welcome back, ");
 
@@ -91,7 +98,7 @@ public class FacultyScreen1 extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addContainerGap(425, Short.MAX_VALUE))
+                .addContainerGap(604, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,7 +113,10 @@ public class FacultyScreen1 extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTree1);
 
         jTabbedPane1.addTab("For Submission", jScrollPane2);
-        jTabbedPane1.addTab("Submitted", jTabbedPane2);
+
+        jScrollPane3.setViewportView(jTree2);
+
+        jTabbedPane1.addTab("Submitted", jScrollPane3);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -118,9 +128,9 @@ public class FacultyScreen1 extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 11, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -130,8 +140,8 @@ public class FacultyScreen1 extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -148,13 +158,15 @@ public class FacultyScreen1 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -231,7 +243,6 @@ public class FacultyScreen1 extends javax.swing.JFrame {
             subjectList = new ArrayList<>();
             for (int i = 0; i < subjectCount; i++) {
                 subjectList.add(rs.getString("subject" + (i + 1)));
-                visibility.add(true);
             }
             addSubjectTree();
         } catch (ClassNotFoundException ex) {
@@ -240,15 +251,24 @@ public class FacultyScreen1 extends javax.swing.JFrame {
     }
 
     private void addSubjectTree() throws SQLException {
-
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Subjects");
         
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(root));
+        DefaultMutableTreeNode root1 = new DefaultMutableTreeNode("Subjects");
+        DefaultMutableTreeNode root2 = new DefaultMutableTreeNode("Subjects");
+     
+        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(root1));
+        jTree2.setModel(new javax.swing.tree.DefaultTreeModel(root2));
+        jTree1.setToggleClickCount(0);//disable double click to open a node
+        jTree2.setToggleClickCount(0);//disable double click to open a node
+        DefaultTreeCellRenderer renderer1 = (DefaultTreeCellRenderer) jTree1.getCellRenderer();
+        renderer1.setLeafIcon(renderer1.getClosedIcon());
+        DefaultTreeCellRenderer renderer2 = (DefaultTreeCellRenderer) jTree2.getCellRenderer();
+        renderer2.setLeafIcon(renderer2.getClosedIcon());
         for (String string : subjectList) {
             try {
-                DefaultMutableTreeNode temp = new DefaultMutableTreeNode(string);
+                DefaultMutableTreeNode temp1 = new DefaultMutableTreeNode(string);//if not submitted
+                DefaultMutableTreeNode temp2 = new DefaultMutableTreeNode(string);//if submitted
                 String subj = string.substring(0, string.length() - 3);
-                System.out.println(subj);
+//                System.out.println(subj);
 
                 java.lang.Class.forName("com.mysql.jdbc.Driver");
 
@@ -262,13 +282,39 @@ public class FacultyScreen1 extends javax.swing.JFrame {
                 }
 
                 ResultSet rs = pst.executeQuery();
+                //check whether the faculty have submitted for this subject
+                //do this once for every subject with a student (this assumes that every class has a student)
+                int subjectNumber = 0;
+                boolean isSubmitted = false;
+                
+                //continue moving the pointer
                 while (rs.next()) {
-
                     String id = rs.getString("ID");
                     DefaultMutableTreeNode student = new DefaultMutableTreeNode(id);
-                    temp.add(student);
+                    
+                    
+                //find the subject number
+                
+                for (int i = 1; i < 11; i++) {
+                    if(rs.getString("subject"+i).equalsIgnoreCase(subj)){
+                        subjectNumber =i;
+                    }
                 }
-                root.add(temp);
+//                System.out.println(subjectNumber + " "+subj);
+                //check if there is a submission for this subject
+                String submissionTime = rs.getString("time"+subjectNumber);
+//                    System.out.println(submissionTime + " "+subj);
+                if(submissionTime.equals("na")){
+                    temp1.add(student);
+                    
+                }else{
+                    temp2.add(student); 
+                }
+                }
+                
+                root1.add(temp1);
+                root2.add(temp2);
+                
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FacultyScreen1.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -276,39 +322,76 @@ public class FacultyScreen1 extends javax.swing.JFrame {
         }
         jTree1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
-                
+
                 if (me.getClickCount() == 2) {
-    System.out.println("double clicked");
-    doMouseClicked(me);
-  }
-                
+                    try {
+                        System.out.println("double clicked");
+                        doMouseClicked(me);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FacultyScreen1.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
             }
         });
 
-        
-           expandAllNodes(jTree1, 0, jTree1.getRowCount());
+        expandAllNodes(jTree1, 0, jTree1.getRowCount());
+        expandAllNodes(jTree2, 0, jTree2.getRowCount());
         System.out.println("hello");
     }
-    private void expandAllNodes(JTree tree, int startingIndex, int rowCount){
-    for(int i=startingIndex;i<rowCount;++i){
-        tree.expandRow(i);
-    }
 
-    if(tree.getRowCount()!=rowCount){
-        expandAllNodes(tree, rowCount, tree.getRowCount());
-    }
-}
+    private void expandAllNodes(JTree tree, int startingIndex, int rowCount) {
+        for (int i = startingIndex; i < rowCount; ++i) {
+            tree.expandRow(i);
+        }
 
-    void doMouseClicked(MouseEvent me) {
-        TreePath tp = jTree1.getPathForLocation(me.getX(), me.getY());
-        
-        if (tp != null) {
-            System.out.println(tp.toString());
-        } else {
-            System.out.println("null");
+        if (tree.getRowCount() != rowCount) {
+            expandAllNodes(tree, rowCount, tree.getRowCount());
         }
     }
 
+    void doMouseClicked(MouseEvent me) throws SQLException {
+        TreePath tp = jTree1.getPathForLocation(me.getX(), me.getY());
+        try {
+            if (tp != null) {
+                
+        System.out.println(jTree1.getPathForLocation(me.getX(), me.getY()).toString());
+            if(tp.getPath().length==2){
+            Object[] path = tp.getPath();
+            String subjectAndSection = path[1].toString();
+            String subject = subjectAndSection.substring(0, subjectAndSection.length()-3);
+            String section = subjectAndSection.toString().substring(subjectAndSection.length()-2);
+                System.out.println("section "+section);
+            classList cl = new classList(subject, section);
+            cl.setVisible(true);
+            cl.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    System.out.println("Window closed");
+                    
+                    addSubjectTree();
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(FacultyScreen1.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            
+
+        });
+            
+            }
+        }else {
+            System.out.println("null");
+        }
+        } catch (Exception e) {
+        }
+    }
+    public void update() throws SQLException{
+        addSubjectTree();
+    }
     private java.awt.ScrollPane scrollPane2;
     private ArrayList<javax.swing.JPanel> studentPanel = new ArrayList<>();
     private ArrayList<Boolean> visibility = new ArrayList<>();
@@ -320,9 +403,10 @@ public class FacultyScreen1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JTree jTree2;
     // End of variables declaration//GEN-END:variables
 }
