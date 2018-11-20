@@ -38,8 +38,6 @@ public class MainMenu extends javax.swing.JFrame {
         UserList = new javax.swing.JList<>();
         ViewCourseList = new javax.swing.JScrollPane();
         CourseList = new javax.swing.JList<>();
-        ViewClassList = new javax.swing.JScrollPane();
-        ClassList = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
         AddClassButton = new javax.swing.JButton();
         EditViewButton = new javax.swing.JButton();
@@ -93,15 +91,6 @@ public class MainMenu extends javax.swing.JFrame {
         ViewCourseList.setViewportView(CourseList);
 
         tabbedPane.addTab("tab3", ViewCourseList);
-
-        ClassList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        ViewClassList.setViewportView(ClassList);
-
-        tabbedPane.addTab("tab4", ViewClassList);
 
         javax.swing.GroupLayout TabPanelLayout = new javax.swing.GroupLayout(TabPanel);
         TabPanel.setLayout(TabPanelLayout);
@@ -258,7 +247,6 @@ public class MainMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddClassButton;
-    private javax.swing.JList<String> ClassList;
     private javax.swing.JList<String> CourseList;
     private javax.swing.JButton EditViewButton;
     private javax.swing.JPanel MainPanel;
@@ -267,7 +255,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel TabPanel;
     private javax.swing.JButton UpdateDisplayButton;
     private javax.swing.JList<String> UserList;
-    private javax.swing.JScrollPane ViewClassList;
     private javax.swing.JScrollPane ViewCourseList;
     private javax.swing.JScrollPane ViewPendingUser;
     private javax.swing.JScrollPane ViewUserList;

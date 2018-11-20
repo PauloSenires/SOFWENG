@@ -5,10 +5,6 @@
  */
 package adminui;
 
-/**
- *
- * @author Elijah
- */
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.*;
@@ -16,7 +12,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+/**
+ *
+ * @author Elijah
+ */
 public class AdminMainMenu extends javax.swing.JFrame {
 
     /**
@@ -52,8 +51,6 @@ public class AdminMainMenu extends javax.swing.JFrame {
         UserList = new javax.swing.JList<>();
         ViewCourseList = new javax.swing.JScrollPane();
         CourseList = new javax.swing.JList<>();
-        ViewClassList = new javax.swing.JScrollPane();
-        ClassList = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
         AddClassButton = new javax.swing.JButton();
         EditViewButton = new javax.swing.JButton();
@@ -107,15 +104,6 @@ public class AdminMainMenu extends javax.swing.JFrame {
         ViewCourseList.setViewportView(CourseList);
 
         tabbedPane.addTab(tab3, ViewCourseList);
-
-        ClassList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = listTab4;
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        ViewClassList.setViewportView(ClassList);
-
-        tabbedPane.addTab(tab4, ViewClassList);
 
         javax.swing.GroupLayout TabPanelLayout = new javax.swing.GroupLayout(TabPanel);
         TabPanel.setLayout(TabPanelLayout);
@@ -231,7 +219,7 @@ public class AdminMainMenu extends javax.swing.JFrame {
                 .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        
+
         EditViewButton.setText("Edit/View");
         RemoveButton.setText("Remove");
         AddClassButton.setText("Add");
@@ -300,11 +288,7 @@ public class AdminMainMenu extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Course has been removed.");
                 }
         }
-        else if(tab4.equals(tabbedPane.getTitleAt(tabbedPane.getSelectedIndex())))
-        {
-            JOptionPane.showMessageDialog(null, "Action unavailable for selected list");
-        }
-    }                                            
+    }                                           
 
     private void EditViewButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                               
         // TODO add your handling code here:
@@ -343,21 +327,7 @@ public class AdminMainMenu extends javax.swing.JFrame {
                 viewcourse.setVisible(true);
             }
         }
-        else if(tab4.equals(tabbedPane.getTitleAt(tabbedPane.getSelectedIndex())))
-        {
-            if(ClassList.getSelectedIndex() < 0)
-            {
-                JOptionPane.showMessageDialog(null, "Please select an course first!", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-            else
-            {
-                String s = CourseList.getSelectedValue();
-                course = s;
-                viewcourse = new AdminViewCourse();
-                viewcourse.setVisible(true);
-            }
-        }
-    }                                              
+    }                                                    
 
     private void AddClassButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                               
         // TODO add your handling code here:
@@ -392,11 +362,7 @@ public class AdminMainMenu extends javax.swing.JFrame {
             courseform = new AdminAddCourseForm();
             courseform.setVisible(true);
         }
-        else if(tab4.equals(tabbedPane.getTitleAt(tabbedPane.getSelectedIndex())))
-        {
-            JOptionPane.showMessageDialog(null, "Action unavailable for selected list");
-        }
-    }                                              
+    }                                                     
 
     private void UpdateDisplayButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                                    
         // TODO add your handling code here:
@@ -405,16 +371,13 @@ public class AdminMainMenu extends javax.swing.JFrame {
         PendingUserList.setListData(listTab1);
         UserList.setListData(listTab2);
         CourseList.setListData(listTab3);
-        ClassList.setListData(listTab4);
         PendingUserList.revalidate();
         PendingUserList.repaint();
         UserList.revalidate();
         UserList.repaint();
         CourseList.revalidate();
         CourseList.repaint();
-        ClassList.revalidate();
-        ClassList.repaint();
-    }                                                   
+    }                                                    
 
     /**
      * @param args the command line arguments
@@ -454,13 +417,12 @@ public class AdminMainMenu extends javax.swing.JFrame {
             }
         });
     }
-   
+
     private void cleanLists()
     {
         listTab1 = new String[10000];
         listTab2 = new String[10000];
         listTab3 = new String[10000];
-        listTab4 = new String[10000];
     }
     
     private void initializeLists() throws SQLException
@@ -512,20 +474,6 @@ public class AdminMainMenu extends javax.swing.JFrame {
             temp = "";
         }
         listindex = 0;
-        //Initialize list for Class Lists
-        //for(int a = 1; a <= 10; a++)
-        {
-            //result = stat.executeQuery("SELECT * FROM classes INNER JOIN students ON (classes.Name=students.subject" + Integer.toString(a) + ") ORDER BY classes.Name");
-            
-        }
-        //while(result.next())
-        {
-            //if(temp.equals(result.getString("Name")))
-            {
-                //break;
-            }
-            //temp = result.getString(url);
-        }
     }
     
     private void JDBC() throws SQLException
@@ -549,7 +497,6 @@ public class AdminMainMenu extends javax.swing.JFrame {
     
     // Variables declaration - do not modify                     
     private javax.swing.JButton AddClassButton;
-    private javax.swing.JList<String> ClassList;
     private javax.swing.JList<String> CourseList;
     private javax.swing.JButton EditViewButton;
     private javax.swing.JPanel MainPanel;
@@ -558,7 +505,6 @@ public class AdminMainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel TabPanel;
     private javax.swing.JButton UpdateDisplayButton;
     private javax.swing.JList<String> UserList;
-    private javax.swing.JScrollPane ViewClassList;
     private javax.swing.JScrollPane ViewCourseList;
     private javax.swing.JScrollPane ViewPendingUser;
     private javax.swing.JScrollPane ViewUserList;
@@ -566,7 +512,7 @@ public class AdminMainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel WelcomePanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane tabbedPane;
-    // End of variables declaration            
+    // End of variables declaration     
     
     //Variable declaration for mysql properties
     private String url;
@@ -581,11 +527,9 @@ public class AdminMainMenu extends javax.swing.JFrame {
     private String[] listTab1 = new String[10000];
     private String[] listTab2 = new String[10000];
     private String[] listTab3 = new String[10000];
-    private String[] listTab4 = new String[10000];
     private String tab1 = "View Pending Accounts";
     private String tab2 = "View User Accounts";
     private String tab3 = "View Course List";
-    private String tab4 = "View Class List";
     private int listindex = 0;
     private int numberindex;
     //End of variable declaration

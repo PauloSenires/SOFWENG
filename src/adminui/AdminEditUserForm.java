@@ -50,12 +50,6 @@ public class AdminEditUserForm extends javax.swing.JFrame {
         DisplayNameLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         MidPanel = new javax.swing.JPanel();
-        IDPanel = new javax.swing.JPanel();
-        IDLabel = new javax.swing.JLabel();
-        IDField = new javax.swing.JTextField();
-        PasswordPanel = new javax.swing.JPanel();
-        PasswordLabel = new javax.swing.JLabel();
-        PasswordField = new javax.swing.JTextField();
         EmailPanel = new javax.swing.JPanel();
         EmailLabel = new javax.swing.JLabel();
         EmailField = new javax.swing.JTextField();
@@ -85,6 +79,9 @@ public class AdminEditUserForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         ConfirmButton = new javax.swing.JButton();
         CancelButton = new javax.swing.JButton();
+        PasswordPanel = new javax.swing.JPanel();
+        PasswordLabel = new javax.swing.JLabel();
+        PasswordField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,57 +105,6 @@ public class AdminEditUserForm extends javax.swing.JFrame {
                 .addComponent(DisplayNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jSeparator1)
-        );
-
-        IDLabel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        IDLabel.setText("ID: ");
-
-        IDField.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-
-        PasswordLabel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        PasswordLabel.setText("Password: ");
-
-        PasswordField.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-
-        javax.swing.GroupLayout PasswordPanelLayout = new javax.swing.GroupLayout(PasswordPanel);
-        PasswordPanel.setLayout(PasswordPanelLayout);
-        PasswordPanelLayout.setHorizontalGroup(
-            PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PasswordPanelLayout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(PasswordLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
-        );
-        PasswordPanelLayout.setVerticalGroup(
-            PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(PasswordLabel)
-                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout IDPanelLayout = new javax.swing.GroupLayout(IDPanel);
-        IDPanel.setLayout(IDPanelLayout);
-        IDPanelLayout.setHorizontalGroup(
-            IDPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(IDPanelLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(IDLabel)
-                .addGap(96, 96, 96)
-                .addComponent(IDField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(PasswordPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        IDPanelLayout.setVerticalGroup(
-            IDPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(IDPanelLayout.createSequentialGroup()
-                .addGroup(IDPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IDLabel)
-                    .addComponent(IDField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PasswordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         EmailLabel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -236,6 +182,11 @@ public class AdminEditUserForm extends javax.swing.JFrame {
         NameLabel.setText("Name:");
 
         NameField.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        NameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NameFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout NamePanelLayout = new javax.swing.GroupLayout(NamePanel);
         NamePanel.setLayout(NamePanelLayout);
@@ -315,7 +266,7 @@ public class AdminEditUserForm extends javax.swing.JFrame {
                 .addComponent(DepartmentLabel)
                 .addGap(37, 37, 37)
                 .addComponent(DepartmentField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         DepartmentPanelLayout.setVerticalGroup(
             DepartmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,6 +352,28 @@ public class AdminEditUserForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        PasswordLabel.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        PasswordLabel.setText("Password:");
+
+        PasswordField.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+
+        javax.swing.GroupLayout PasswordPanelLayout = new javax.swing.GroupLayout(PasswordPanel);
+        PasswordPanel.setLayout(PasswordPanelLayout);
+        PasswordPanelLayout.setHorizontalGroup(
+            PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PasswordPanelLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(PasswordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
+        );
+        PasswordPanelLayout.setVerticalGroup(
+            PasswordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(PasswordLabel)
+            .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout MidPanelLayout = new javax.swing.GroupLayout(MidPanel);
         MidPanel.setLayout(MidPanelLayout);
         MidPanelLayout.setHorizontalGroup(
@@ -411,18 +384,18 @@ public class AdminEditUserForm extends javax.swing.JFrame {
             .addComponent(DepartmentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(SubjectListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(IDPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(GenderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PinPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(LevelPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PasswordPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MidPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addContainerGap()
                 .addComponent(NamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(IDPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PasswordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(EmailPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -439,7 +412,7 @@ public class AdminEditUserForm extends javax.swing.JFrame {
                 .addComponent(SubjectListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(MainPanel);
@@ -465,7 +438,7 @@ public class AdminEditUserForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         updateLabels();
@@ -475,51 +448,78 @@ public class AdminEditUserForm extends javax.swing.JFrame {
     private void ConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                              
         // TODO add your handling code here:
         String[] sublist;
+        String[] subjlist = new String[20];
+        String[] classlist = new String[10];
+        String temp;
         String[] subjects = new String[10];
-        if(NameField.getText().equals("") || IDField.getText().equals("") || PasswordField.getText().equals("") || EmailField.getText().equals("") || ContactField.getText().equals("") || GenderField.getText().equals("") || PinField.getText().equals("") || LevelField.getText().equals("") || DepartmentField.getText().equals("") || SubjectListField.getText().equals(""))
+        if(NameField.getText().equals("") || PasswordField.getText().equals("") || EmailField.getText().equals("") || ContactField.getText().equals("") || GenderField.getText().equals("") || PinField.getText().equals("") || LevelField.getText().equals("") || DepartmentField.getText().equals("") || SubjectListField.getText().equals(""))
         {
             JOptionPane.showMessageDialog(null, "Insufficient information to edit.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
         else
         {
-            int index = 1;
-            stat = con.createStatement();   
             String list = SubjectListField.getText();
+            boolean condi = false;
             sublist = list.split("\\r?\\n");
-            for(int a = 0; a < 10;a++)
+            stat = con.createStatement(); 
+            ResultSet cond = stat.executeQuery("SELECT * FROM users WHERE ID = " + mm.ID);
+            while(cond.next())
+            {
+                if((cond.getInt("level") == 0 && LevelField.getText().equals("0")) || (LevelField.getText().equals("0")) )
+                {
+                    //System.out.println(cond.getInt("level"));
+                    //System.out.println(LevelField.getText());
+                    condi = (cond.getInt("level") == 0 && LevelField.getText().equals("0")) || (LevelField.getText().equals("0"));
+                    for(int a = 0; a < 10;a++)
+                    {
+                        if(a < sublist.length)
+                        {
+                            subjects[a] = sublist[a];
+                        }
+                        else
+                        {
+                            subjects[a] = "NA";
+                        }
+                    }
+                }
+                else if ((cond.getInt("level") != 0 || !LevelField.getText().equals("0")) || (cond.getInt("level") == 0 && !LevelField.getText().equals("0")))
+                {
+                    System.out.println(cond.getInt("level"));
+                    System.out.println(LevelField.getText());
+                    for(int a = 0; a < 10; a++)
+                    {
+                        subjects[a] = "NA";
+                    }
+                }
+            }
+            int index;
+            for(int a = 0; a < 10; a++)
             {
                 index = a + 1;
-                if(a < sublist.length)
-                {
-                    subjects[a] = sublist[a];
-                }
-                else
-                {
-                    subjects[a] = "NA";
-                }
                 stat.executeUpdate("UPDATE users SET subject" + Integer.toString(index) + " = '" + subjects[a] + "' WHERE ID =" + mm.ID);
             }
             index = 1;
-            stat.executeUpdate("UPDATE users SET Name = '" + NameField.getText() + "' WHERE ID =" + mm.ID);
-            stat.executeUpdate("UPDATE users SET Password = '" + PasswordField.getText() + "' WHERE ID =" + mm.ID);
-            stat.executeUpdate("UPDATE users SET email = '" + EmailField.getText() + "' WHERE ID =" + mm.ID);
-            stat.executeUpdate("UPDATE users SET contact = '" + ContactField.getText() + "' WHERE ID =" + mm.ID);
-            stat.executeUpdate("UPDATE users SET gender = '" + GenderField.getText() + "' WHERE ID =" + mm.ID);
-            stat.executeUpdate("UPDATE users SET pin = '" + PinField.getText() + "' WHERE ID =" + mm.ID);
-            stat.executeUpdate("UPDATE users SET level = " + LevelField.getText() + " WHERE ID =" + mm.ID);
-            stat.executeUpdate("UPDATE users SET department = '" + DepartmentField.getText() + "' WHERE ID =" + mm.ID);
-            
-            //stat.executeUpdate("UPDATE users SET ID = '" + IDField.getText() + "' WHERE ID =" + mm.ID);
+            //stat.executeUpdate("UPDATE users SET Name = '" + NameField.getText() + "' WHERE ID =" + mm.ID);
+            //stat.executeUpdate("UPDATE users SET Password = '" + PasswordField.getText() + "' WHERE ID =" + mm.ID);
+            //stat.executeUpdate("UPDATE users SET email = '" + EmailField.getText() + "' WHERE ID =" + mm.ID);
+            //stat.executeUpdate("UPDATE users SET contact = '" + ContactField.getText() + "' WHERE ID =" + mm.ID);
+            //stat.executeUpdate("UPDATE users SET gender = '" + GenderField.getText() + "' WHERE ID =" + mm.ID);
+            //stat.executeUpdate("UPDATE users SET pin = '" + PinField.getText() + "' WHERE ID =" + mm.ID);
+            //stat.executeUpdate("UPDATE users SET level = " + LevelField.getText() + " WHERE ID =" + mm.ID);
+            //stat.executeUpdate("UPDATE users SET department = '" + DepartmentField.getText() + "' WHERE ID =" + mm.ID);
             JOptionPane.showMessageDialog(null, "Editing User Success", "Success", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         }
-    }                                             
+    }                                           
 
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
         this.dispose();
     }                                            
-                                  
+
+    private void NameFieldActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }                                         
 
     /**
      * @param args the command line arguments
@@ -581,12 +581,8 @@ public class AdminEditUserForm extends javax.swing.JFrame {
     
     private void updateLabels() throws SQLException
     {
-        stat = con.createStatement();
-        result = stat.executeQuery("SELECT Name FROM users WHERE ID = '" + mm.ID + "';");
-        while(result.next())
-        {
-            DisplayNameLabel.setText(result.getString("Name"));
-        }
+        String s = mm.ID;
+        DisplayNameLabel.setText(s);
     }
     // Variables declaration - do not modify                     
     private javax.swing.JButton CancelButton;
@@ -605,8 +601,6 @@ public class AdminEditUserForm extends javax.swing.JFrame {
     private javax.swing.JTextField GenderField;
     private javax.swing.JLabel GenderLabel;
     private javax.swing.JPanel GenderPanel;
-    private javax.swing.JLabel IDLabel;
-    private javax.swing.JPanel IDPanel;
     private javax.swing.JTextField LevelField;
     private javax.swing.JLabel LevelLabel;
     private javax.swing.JPanel LevelPanel;
@@ -615,7 +609,6 @@ public class AdminEditUserForm extends javax.swing.JFrame {
     private javax.swing.JTextField NameField;
     private javax.swing.JLabel NameLabel;
     private javax.swing.JPanel NamePanel;
-    private javax.swing.JTextField IDField;
     private javax.swing.JTextField PasswordField;
     private javax.swing.JLabel PasswordLabel;
     private javax.swing.JPanel PasswordPanel;
@@ -629,7 +622,7 @@ public class AdminEditUserForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    // End of variables declaration 
+    // End of variables declaration    
     
     //Variable declaration for mysql properties
     private String url;
