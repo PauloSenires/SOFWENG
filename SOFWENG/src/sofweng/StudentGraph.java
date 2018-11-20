@@ -10,6 +10,7 @@ import javax.swing.*;
 import acm.graphics.*;
 import java.awt.event.ActionEvent;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -49,8 +50,8 @@ public class StudentGraph extends Program {
     private Statement stat;
 
     //initialization process, to create the display when the name is clicked to generate graph
-    public StudentGraph() {
-        name = "11515228"; //actually needs to be an input thrown to this function
+    public StudentGraph(String name) {
+        //name = "11515228"; //actually needs to be an input thrown to this function
         //remove the main here if interfaced correctly with the rest of the program
         // then modify the constructor function: public StudentGraph(String IDNumber)
 
@@ -97,6 +98,9 @@ public class StudentGraph extends Program {
         for (int i = 1; i <= 10; i++) {
             oval[i - 1] = new GOval(ovalDim * i, ovalDim * i);
             oval[i - 1].setColor(java.awt.Color.LIGHT_GRAY);
+            if(i - 1 == 6){
+                oval[i-1].setColor(java.awt.Color.RED);
+            }
             jLabelArray[i - 1] = new JLabel("" + (i * 10));
         }
 
@@ -116,9 +120,7 @@ public class StudentGraph extends Program {
         double centerX = oval[9].getX() + (ovalDim * 5);
         double centerY = addWidth + (ovalDim * 5);
         double angle = (360 * Math.PI) / (numberSO * 180);
-        double[] SOGrade = new double[numberSO];
-
-        double[] SOGrades = new double[numberSO];
+        double[] SOGrades;
         //retrieve SOGrades
         SOGrades = getGrades(name);
 
@@ -150,7 +152,6 @@ public class StudentGraph extends Program {
                 }
             }
         }
-
         //creating the aesthetic lines
         for (int i = 1; i <= numberSO; i++) {
             if (i == numberSO) {
@@ -168,8 +169,19 @@ public class StudentGraph extends Program {
                     lineArray[i].getEndPoint().getY());
             aesLine[i].setColor(java.awt.Color.BLUE);
             canvas.add(aesLine[i]);
-
         }
+        for (int i = 0; i < lineArray.length; i++) {
+            DecimalFormat dc = new DecimalFormat("0.00");
+            GLabel gradeLabel = new GLabel("" + dc.format(SOGrades[i]));
+            if (SOGrades[i] != 0 && SOGrades[i] != 100){
+                if(lineArray[i].getEndPoint().getX() < oval[0].getX()+ovalDim/2){
+                    canvas.add(gradeLabel,lineArray[i].getEndPoint().getX()-offset,lineArray[i].getEndPoint().getY());
+                } else {
+                    canvas.add(gradeLabel,lineArray[i].getEndPoint().getX(),lineArray[i].getEndPoint().getY());
+                }
+            }
+        }
+        
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -268,7 +280,6 @@ public class StudentGraph extends Program {
                         stringResult[SOCount] = resultSet.getString(resultSet.findColumn("so" + (SOCount + 1))).split(",");
                         className[SOCount] = resultSet.getString(resultSet.findColumn("subject" + (SOCount + 1)));
                         System.out.println(className[SOCount]);
-
                     }
                 }
                 for (int i = 0; i < classMap.size(); i++) {
@@ -276,7 +287,6 @@ public class StudentGraph extends Program {
                         initialMap.get(classMap.get(className[i])[j]).add(stringResult[i][j]);
                     }
                 }
-
                 //averaging
                 double sum;
                 for (int i = 0; i < initialMap.size(); i++) {
@@ -292,15 +302,9 @@ public class StudentGraph extends Program {
                             + " Sum: " + sum);
                 }
             }
-
         } catch (SQLException e) {
             System.out.println("Error in getting grades");
         }
-
         return grades;
-    }
-
-    public static void main(String[] args) {
-        new StudentGraph().start(args);
     }
 }
