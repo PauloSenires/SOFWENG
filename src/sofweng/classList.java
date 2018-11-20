@@ -40,8 +40,10 @@ public class classList extends javax.swing.JFrame {
         initComponents();
         fetchStudents(subject,section);
     }
-    public classList(String subject) throws SQLException {
+    public classList(String subject,String section) throws SQLException {
         initComponents();
+        this.subject = subject;
+        this.section = section;
         fetchStudents(subject,section);
     }
 

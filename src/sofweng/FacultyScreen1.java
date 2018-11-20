@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
@@ -241,6 +242,7 @@ public class FacultyScreen1 extends javax.swing.JFrame {
     private void addSubjectTree() throws SQLException {
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Subjects");
+        
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(root));
         for (String string : subjectList) {
             try {
@@ -283,8 +285,19 @@ public class FacultyScreen1 extends javax.swing.JFrame {
             }
         });
 
+        
+           expandAllNodes(jTree1, 0, jTree1.getRowCount());
         System.out.println("hello");
     }
+    private void expandAllNodes(JTree tree, int startingIndex, int rowCount){
+    for(int i=startingIndex;i<rowCount;++i){
+        tree.expandRow(i);
+    }
+
+    if(tree.getRowCount()!=rowCount){
+        expandAllNodes(tree, rowCount, tree.getRowCount());
+    }
+}
 
     void doMouseClicked(MouseEvent me) {
         TreePath tp = jTree1.getPathForLocation(me.getX(), me.getY());
