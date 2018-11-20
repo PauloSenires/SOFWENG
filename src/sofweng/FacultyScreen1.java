@@ -251,14 +251,15 @@ this.setSize(900, 700);
     }
 
     private void addSubjectTree() throws SQLException {
-        
+
         DefaultMutableTreeNode root1 = new DefaultMutableTreeNode("Subjects");
         DefaultMutableTreeNode root2 = new DefaultMutableTreeNode("Subjects");
-     
+
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(root1));
         jTree2.setModel(new javax.swing.tree.DefaultTreeModel(root2));
-        jTree1.setToggleClickCount(0);//disable double click to open a node
-        jTree2.setToggleClickCount(0);//disable double click to open a node
+        jTree1.setToggleClickCount(0);
+        jTree2.setToggleClickCount(0);
+        
         DefaultTreeCellRenderer renderer1 = (DefaultTreeCellRenderer) jTree1.getCellRenderer();
         renderer1.setLeafIcon(renderer1.getClosedIcon());
         DefaultTreeCellRenderer renderer2 = (DefaultTreeCellRenderer) jTree2.getCellRenderer();
@@ -349,6 +350,7 @@ this.setSize(900, 700);
             expandAllNodes(tree, rowCount, tree.getRowCount());
         }
     }
+
 
     void doMouseClicked(MouseEvent me) throws SQLException {
         TreePath tp = jTree1.getPathForLocation(me.getX(), me.getY());
