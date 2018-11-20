@@ -10,9 +10,9 @@ import javax.swing.*;
 import acm.graphics.*;
 import java.awt.event.ActionEvent;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -28,12 +28,14 @@ public class StudentGraph extends Program {
     private final int addWidth = 20;
     private final int numberSO = 12;
 
-    private String currentName = "DISPLAYING: ";
+    private String display = "DISPLAYING: ";
+    private String name;
     private final String spaces = "         ";
     private final String[] stringSO = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"};
 
-    private final JLabel label = new JLabel("NAME: ");
+    private final JLabel label = new JLabel("ID NO.: ");
     private JLabel[] jLabelArray = new JLabel[10];
+    private JLabel currentDisplay;
     private final JTextField enterName = new JTextField(20);
     private final JButton search = new JButton("SEARCH");
     private final JButton next = new JButton("NEXT");
@@ -42,24 +44,21 @@ public class StudentGraph extends Program {
     private final GCanvas canvas = new GCanvas();
     private GOval[] oval = new GOval[10];
     private GLine[] lineArray = new GLine[numberSO];
-    private GLine[] aesLine = new GLine[numberSO];
-    
+    private GLine[] aesLine = new GLine[numberSO+1];
+
     private Statement stat;
 
     //initialization process, to create the display when the name is clicked to generate graph
     public StudentGraph() {
-        String IDNumber = "11515880"; //actually needs to be an input thrown to this function
+        name = "11515228"; //actually needs to be an input thrown to this function
         //remove the main here if interfaced correctly with the rest of the program
         // then modify the constructor function: public StudentGraph(String IDNumber)
 
-        //insert code for database connectivity here
-        currentName = currentName + IDNumber + spaces;
-
         this.setSize(APPLICATION_WIDTH, APPLICATION_HEIGHT);
-        this.setTitle(IDNumber);
+        this.setTitle(name);
         canvas.setSize(WIDTH, HEIGHT);
         add(canvas); //the canvas will be the graph itself, data thrown from the database storage
-        JLabel currentDisplay = new JLabel(currentName);
+        currentDisplay = new JLabel(display + name + spaces);
         add(currentDisplay, NORTH);
         add(label, NORTH);
         add(enterName, NORTH);
@@ -69,7 +68,7 @@ public class StudentGraph extends Program {
         previous.addActionListener(this);
         add(next, NORTH);
         next.addActionListener(this);
-        
+
         try {
             String url = "jdbc:mysql://localhost:3306/cpe_database";
             Properties prop = new Properties();
@@ -86,16 +85,15 @@ public class StudentGraph extends Program {
             stat = con.createStatement();
             stat.execute("USE cpe_database;");
             System.out.println("use cpe_database");
-            
+
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
-        
-        drawCanvas(IDNumber);
+        drawCanvas(name);
 
     }
 
-    public void drawCanvas(String name){
+    public void drawCanvas(String name) {
         for (int i = 1; i <= 10; i++) {
             oval[i - 1] = new GOval(ovalDim * i, ovalDim * i);
             oval[i - 1].setColor(java.awt.Color.LIGHT_GRAY);
@@ -140,7 +138,7 @@ public class StudentGraph extends Program {
                 if (angle * i == (Math.PI / 2)) {
                     canvas.add(new JLabel("SO-" + stringSO[i]),
                             Math.cos(angle * i) * 200 + centerX - (offset / 2),
-                            Math.sin(angle * i) * 200 + centerY + offset/2);
+                            Math.sin(angle * i) * 200 + centerY + offset / 2);
                 } else if (angle * i == (3 * Math.PI / 2)) {
                     canvas.add(new JLabel("SO-" + stringSO[i]),
                             Math.cos(angle * i) * 200 + centerX - (offset / 2),
@@ -154,61 +152,149 @@ public class StudentGraph extends Program {
         }
 
         //creating the aesthetic lines
-        for (int i = 1; i < numberSO; i++) {
+        for (int i = 1; i <= numberSO; i++) {
+            if (i == numberSO) {
+                aesLine[i] = new GLine(lineArray[11].getEndPoint().getX(),
+                        lineArray[11].getEndPoint().getY(),
+                        lineArray[0].getEndPoint().getX(),
+                        lineArray[0].getEndPoint().getY());
+                aesLine[i].setColor(java.awt.Color.BLUE);
+                canvas.add(aesLine[i]);
+                break;
+            }
             aesLine[i] = new GLine(lineArray[i - 1].getEndPoint().getX(),
                     lineArray[i - 1].getEndPoint().getY(),
                     lineArray[i].getEndPoint().getX(),
                     lineArray[i].getEndPoint().getY());
             aesLine[i].setColor(java.awt.Color.BLUE);
             canvas.add(aesLine[i]);
+
         }
     }
-    
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == next) {
             canvas.removeAll();
             try {
-                stat.execute("SELECT");
+                ResultSet resultSet = stat.executeQuery("SELECT id FROM students;");
+                while (resultSet.next()) {
+                    if (resultSet.getString(1).equals(name)) {
+                        if (resultSet.next()) {
+                            name = resultSet.getString(1);
+                            System.out.println(name);
+                            this.setTitle(name);
+                            currentDisplay.setText(display + name + spaces);
+                            break;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Reached the last ID number");
+                            break;
+                        }
+                    }
+                }
+                drawCanvas(name);
             } catch (SQLException ex) {
                 System.out.println("ERROR");
             }
         } else if (e.getSource() == previous) {
             canvas.removeAll();
             try {
-                stat.execute("SELECT");
+                ResultSet resultSet = stat.executeQuery("SELECT DISTINCT id FROM students;");
+                while (resultSet.next()) {
+                    if (resultSet.getString(1).equals(name)) {
+                        if (resultSet.previous()) {
+                            name = resultSet.getString(1);
+                            System.out.println(name);
+                            this.setTitle(name);
+                            currentDisplay.setText(display + name + spaces);
+                            break;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Reached the first ID number");
+                            break;
+                        }
+                    }
+                }
+                drawCanvas(name);
             } catch (SQLException ex) {
                 System.out.println("ERROR");
             }
         } else if (e.getSource() == search) {
-            
+            canvas.removeAll();
+            try {
+                ResultSet resultSet = stat.executeQuery("SELECT id FROM students;");
+                while (resultSet.next()) {
+                    if (resultSet.getString(1).equals(enterName.getText())) {
+                        name = resultSet.getString(1);
+                        this.setTitle(name);
+                        currentDisplay.setText(display + name + spaces);
+                        break;
+                    }
+                }
+                if (resultSet.next() == false) {
+                    JOptionPane.showMessageDialog(null, "ID number is not found");
+                }
+                drawCanvas(name);
+            } catch (SQLException ex) {
+                System.out.println("ERROR");
+            }
         }
     }
 
     public double[] getGrades(String name) {
         double[] grades = new double[numberSO];
-        double[][] initialGrade = new double[numberSO][numberSO];
-        
+        String[][] stringResult = new String[numberSO][numberSO];
+        HashMap<String, String[]> classMap = new HashMap<String, String[]>();
+        HashMap<String, ArrayList<String>> initialMap = new HashMap<>();
+        String[] className = new String[numberSO];
+
         try {
-            String url = "jdbc:mysql://localhost:3306/cpe_database";
-            Properties prop = new Properties();
-            prop.setProperty("user", "root");
-            prop.setProperty("password", "");
-            Driver d = new com.mysql.jdbc.Driver();
-            Connection con = d.connect(url, prop);
-            if (con == null) {
-                System.out.println("connection failed");
-                return null;
-            } else {
-                System.out.println("Connected");
+            ResultSet classSet = stat.executeQuery("SELECT Name, SO FROM classes;");
+            System.out.println("SELECT * FROM students WHERE ID = '" + name + "';");
+            System.out.println("SELECT Name, SO from classes");
+
+            while (classSet.next()) {
+                classMap.put(classSet.getString(1), classSet.getString(2).split(","));
+                System.out.println(classSet.getString(2));
             }
-            Statement stat = con.createStatement();
-            stat.execute("USE cpe_database;");
-            System.out.println("use cpe_database");
-            stat.execute("SELECT ");
-            System.out.println("execute line 1");
-            
-        } catch (Exception e) {
-            System.out.println("ERROR");
+
+            for (int i = 0; i < numberSO; i++) {
+                initialMap.put(stringSO[i], new ArrayList<>());
+            }
+
+            ResultSet resultSet = stat.executeQuery("SELECT * FROM students WHERE ID = '" + name + "'");
+            while (resultSet.next()) {
+                //places the grades into stringResult, classes into className
+                for (int SOCount = 0; SOCount <= 9; SOCount++) {
+                    if (!resultSet.getString(resultSet.findColumn("so" + (SOCount + 1))).equals("na")) {
+                        stringResult[SOCount] = resultSet.getString(resultSet.findColumn("so" + (SOCount + 1))).split(",");
+                        className[SOCount] = resultSet.getString(resultSet.findColumn("subject" + (SOCount + 1)));
+                        System.out.println(className[SOCount]);
+
+                    }
+                }
+                for (int i = 0; i < classMap.size(); i++) {
+                    for (int j = 0; j < classMap.get(className[i]).length; j++) {
+                        initialMap.get(classMap.get(className[i])[j]).add(stringResult[i][j]);
+                    }
+                }
+
+                //averaging
+                double sum;
+                for (int i = 0; i < initialMap.size(); i++) {
+                    sum = 0;
+                    for (int j = 0; j < initialMap.get(stringSO[i]).size(); j++) {
+                        sum = sum + Double.parseDouble(initialMap.get(stringSO[i]).get(j));
+                    }
+                    grades[i] = sum / initialMap.get(stringSO[i]).size();
+                    if (sum == 0) {
+                        grades[i] = 0;
+                    }
+                    System.out.println("SO-" + stringSO[i] + " Average: " + grades[i]
+                            + " Sum: " + sum);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error in getting grades");
         }
 
         return grades;
