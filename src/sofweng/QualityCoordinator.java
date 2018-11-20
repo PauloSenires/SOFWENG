@@ -2,7 +2,14 @@ package sofweng;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*; 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author iwcnrlee1
@@ -15,30 +22,57 @@ public class QualityCoordinator extends javax.swing.JFrame {
     ArrayList<String> courseList=new ArrayList<String>();
     ArrayList<String> subjectList=new ArrayList<String>();
     public int count;
-    JButton courseBtn, subjectBtn;
-    int btnHeight= 45; //Height of Buttons
+    JButton courseBtn, subjectBtn, studentBtn;
+    int height= 40; //Height of Buttons
     int space=0;
-    Font font = new Font("Arial", Font.BOLD,18);
+    Font font = new Font("Arial", Font.BOLD,20);
+    
     public QualityCoordinator() {
         initComponents();
         this.setSize(900, 700);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width-this.getSize().width)/2,(size.height-this.getSize().height)/2);
-        courseList.addAll(Arrays.asList(fetchCourseList()));
+        fetchCourseList();
         viewCourseList(courseList,0);
-        
     }
     
-    public String[] fetchCourseList(){
-        String[] list = {"CHE","CIV","ECE","IE","MEM","MEE"};
-        return list;
+    public void fetchCourseList(){
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+            PreparedStatement pst = conn.prepareStatement("Select distinct department from `classes` order by department");
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()) { 
+                String str1 = rs.getString("department");
+                courseList.add(str1);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public String[] fetchSubjectList(int count){
-        String[] list = {"ENGALG1","ENGTRIG","DIFFCAL","ANAGEOM","SOCTEC2","MPROSYS","INTECAL"};
-        return list;
+    public void fetchSubjectList(int count){
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
+            PreparedStatement pst = conn.prepareStatement("SELECT name FROM `classes` WHERE Department='"+courseList.get(count-1)+"'");
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()) { 
+                String str1 = rs.getString("name");
+                subjectList.add(str1);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
+    public void btnConfig(JButton btn,int indent){
+        btn.setFont(font);
+        btn.setHorizontalAlignment(JLabel.LEFT);
+        btn.setSize(MainPane.getWidth()-50-indent*2, height);
+        btn.setLocation(btn.getX()+indent*2,btn.getY()+space);
+        space=space+height;
+    }
     
     
     public void viewCourseList(ArrayList list, int open){
@@ -60,14 +94,22 @@ public class QualityCoordinator extends javax.swing.JFrame {
                 }
             });
             MainPane.add(courseBtn);
-            courseBtn.setFont(font);
-            courseBtn.setHorizontalAlignment(JLabel.LEFT);
-            courseBtn.setSize(MainPane.getWidth()-50, btnHeight);
-            courseBtn.setLocation(courseBtn.getX(),courseBtn.getY()+space);
-            space=space+btnHeight;
-            courseBtn.setVisible(true);
+            btnConfig(courseBtn,0);
             if(count==i) generateSubjects(i);
         }
+        studentBtn = new JButton("Student Database");
+        studentBtn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                        java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                //Lagay dito class nung pauntang student search
+                            }
+                        });
+                }
+            });
+        MainPane.add(studentBtn);
+        btnConfig(studentBtn,0);
+        space=space+height;
         Dimension size = new Dimension(900,space);
         MainPane.setPreferredSize(size);
         space=0;
@@ -76,36 +118,35 @@ public class QualityCoordinator extends javax.swing.JFrame {
     
     public void generateSubjects(int count){
         subjectList.clear();
-        subjectList.addAll(Arrays.asList(fetchSubjectList(count)));
+        fetchSubjectList(count);
+        JLabel header = new JLabel("Subjects:");
+        header.setFont(font);
+        header.setSize(MainPane.getWidth(),height);
+        header.setLocation(header.getX()+50,header.getY()+space);
+        space=space+height;
+        MainPane.add(header);
         for (int i=1;i<subjectList.size()+1;i++){
             subjectBtn = new JButton(subjectList.get(i-1));
                 subjectBtn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        for (int j=0;j<subjectList.size()-1;j++){
+                        for (int j=0;j<subjectList.size();j++){
                             if(e.getActionCommand().contains(""+subjectList.get(j))){
-                                System.out.println(e.getActionCommand());
+                                String subject=subjectList.get(j);
+                                java.awt.EventQueue.invokeLater(new Runnable() {
+                                    public void run() {
+                                        new SubjectList(subject).setVisible(true);
+                                        dispose();
+                                    }
+                                });
                             }
                         }
                     }
                 });
                 MainPane.add(subjectBtn);
-                subjectBtn.setFont(font);
-                subjectBtn.setHorizontalAlignment(JLabel.LEFT);
-                subjectBtn.setSize(MainPane.getWidth()-100, btnHeight);
-                subjectBtn.setLocation(subjectBtn.getX()+50,subjectBtn.getY()+space);
-                space=space+btnHeight;
+                btnConfig(subjectBtn,25);
                 subjectBtn.setVisible(true);
         }
     }
-    
-    public boolean isCourseComplete(){
-        return false;
-    }
-    
-    public void courseSummary(){
-        
-    }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,13 +162,14 @@ public class QualityCoordinator extends javax.swing.JFrame {
         HeaderPane = new javax.swing.JPanel();
         Greeting = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(900, 700));
         setMinimumSize(new java.awt.Dimension(900, 700));
         setPreferredSize(new java.awt.Dimension(900, 700));
+        setResizable(false);
 
-        ScrollPane.setBorder(null);
         ScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         MainPane.setPreferredSize(new java.awt.Dimension(498, 1000));
@@ -136,7 +178,7 @@ public class QualityCoordinator extends javax.swing.JFrame {
         MainPane.setLayout(MainPaneLayout);
         MainPaneLayout.setHorizontalGroup(
             MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 855, Short.MAX_VALUE)
+            .addGap(0, 851, Short.MAX_VALUE)
         );
         MainPaneLayout.setVerticalGroup(
             MainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,27 +193,41 @@ public class QualityCoordinator extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Gokongwei College of Engineering");
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jButton1.setText("<<");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout HeaderPaneLayout = new javax.swing.GroupLayout(HeaderPane);
         HeaderPane.setLayout(HeaderPaneLayout);
         HeaderPaneLayout.setHorizontalGroup(
             HeaderPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HeaderPaneLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(527, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HeaderPaneLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Greeting)
-                .addGap(20, 20, 20))
+                .addGroup(HeaderPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(HeaderPaneLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap(527, Short.MAX_VALUE))
+                    .addGroup(HeaderPaneLayout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Greeting)
+                        .addGap(20, 20, 20))))
         );
         HeaderPaneLayout.setVerticalGroup(
             HeaderPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HeaderPaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Greeting)
+                .addGroup(HeaderPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(HeaderPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Greeting))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,6 +256,15 @@ public class QualityCoordinator extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Login().setVisible(true);
+                dispose();
+            }
+        });
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,6 +308,7 @@ public class QualityCoordinator extends javax.swing.JFrame {
     private javax.swing.JPanel HeaderPane;
     private javax.swing.JPanel MainPane;
     private javax.swing.JScrollPane ScrollPane;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
