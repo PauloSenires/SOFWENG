@@ -14,6 +14,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
@@ -25,14 +26,17 @@ import javax.swing.ScrollPaneConstants;
 public class classList extends javax.swing.JFrame {
     String subject="ENGALG1";
     String section="EJ";
+    String student="11500001";
     String[] students;
     JLabel[] studentLabelList;
     JLabel[] finalGradesList;
     JLabel[] soGradesList;
+    JButton[] buttonList;
     String[] finalGrades;
     String[] soGrades;
+    
     int noStudents = 0;
-    int count=1;
+    int count=0;
     /**
      * Creates new form classList
      */
@@ -202,22 +206,36 @@ public class classList extends javax.swing.JFrame {
             studentLabelList = new JLabel[count];
             finalGradesList = new JLabel[count];
             soGradesList = new JLabel[count];
+            buttonList = new JButton[count];
             displayPanel.setLayout(new GridLayout(5,1));
             for (int i=0;i<(count);i++) {
                 JLabel studentLabel = new JLabel(students[i]);
+                student=students[i];
                 studentLabelList[i]=studentLabel;
                 studentLabel.setVisible(true);
                displayPanel.add(studentLabel);
                
                JLabel finalGradesLabel = new JLabel(finalGrades[i]);
                 finalGradesList[i]=finalGradesLabel;
-                studentLabel.setVisible(true);
+                finalGradesLabel.setVisible(true);
                displayPanel.add(finalGradesLabel);
                
                JLabel soGradesLabel = new JLabel(soGrades[i]);
                 soGradesList[i]=soGradesLabel;
-                studentLabel.setVisible(true);
+                soGradesLabel.setVisible(true);
                displayPanel.add(soGradesLabel);
+               
+               JButton editButton = new javax.swing.JButton();
+                editButton.setText("Edit");
+                editButton.setSize(5, 3);
+                editButton.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt, student);
+                }
+                });
+                buttonList[i]=editButton;
+                editButton.setVisible(true);
+               displayPanel.add(editButton);
             }
             
             displayPane.validate();
@@ -227,7 +245,11 @@ public class classList extends javax.swing.JFrame {
             Logger.getLogger(classList.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt, String student) {                                           
+        // TODO add your handling code here:
+        System.out.println(subject);
+        System.out.println(student);
+    }  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane displayPane;
     private javax.swing.JPanel displayPanel;
