@@ -313,7 +313,7 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                     break;
                 case "2": //Department Coordinator
-                    DC_Screen deptCoordWindow = new DC_Screen();
+                    QC_Screen deptCoordWindow = new QC_Screen();
                     deptCoordWindow.setVisible(true);
                     deptCoordWindow.setLocationRelativeTo(this);
                     this.dispose();
