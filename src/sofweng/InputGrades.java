@@ -28,9 +28,9 @@ import javax.swing.JTextField;
  * @author PauloSenires
  */
 public class InputGrades extends javax.swing.JFrame {
-    public String ID  = "11515228";
+    public String ID  = "11500001";
     public String subject  = "ENGALG1";
-    public String section = "EQ";
+    public String section = "EJ";
     public String soGrade = "";
     public String rawScores = "";
     float finalGrade;
