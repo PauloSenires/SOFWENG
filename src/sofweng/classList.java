@@ -224,7 +224,7 @@ public class classList extends javax.swing.JFrame {
             displayPane.repaint();
         } 
             catch (ClassNotFoundException ex) {
-            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(classList.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
