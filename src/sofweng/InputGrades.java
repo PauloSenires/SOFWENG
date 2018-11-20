@@ -258,9 +258,9 @@ public class InputGrades extends javax.swing.JFrame {
         subjectPanelLayout.setVerticalGroup(
             subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(subjectPanelLayout.createSequentialGroup()
-                .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(subjectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(subjectPanelLayout.createSequentialGroup()
@@ -307,7 +307,7 @@ public class InputGrades extends javax.swing.JFrame {
                         .addComponent(subjectPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 179, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -529,7 +529,7 @@ public class InputGrades extends javax.swing.JFrame {
             
             
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void updateDatabase(String ID) throws SQLException{
@@ -548,7 +548,7 @@ public class InputGrades extends javax.swing.JFrame {
             System.out.println(timeStamp);
             data.execute("update students set time"+(subjectCount+1)+"='" + timeStamp + "' where ID='" + ID + "';");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void fetchStudent(String ID) throws SQLException{
@@ -601,7 +601,7 @@ public class InputGrades extends javax.swing.JFrame {
             
             
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void updateDatabase(String ID) throws SQLException{
@@ -620,7 +620,7 @@ public class InputGrades extends javax.swing.JFrame {
             System.out.println(timeStamp);
             data.execute("update students set time"+(subjectCount+1)+"='" + timeStamp + "' where ID='" + ID + "';");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FacultyScreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
