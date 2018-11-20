@@ -102,7 +102,13 @@ public class QC_Screen extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                //Lagay dito class nung pauntang student search
+                                JFrame frame = new JFrame();
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                StudentGraph studentGraph = new StudentGraph();
+                                frame.add(studentGraph);
+                                frame.setVisible(true);
+                                frame.setSize(750,600);
+                                studentGraph.start(); 
                             }
                         });
                 }
