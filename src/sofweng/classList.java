@@ -68,7 +68,7 @@ public class classList extends javax.swing.JFrame {
         displayPane = new javax.swing.JScrollPane();
         displayPanel = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         subLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         subLabel.setText("Subject");
@@ -110,11 +110,9 @@ public class classList extends javax.swing.JFrame {
                         .addGap(43, 43, 43)
                         .addComponent(jLabel4)
                         .addGap(119, 119, 119)
-                        .addComponent(jLabel5)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(secLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel5))
+                    .addComponent(secLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(displayPane)
