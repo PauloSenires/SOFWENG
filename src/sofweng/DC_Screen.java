@@ -14,20 +14,20 @@ import java.util.logging.Logger;
  *
  * @author iwcnrlee1
  */
-public class QualityCoordinator extends javax.swing.JFrame {
+public class DC_Screen extends javax.swing.JFrame {
 
     /**
      * Creates new form QualityCoordinator
      */
     ArrayList<String> courseList=new ArrayList<String>();
-    ArrayList<String> subjectList=new ArrayList<String>();
+    ArrayList<String> userList=new ArrayList<String>();
     public int count;
-    JButton courseBtn, subjectBtn, studentBtn;
+    JButton courseBtn, facultyBtn;
     int height= 40; //Height of Buttons
     int space=0;
     Font font = new Font("Arial", Font.BOLD,20);
     
-    public QualityCoordinator() {
+    public DC_Screen() {
         initComponents();
         this.setSize(900, 700);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -47,22 +47,22 @@ public class QualityCoordinator extends javax.swing.JFrame {
             }
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DC_Screen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void fetchSubjectList(int count){
+    public void fetchUserList(int count){
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-            PreparedStatement pst = conn.prepareStatement("SELECT name FROM `classes` WHERE Department='"+courseList.get(count-1)+"'");
+            PreparedStatement pst = conn.prepareStatement("SELECT name FROM `users` WHERE Department='"+courseList.get(count-1)+"'");
             ResultSet rs = pst.executeQuery();
             while(rs.next()) { 
                 String str1 = rs.getString("name");
-                subjectList.add(str1);
+                userList.add(str1);
             }
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(QualityCoordinator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DC_Screen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -95,46 +95,36 @@ public class QualityCoordinator extends javax.swing.JFrame {
             });
             MainPane.add(courseBtn);
             btnConfig(courseBtn,0);
-            if(count==i) generateSubjects(i);
+            if(count==i) generateUsers(i);
         }
-        studentBtn = new JButton("Student Database");
-        studentBtn.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                //Lagay dito class nung pauntang student search
-                            }
-                        });
-                }
-            });
-        MainPane.add(studentBtn);
-        btnConfig(studentBtn,0);
-        space=space+height;
         Dimension size = new Dimension(900,space);
         MainPane.setPreferredSize(size);
         space=0;
         
     }
     
-    public void generateSubjects(int count){
-        subjectList.clear();
-        fetchSubjectList(count);
-        JLabel header = new JLabel("Subjects:");
+    public void generateUsers(int count){
+        userList.clear();
+        fetchUserList(count);
+        JLabel header = new JLabel("Faculty List:");
         header.setFont(font);
         header.setSize(MainPane.getWidth(),height);
         header.setLocation(header.getX()+50,header.getY()+space);
         space=space+height;
         MainPane.add(header);
-        for (int i=1;i<subjectList.size()+1;i++){
-            subjectBtn = new JButton(subjectList.get(i-1));
-                subjectBtn.addActionListener(new ActionListener() {
+        for(int i=1;i<userList.size()+1;i++){
+            DC_FacultyList check = new DC_FacultyList("");
+            check.classList.clear();
+            facultyBtn = new JButton(userList.get(i-1));
+            facultyBtn.setText(facultyBtn.getText()+"   "+check.isFacultyListComplete(userList.get(i-1)));
+                facultyBtn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        for (int j=0;j<subjectList.size();j++){
-                            if(e.getActionCommand().contains(""+subjectList.get(j))){
-                                String subject=subjectList.get(j);
+                        for (int j=0;j<userList.size();j++){
+                            if(e.getActionCommand().contains(""+userList.get(j))){
+                                String user=userList.get(j);
                                 java.awt.EventQueue.invokeLater(new Runnable() {
                                     public void run() {
-                                        new SubjectList(subject).setVisible(true);
+                                        new DC_FacultyList(user).setVisible(true);
                                         dispose();
                                     }
                                 });
@@ -142,9 +132,9 @@ public class QualityCoordinator extends javax.swing.JFrame {
                         }
                     }
                 });
-                MainPane.add(subjectBtn);
-                btnConfig(subjectBtn,25);
-                subjectBtn.setVisible(true);
+                MainPane.add(facultyBtn);
+                btnConfig(facultyBtn,25);
+                facultyBtn.setVisible(true);
         }
     }
 
@@ -165,9 +155,7 @@ public class QualityCoordinator extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 700));
         setMinimumSize(new java.awt.Dimension(900, 700));
-        setPreferredSize(new java.awt.Dimension(900, 700));
         setResizable(false);
 
         ScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -188,7 +176,7 @@ public class QualityCoordinator extends javax.swing.JFrame {
         ScrollPane.setViewportView(MainPane);
 
         Greeting.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
-        Greeting.setText("Welcome, Quality Coordinator");
+        Greeting.setText("Welcome, Department Coordinator");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Gokongwei College of Engineering");
@@ -283,20 +271,23 @@ public class QualityCoordinator extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(QualityCoordinator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DC_Screen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(QualityCoordinator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DC_Screen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(QualityCoordinator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DC_Screen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(QualityCoordinator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DC_Screen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new QualityCoordinator().setVisible(true);
+                new DC_Screen().setVisible(true);
             }
         });
     }

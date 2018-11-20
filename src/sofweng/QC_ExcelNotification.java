@@ -12,12 +12,12 @@ import java.awt.Toolkit;
  *
  * @author iwcnrlee1
  */
-public class ExcelNotification extends javax.swing.JFrame {
+public class QC_ExcelNotification extends javax.swing.JFrame {
     String text;
     /**
      * Creates new form ExcelNotification
      */
-    public ExcelNotification() {
+    public QC_ExcelNotification() {
         initComponents();
         jLabel1.setText("File export is complete ");
         this.setSize(400, 200);
@@ -99,20 +99,21 @@ public class ExcelNotification extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ExcelNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QC_ExcelNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ExcelNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QC_ExcelNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ExcelNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QC_ExcelNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ExcelNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(QC_ExcelNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ExcelNotification().setVisible(true);
+                new QC_ExcelNotification().setVisible(true);
             }
         });
     }

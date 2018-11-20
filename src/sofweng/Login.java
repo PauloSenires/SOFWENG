@@ -307,19 +307,19 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                     break;
                 case "1": //Quality Coordinator
-                    QualityCoordinator qualityCoordWindow = new QualityCoordinator();
+                    QC_Screen qualityCoordWindow = new QC_Screen();
                     qualityCoordWindow.setVisible(true);
                     qualityCoordWindow.setLocationRelativeTo(this);
                     this.dispose();
                     break;
                 case "2": //Department Coordinator
-                    QualityCoordinator deptCoordWindow = new QualityCoordinator();
+                    DC_Screen deptCoordWindow = new DC_Screen();
                     deptCoordWindow.setVisible(true);
                     deptCoordWindow.setLocationRelativeTo(this);
                     this.dispose();
                     break;
                 case "3": //Administrator
-                    QualityCoordinator adminWindow = new QualityCoordinator();
+                    QC_Screen adminWindow = new QC_Screen();
                     adminWindow.setVisible(true);
                     adminWindow.setLocationRelativeTo(this);
                     this.dispose();
