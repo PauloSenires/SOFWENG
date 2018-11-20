@@ -408,7 +408,7 @@ public class AdminViewCourse extends javax.swing.JFrame {
             DetailVariable.setText(result.getString("Detail"));
             PercentVariable.setText(result.getString("percent"));
             SOVariable.setText(result.getString("SO"));
-            WorkVariable.setText("work");
+            WorkVariable.setText(result.getString("work"));
         }
     }
     // Variables declaration - do not modify                     
