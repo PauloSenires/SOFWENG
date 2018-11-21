@@ -21,8 +21,8 @@ INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) 
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ENGPHY1', 'Engineering Physics 1', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ENGPHY2', 'Engineering Physics 2', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('DIFFCAL', 'Differential Calculus', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
-INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('INTECAL', 'Interal Calculus', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
-INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('MROPSYS', 'Microprocessing Systems', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('INTECAL', 'Integral Calculus', 'CHE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('MPROSYS', 'Microprocessing Systems', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('DIGITDE', 'Digital Design', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('LOGICKT', 'Logic Circuits', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('BASICEE', 'Basic Electronics', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
