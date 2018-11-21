@@ -157,6 +157,13 @@ public class StudentGraph extends Program {
             }
         }
         //creating the aesthetic lines
+        for (GLine line :lineArray ) {
+            GOval oval = new GOval(line.getEndPoint().getX()-2.5, line.getEndPoint().getY()-2.5, 5, 5);
+            oval.setColor(java.awt.Color.RED);
+            oval.setFillColor(java.awt.Color.RED);
+            oval.setFilled(true);
+            canvas.add(oval);
+        }
         for (int i = 1; i <= numberSO; i++) {
             if (i == numberSO) {
                 aesLine[i] = new GLine(lineArray[11].getEndPoint().getX(),
@@ -287,8 +294,12 @@ public class StudentGraph extends Program {
                     }
                 }
                 System.out.println(classMap.toString());
-                for (int i = 0; i < classMap.size(); i++) {
-//                    System.out.println(Arrays.toString(classMap.get(className[i])));
+                
+                for (int i = 0; i < className.length; i++) {
+                    if(className[i]==null){
+                        break;
+                    }
+                    System.out.println(Arrays.toString(classMap.get(className[i])));
                     for (int j = 0; j < classMap.get(className[i]).length; j++) {
                         initialMap.get(classMap.get(className[i])[j]).add(stringResult[i][j]);
                     }
