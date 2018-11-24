@@ -416,6 +416,22 @@ public class AdminAddCourseForm extends javax.swing.JFrame {
         }
     }
     
+    private void checkFields()
+    {
+        String[] percent = PercentField.getText().split(",");
+        String[] work = WorkField.getText().split(",");
+        String[] so = SOField.getText().split(",");
+        
+        //if()
+        {
+            
+        }
+        //else if()
+        {
+            
+        }
+    }
+    
     // Variables declaration - do not modify                     
     private javax.swing.JButton AddButton;
     private javax.swing.JButton CancelButton;

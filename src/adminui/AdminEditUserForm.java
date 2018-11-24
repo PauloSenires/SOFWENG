@@ -12,10 +12,12 @@ import java.sql.Driver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -45,6 +47,14 @@ public class AdminEditUserForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() throws SQLException {
 
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(0);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+        // If you want the value to be committed on each keystroke instead of focus lost
+        formatter.setCommitsOnValidEdit(true);
         MainPanel = new javax.swing.JPanel();
         DisplayNamePanel = new javax.swing.JPanel();
         DisplayNameLabel = new javax.swing.JLabel();
@@ -67,7 +77,7 @@ public class AdminEditUserForm extends javax.swing.JFrame {
         PinField = new javax.swing.JTextField();
         LevelPanel = new javax.swing.JPanel();
         LevelLabel = new javax.swing.JLabel();
-        LevelField = new javax.swing.JTextField();
+        LevelField = new javax.swing.JFormattedTextField(formatter);
         DepartmentPanel = new javax.swing.JPanel();
         DepartmentLabel = new javax.swing.JLabel();
         DepartmentField = new javax.swing.JTextField();
@@ -447,6 +457,9 @@ public class AdminEditUserForm extends javax.swing.JFrame {
 
     private void ConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                              
         // TODO add your handling code here:
+        boolean check = checkFields();
+        if(check == true)
+        {
         String[] sublist;
         String[] subjlist = new String[20];
         String[] classlist = new String[10];
@@ -509,6 +522,7 @@ public class AdminEditUserForm extends javax.swing.JFrame {
             //stat.executeUpdate("UPDATE users SET department = '" + DepartmentField.getText() + "' WHERE ID =" + mm.ID);
             JOptionPane.showMessageDialog(null, "Editing User Success", "Success", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
+        }
         }
     }                                           
 
@@ -584,6 +598,40 @@ public class AdminEditUserForm extends javax.swing.JFrame {
         String s = mm.ID;
         DisplayNameLabel.setText(s);
     }
+    
+    private boolean checkFields() throws SQLException
+    {
+        String[] subject = SubjectListField.getText().split("\\r?\\n");
+        String[] real = new String[subject.length];
+        for(int b = 0; b < real.length; b++)
+        {
+            real[b] = subject[b].substring(0, 8);
+        }
+        boolean checker = false;
+        stat = con.createStatement();
+        for(int a = 0; a < subject.length; a++)
+        {
+            result = stat.executeQuery("SELECT Name FROM classes");
+            while(result.next())
+            {
+                if(real[a].equals(result.getString("Name")))
+                {
+                    checker = true;
+                    System.out.println(result.getString("Name"));
+                    break;
+                }
+            }
+        }
+        System.out.println(subject.length);
+        System.out.println(real.length);
+        System.out.println(real[0]);
+        System.out.println(checker);
+        if(checker == false)
+        {
+            JOptionPane.showMessageDialog(null, "Subject input not existing on classes", "Error Input", JOptionPane.ERROR_MESSAGE);
+        }
+        return checker;
+    }
     // Variables declaration - do not modify                     
     private javax.swing.JButton CancelButton;
     private javax.swing.JButton ConfirmButton;
@@ -601,7 +649,7 @@ public class AdminEditUserForm extends javax.swing.JFrame {
     private javax.swing.JTextField GenderField;
     private javax.swing.JLabel GenderLabel;
     private javax.swing.JPanel GenderPanel;
-    private javax.swing.JTextField LevelField;
+    private javax.swing.JFormattedTextField LevelField;
     private javax.swing.JLabel LevelLabel;
     private javax.swing.JPanel LevelPanel;
     private javax.swing.JPanel MainPanel;
