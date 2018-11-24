@@ -8,6 +8,8 @@ package sofweng;
 import acm.program.*;
 import javax.swing.*;
 import acm.graphics.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.text.DecimalFormat;
@@ -51,7 +53,7 @@ public class StudentGraph extends Program {
     private Statement stat;
 
     //initialization process, to create the display when the name is clicked to generate graph
-    public StudentGraph() {
+    public StudentGraph(String id) {
         try {
             String url = "jdbc:mysql://localhost:3306/cpe_database";
             Properties prop = new Properties();
@@ -68,9 +70,12 @@ public class StudentGraph extends Program {
             stat = con.createStatement();
             stat.execute("USE cpe_database;");
             System.out.println("use cpe_database");
-            ResultSet resultSet = stat.executeQuery("SELECT id FROM students;");
-            resultSet.first();
-            name = resultSet.getString(1);
+            if(id.equals("")){
+                ResultSet resultSet = stat.executeQuery("SELECT id FROM students;");
+                resultSet.first();
+                name = resultSet.getString(1);
+            }
+            else name=id;
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
@@ -326,7 +331,7 @@ public class StudentGraph extends Program {
     }
     
     public static void main(String[] args) {
-        new StudentGraph().start();
+        new StudentGraph("").start();
     }
  
 }

@@ -69,7 +69,7 @@ public class QC_Screen extends javax.swing.JFrame {
     public void btnConfig(JButton btn,int indent){
         btn.setFont(font);
         btn.setHorizontalAlignment(JLabel.LEFT);
-        btn.setSize(MainPane.getWidth()-50-indent*2, height);
+        btn.setSize(850-indent*2, height);
         btn.setLocation(btn.getX()+indent*2,btn.getY()+space);
         space=space+height;
     }
@@ -79,6 +79,7 @@ public class QC_Screen extends javax.swing.JFrame {
         MainPane.removeAll();
         MainPane.revalidate();
         MainPane.repaint();
+        MainPane.setPreferredSize(new Dimension(MainPane.getWidth(),MainPane.getHeight()));
         ScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         for (int i=1;i<list.size()+1;i++){
             courseBtn = new JButton(list.get(i-1)+" Department");
@@ -104,7 +105,7 @@ public class QC_Screen extends javax.swing.JFrame {
                             public void run() {
                                 JFrame frame = new JFrame();
                                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                                StudentGraph studentGraph = new StudentGraph();
+                                StudentGraph studentGraph = new StudentGraph("");
                                 frame.add(studentGraph);
                                 frame.setVisible(true);
                                 frame.setSize(750,600);
@@ -176,7 +177,10 @@ public class QC_Screen extends javax.swing.JFrame {
 
         ScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
+        MainPane.setMaximumSize(new java.awt.Dimension(498, 1000));
+        MainPane.setMinimumSize(new java.awt.Dimension(498, 1000));
         MainPane.setPreferredSize(new java.awt.Dimension(498, 1000));
+        MainPane.setRequestFocusEnabled(false);
 
         javax.swing.GroupLayout MainPaneLayout = new javax.swing.GroupLayout(MainPane);
         MainPane.setLayout(MainPaneLayout);

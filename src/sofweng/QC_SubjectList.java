@@ -12,6 +12,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -413,6 +415,22 @@ public final class QC_SubjectList extends javax.swing.JFrame {
         for (int i=1;i<studentsList.size()+1;i++){
             fetchStudentInfo(studentsList.get(i-1),section);
             student = new JLabel(studentsList.get(i-1)+tab+tab+studentsInfoList);
+            student.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                     JLabel temp=(JLabel) e.getComponent();
+                     java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                JFrame frame = new JFrame();
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                StudentGraph studentGraph = new StudentGraph(temp.getText().substring(0,8));
+                                frame.add(studentGraph);
+                                frame.setVisible(true);
+                                frame.setSize(750,600);
+                                studentGraph.start(); 
+                            }
+                        });
+                }
+            });
             MainPane.add(student);
             student.setFont(font);
             student.setSize(MainPane.getWidth()-10,height);
