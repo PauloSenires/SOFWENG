@@ -486,12 +486,12 @@ public class AdminMainMenu extends javax.swing.JFrame {
         con = d.connect(url, prop);
         if(con==null)   
         {
-            //System.out.println("Connection Failed");
+            System.out.println("Connection Failed");
             return;
         }
         else
         {
-            //System.out.println("Connected");
+            System.out.println("Connected");
         }
     }
     

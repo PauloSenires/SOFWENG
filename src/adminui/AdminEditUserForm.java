@@ -512,14 +512,14 @@ public class AdminEditUserForm extends javax.swing.JFrame {
                 stat.executeUpdate("UPDATE users SET subject" + Integer.toString(index) + " = '" + subjects[a] + "' WHERE ID =" + mm.ID);
             }
             index = 1;
-            //stat.executeUpdate("UPDATE users SET Name = '" + NameField.getText() + "' WHERE ID =" + mm.ID);
-            //stat.executeUpdate("UPDATE users SET Password = '" + PasswordField.getText() + "' WHERE ID =" + mm.ID);
-            //stat.executeUpdate("UPDATE users SET email = '" + EmailField.getText() + "' WHERE ID =" + mm.ID);
-            //stat.executeUpdate("UPDATE users SET contact = '" + ContactField.getText() + "' WHERE ID =" + mm.ID);
-            //stat.executeUpdate("UPDATE users SET gender = '" + GenderField.getText() + "' WHERE ID =" + mm.ID);
-            //stat.executeUpdate("UPDATE users SET pin = '" + PinField.getText() + "' WHERE ID =" + mm.ID);
-            //stat.executeUpdate("UPDATE users SET level = " + LevelField.getText() + " WHERE ID =" + mm.ID);
-            //stat.executeUpdate("UPDATE users SET department = '" + DepartmentField.getText() + "' WHERE ID =" + mm.ID);
+            stat.executeUpdate("UPDATE users SET Name = '" + NameField.getText() + "' WHERE ID =" + mm.ID);
+            stat.executeUpdate("UPDATE users SET Password = '" + PasswordField.getText() + "' WHERE ID =" + mm.ID);
+            stat.executeUpdate("UPDATE users SET email = '" + EmailField.getText() + "' WHERE ID =" + mm.ID);
+            stat.executeUpdate("UPDATE users SET contact = '" + ContactField.getText() + "' WHERE ID =" + mm.ID);
+            stat.executeUpdate("UPDATE users SET gender = '" + GenderField.getText() + "' WHERE ID =" + mm.ID);
+            stat.executeUpdate("UPDATE users SET pin = '" + PinField.getText() + "' WHERE ID =" + mm.ID);
+            stat.executeUpdate("UPDATE users SET level = " + LevelField.getText() + " WHERE ID =" + mm.ID);
+            stat.executeUpdate("UPDATE users SET department = '" + DepartmentField.getText() + "' WHERE ID =" + mm.ID);
             JOptionPane.showMessageDialog(null, "Editing User Success", "Success", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         }
@@ -584,12 +584,12 @@ public class AdminEditUserForm extends javax.swing.JFrame {
         con = d.connect(url, prop);
         if(con==null)   
         {
-            //System.out.println("Connection Failed");
+            System.out.println("Connection Failed");
             return;
         }
         else
         {
-            //System.out.println("Connected");
+            System.out.println("Connected");
         }
     }
     
@@ -605,27 +605,27 @@ public class AdminEditUserForm extends javax.swing.JFrame {
         String[] real = new String[subject.length];
         for(int b = 0; b < real.length; b++)
         {
-            real[b] = subject[b].substring(0, 8);
+            real[b] = subject[b].substring(0, 7);
         }
         boolean checker = false;
         stat = con.createStatement();
         for(int a = 0; a < subject.length; a++)
         {
-            result = stat.executeQuery("SELECT Name FROM classes");
-            while(result.next())
+            ResultSet result1 = stat.executeQuery("SELECT * FROM classes");
+            while(result1.next())
             {
-                if(real[a].equals(result.getString("Name")))
+                if(real[a].equals(result1.getString("Name")))
                 {
                     checker = true;
-                    System.out.println(result.getString("Name"));
+                    //System.out.println("pumasok");
                     break;
                 }
             }
         }
-        System.out.println(subject.length);
-        System.out.println(real.length);
-        System.out.println(real[0]);
-        System.out.println(checker);
+        //System.out.println(subject.length);
+        //System.out.println(real.length);
+        //System.out.println(real[0]);
+        //System.out.println(checker);
         if(checker == false)
         {
             JOptionPane.showMessageDialog(null, "Subject input not existing on classes", "Error Input", JOptionPane.ERROR_MESSAGE);
