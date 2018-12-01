@@ -10,6 +10,7 @@ import javax.swing.*;
 import acm.graphics.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.text.DecimalFormat;
@@ -89,12 +90,12 @@ public class StudentGraph extends Program {
         previous.addActionListener(this);
         add(next, NORTH);
         next.addActionListener(this);
-        canvas.setSize(WIDTH, HEIGHT); 
+        canvas.setSize(WIDTH, HEIGHT);
         add(canvas); //the canvas will be the graph itself, data thrown from the database storage
         drawCanvas(name);
     }
-    
-    public void init(){
+
+    public void init() {
         this.resize(APPLICATION_WIDTH, APPLICATION_HEIGHT);
         this.setTitle(name);
     }

@@ -115,6 +115,10 @@ public class QC_Screen extends javax.swing.JFrame {
                         frame.add(studentGraph);
                         frame.setVisible(true);
                         frame.setSize(750, 600);
+                        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+                        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+                        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+                        frame.setLocation(x, y);
                         studentGraph.start();
                     }
                 });
