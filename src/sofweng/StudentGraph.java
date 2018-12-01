@@ -8,6 +8,8 @@ package sofweng;
 import acm.program.*;
 import javax.swing.*;
 import acm.graphics.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.text.DecimalFormat;
@@ -22,10 +24,10 @@ import java.util.Properties;
  */
 public class StudentGraph extends Program {
 
-    private final int APPLICATION_WIDTH = 650;
-    private final int APPLICATION_HEIGHT = 650;
-    private final int WIDTH = 650;
-    private final int HEIGHT = 650;
+    private final int APPLICATION_WIDTH = 800;
+    private final int APPLICATION_HEIGHT = 575;
+    private final int WIDTH = 800;
+    private final int HEIGHT = 600;
     private final int ovalDim = 40;
     private final int addWidth = 20;
     private final int numberSO = 12;
@@ -77,14 +79,6 @@ public class StudentGraph extends Program {
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
-        //actually needs to be an input thrown to this function
-        //remove the main here if interfaced correctly with the rest of the program
-        // then modify the constructor function: public StudentGraph(String IDNumber)
-
-        this.setSize(APPLICATION_WIDTH, APPLICATION_HEIGHT);
-        this.setTitle(name);
-        canvas.setSize(WIDTH, HEIGHT);
-        add(canvas); //the canvas will be the graph itself, data thrown from the database storage
         currentDisplay = new JLabel(display + name + spaces);
         add(currentDisplay, NORTH);
         add(label, NORTH);
@@ -95,8 +89,14 @@ public class StudentGraph extends Program {
         previous.addActionListener(this);
         add(next, NORTH);
         next.addActionListener(this);
-
+        canvas.setSize(WIDTH, HEIGHT); 
+        add(canvas); //the canvas will be the graph itself, data thrown from the database storage
         drawCanvas(name);
+    }
+    
+    public void init(){
+        this.resize(APPLICATION_WIDTH, APPLICATION_HEIGHT);
+        this.setTitle(name);
     }
 
     public void drawCanvas(String name) {
