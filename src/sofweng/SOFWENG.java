@@ -14,7 +14,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author Mave
@@ -27,29 +26,26 @@ public class SOFWENG {
     public static void main(String[] args) {
         try {
             // TODO code application logic here
-             update_database();
+            update_database();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SOFWENG.class.getName()).log(Level.SEVERE, null, ex);
         }
         Login login = new Login();
         login.show();
     }
+
     private static void update_database() throws FileNotFoundException {
-       Scanner dtb=new Scanner(new File("src\\cpe_database.txt"));
+        Scanner dtb = new Scanner(new File("src\\cpe_database.txt"));
         System.out.println("hello");
-       try
-       {           
+        try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/?" + "user=root&password=");
-            Statement data=conn.createStatement();
-            while(dtb.hasNext()){
+            Statement data = conn.createStatement();
+            while (dtb.hasNext()) {
                 data.addBatch(dtb.nextLine());
             }
             data.executeBatch();
-       }
-       catch(Exception e){
-           e.printStackTrace();
-       }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
-    
-

@@ -5,7 +5,6 @@
  */
 package sofweng;
 
-
 import com.mysql.jdbc.StringUtils;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -25,49 +24,50 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-
 public final class DC_FacultyList extends javax.swing.JFrame {
 
     /**
      * Creates new form SubjectList
      */
-    ArrayList<String> classList=new ArrayList<String>();
-    ArrayList<String> checkList=new ArrayList<String>();
-    ArrayList<String> check=new ArrayList<String>();
-    ArrayList<String> studentsList=new ArrayList<String>();
-    ArrayList<String> timeList=new ArrayList<String>();
-    String user="";
-    String tab="         ";
-    JLabel Header,info=null;
-    int space=0;
-    int height=40;
-    Font font = new Font("Arial", Font.BOLD,20);
-    
+    ArrayList<String> classList = new ArrayList<String>();
+    ArrayList<String> checkList = new ArrayList<String>();
+    ArrayList<String> check = new ArrayList<String>();
+    ArrayList<String> studentsList = new ArrayList<String>();
+    ArrayList<String> timeList = new ArrayList<String>();
+    String user = "";
+    String tab = "         ";
+    JLabel Header, info = null;
+    int space = 0;
+    int height = 40;
+    Font font = new Font("Arial", Font.BOLD, 20);
+
     public DC_FacultyList(String name) {
-        user=name;
+        user = name;
         initComponents();
         this.setSize(900, 700);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((size.width-this.getSize().width)/2,(size.height-this.getSize().height)/2);
+        this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
         SubjectName.setText(user);
         fetchClassList();
         isClassListComplete();
         viewClassList(0);
-        
+
     }
 
-    public void fetchClassList(){
+    public void fetchClassList() {
         classList.clear();
-        String text="";
+        String text = "";
         try {
             try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
-                text=text+"SELECT * FROM `users` WHERE name='"+user+"'";
+                text = text + "SELECT * FROM `users` WHERE name='" + user + "'";
                 PreparedStatement pst = conn.prepareStatement(text);
                 ResultSet rs = pst.executeQuery();
-                while(rs.next()) {
-                    for(int i=1;i<=10;i++){
-                        String str1 = rs.getString("subject"+i);
-                        if(!str1.equals("na")) classList.add(str1);
+                while (rs.next()) {
+                    for (int i = 1; i <= 10; i++) {
+                        String str1 = rs.getString("subject" + i);
+                        if (!str1.equals("na")) {
+                            classList.add(str1);
+                        }
                     }
                 }
                 Collections.sort(classList);
@@ -76,115 +76,126 @@ public final class DC_FacultyList extends javax.swing.JFrame {
             Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void fetchStudentsList(int count){
+
+    public void fetchStudentsList(int count) {
         studentsList.clear();
-        String text="";
+        String text = "";
         try {
             try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
-                int i=count;
-                text="SELECT `ID` FROM students WHERE";
-                for(int j=1;j<=10;j++){
-                    text=text + " (subject"+j+"= '"+classList.get(i-1).substring(0,7)+"' AND section"+j+"= '"+classList.get(i-1).substring(8)+"')";
-                    if(j!=10)text=text+" OR";
+                int i = count;
+                text = "SELECT `ID` FROM students WHERE";
+                for (int j = 1; j <= 10; j++) {
+                    text = text + " (subject" + j + "= '" + classList.get(i - 1).substring(0, 7) + "' AND section" + j + "= '" + classList.get(i - 1).substring(8) + "')";
+                    if (j != 10) {
+                        text = text + " OR";
+                    }
                 }
                 PreparedStatement pst = conn.prepareStatement(text);
                 ResultSet rs = pst.executeQuery();
-                while(rs.next()) {
+                while (rs.next()) {
                     String str1 = rs.getString("ID");
                     studentsList.add(str1);
                 }
             }
-            } catch (SQLException ex) {
-                Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    public String sortTime(String time1, String time2){
-        if(time2.equals("na"))return time1;
-        Integer[] index={6,0,3,9,12,15};
-        for(int i=0;i<6;i++){
-            if(Integer.parseInt(time1.substring(index[i],index[i]+1))>Integer.parseInt(time2.substring(index[i],index[i]+1))) return time1;
-            else if(Integer.parseInt(time1.substring(index[i],index[i]+1))<Integer.parseInt(time2.substring(index[i],index[i]+1))) return time2;
+
+    public String sortTime(String time1, String time2) {
+        if (time2.equals("na")) {
+            return time1;
+        }
+        Integer[] index = {6, 0, 3, 9, 12, 15};
+        for (int i = 0; i < 6; i++) {
+            if (Integer.parseInt(time1.substring(index[i], index[i] + 1)) > Integer.parseInt(time2.substring(index[i], index[i] + 1))) {
+                return time1;
+            } else if (Integer.parseInt(time1.substring(index[i], index[i] + 1)) < Integer.parseInt(time2.substring(index[i], index[i] + 1))) {
+                return time2;
+            }
         }
         return time1;
     }
-    
-    public void isClassListComplete(){
+
+    public void isClassListComplete() {
         checkList.clear();
         check.clear();
-        String text="";
-        String str1="";
-        String lateTime="00/00/00 00:00:00";
-        char submission=9632;
+        String text = "";
+        String str1 = "";
+        String lateTime = "00/00/00 00:00:00";
+        char submission = 9632;
         try {
             try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
-                for(int i=1;i<=classList.size();i++){
+                for (int i = 1; i <= classList.size(); i++) {
                     fetchStudentsList(i);
-                    for(int k=1;k<=studentsList.size();k++){
-                        for(int j=1;j<=10;j++){
-                            text="SELECT `time"+j+"` FROM students WHERE";
-                            text=text + " (subject"+j+"= '"+classList.get(i-1).substring(0,7)+"') AND";
-                            text=text+" (section"+j+"= '"+classList.get(i-1).substring(8)+"') AND";
-                            text=text+" ID='"+studentsList.get(k-1)+"'";
+                    for (int k = 1; k <= studentsList.size(); k++) {
+                        for (int j = 1; j <= 10; j++) {
+                            text = "SELECT `time" + j + "` FROM students WHERE";
+                            text = text + " (subject" + j + "= '" + classList.get(i - 1).substring(0, 7) + "') AND";
+                            text = text + " (section" + j + "= '" + classList.get(i - 1).substring(8) + "') AND";
+                            text = text + " ID='" + studentsList.get(k - 1) + "'";
                             PreparedStatement pst = conn.prepareStatement(text);
                             ResultSet rs = pst.executeQuery();
-                            while(rs.next()) { 
-                                str1 = rs.getString("time"+j);
-                                lateTime=sortTime(lateTime, str1);
-                                if(str1.equals("na")) submission=9633;
+                            while (rs.next()) {
+                                str1 = rs.getString("time" + j);
+                                lateTime = sortTime(lateTime, str1);
+                                if (str1.equals("na")) {
+                                    submission = 9633;
+                                }
                             }
                         }
                     }
-                    if(str1.equals("na"))str1="";
+                    if (str1.equals("na")) {
+                        str1 = "";
+                    }
                     timeList.add(str1);
-                    str1="";
-                    checkList.add(submission+"");
-                    check.add((submission-9632)+"");
+                    str1 = "";
+                    checkList.add(submission + "");
+                    check.add((submission - 9632) + "");
                 }
             }
-            } catch (SQLException ex) {
-                Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QC_Screen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    public char isFacultyListComplete(String name){
-        user=name;
+
+    public char isFacultyListComplete(String name) {
+        user = name;
         fetchClassList();
         isClassListComplete();
-        if(check.contains("1")){
+        if (check.contains("1")) {
             return 9633;
         }
         System.out.println(checkList.toString());
         return 9632;
     }
-    
-    public void btnConfig(JButton btn){
+
+    public void btnConfig(JButton btn) {
         btn.setFont(font);
         btn.setHorizontalAlignment(JLabel.LEFT);
-        btn.setSize(900/3-50, height);
-        btn.setLocation(btn.getX()+btn.getWidth(),btn.getY()+space);
-        space=space+height; 
+        btn.setSize(900 / 3 - 50, height);
+        btn.setLocation(btn.getX() + btn.getWidth(), btn.getY() + space);
+        space = space + height;
     }
-    
-    public void viewClassList(int open){
+
+    public void viewClassList(int open) {
         MainPane.removeAll();
         MainPane.revalidate();
         MainPane.repaint();
         ScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         Header = new JLabel("Course             Section              Submitted            Date and Time submitted");
         Header.setFont(font);
-        Header.setSize(MainPane.getWidth()-50, height);
+        Header.setSize(MainPane.getWidth() - 50, height);
         MainPane.add(Header);
         Header.setFont(font);
-        Header.setLocation(Header.getX()+100, Header.getY());
-        space=space+height;
+        Header.setLocation(Header.getX() + 100, Header.getY());
+        space = space + height;
         generateSection();
-        Dimension size = new Dimension(900,space);
+        Dimension size = new Dimension(900, space);
         MainPane.setPreferredSize(size);
-        space=0;
+        space = 0;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -268,36 +279,34 @@ public final class DC_FacultyList extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
-    public void generateSection(){
-        for (int i=1;i<classList.size()+1;i++){
-            for(int j=0;j<4;j++){
-                switch(j){
-                case(0):
-                    info = new JLabel(classList.get(i-1).substring(0,7));
-                    break;
-                case(1):
-                    info = new JLabel(classList.get(i-1).substring(8));
-                    break;
-                case(2):
-                    info = new JLabel(checkList.get(i-1));
-                    break;
-                case(3):
-                    info = new JLabel(timeList.get(i-1));
-                    break;
-                default:
-                    info = new JLabel("");
-                    break;
+    public void generateSection() {
+        for (int i = 1; i < classList.size() + 1; i++) {
+            for (int j = 0; j < 4; j++) {
+                switch (j) {
+                    case (0):
+                        info = new JLabel(classList.get(i - 1).substring(0, 7));
+                        break;
+                    case (1):
+                        info = new JLabel(classList.get(i - 1).substring(8));
+                        break;
+                    case (2):
+                        info = new JLabel(checkList.get(i - 1));
+                        break;
+                    case (3):
+                        info = new JLabel(timeList.get(i - 1));
+                        break;
+                    default:
+                        info = new JLabel("");
+                        break;
                 }
-                info.setLocation(100+170*j,40*i);
+                info.setLocation(100 + 170 * j, 40 * i);
                 MainPane.add(info);
                 info.setFont(font);
-                info.setSize(MainPane.getWidth()-10,height);
+                info.setSize(MainPane.getWidth() - 10, height);
             }
         }
     }
-  
-    
+
     /**
      * @param args the command line arguments
      */

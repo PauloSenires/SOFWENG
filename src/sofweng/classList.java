@@ -12,13 +12,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 /**
@@ -26,9 +24,10 @@ import javax.swing.ScrollPaneConstants;
  * @author PauloSenires
  */
 public class classList extends javax.swing.JFrame {
-    String subject="ENGALG1";
-    String section="EJ";
-    String student="11500001";
+
+    String subject = "ENGALG1";
+    String section = "EJ";
+    String student = "11500001";
     String[] students;
     JLabel[] studentLabelList;
     JLabel[] finalGradesList;
@@ -36,27 +35,29 @@ public class classList extends javax.swing.JFrame {
     JButton[] buttonList;
     String[] finalGrades;
     String[] soGrades;
-    
+
     int noStudents = 0;
-    int count=0;
+    int count = 0;
+
     /**
      * Creates new form classList
      */
     public classList() throws SQLException {
         initComponents();
-        fetchStudents(subject,section);
+        fetchStudents(subject, section);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
-        
+
     }
+
     public classList(String subject, String section) throws SQLException {
         initComponents();
         this.subject = subject;
         this.section = section;
-        fetchStudents(subject,section);
+        fetchStudents(subject, section);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
-        
+
     }
 
     /**
@@ -185,7 +186,8 @@ public class classList extends javax.swing.JFrame {
             }
         });
     }
-    public void fetchStudents(String subject, String section) throws SQLException{
+
+    public void fetchStudents(String subject, String section) throws SQLException {
         secLabel.setText(section);
         subLabel.setText(subject);
         try {
@@ -194,86 +196,84 @@ public class classList extends javax.swing.JFrame {
             finalGrades = new String[45];
             soGrades = new String[45];
             java.lang.Class.forName("com.mysql.jdbc.Driver");
-            
+
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-            
-            for(int i=1;i<11;i++){
-            PreparedStatement pst = conn.prepareStatement("Select * from students where subject"+i+" = ? AND section"+i+" = ?");
-            pst.setString(1,subject);
-            pst.setString(2,section);
-            ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {      
-            students[count] = rs.getString("ID");
-            finalGrades[count]=rs.getString("grade"+i);
-            soGrades[count]=rs.getString("so"+i);
-            count++;
-            
-            
-            }
+
+            for (int i = 1; i < 11; i++) {
+                PreparedStatement pst = conn.prepareStatement("Select * from students where subject" + i + " = ? AND section" + i + " = ?");
+                pst.setString(1, subject);
+                pst.setString(2, section);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    students[count] = rs.getString("ID");
+                    finalGrades[count] = rs.getString("grade" + i);
+                    soGrades[count] = rs.getString("so" + i);
+                    count++;
+                }
             }
             System.out.println(count);
             studentLabelList = new JLabel[count];
             finalGradesList = new JLabel[count];
             soGradesList = new JLabel[count];
             buttonList = new JButton[count];
-            displayPanel.setLayout(new GridLayout(5,1));
-            for (int i=0;i<(count);i++) {
+            displayPanel.setLayout(new GridLayout(5, 1));
+            for (int i = 0; i < (count); i++) {
                 JLabel studentLabel = new JLabel(students[i]);
-                studentLabelList[i]=studentLabel;
+                studentLabelList[i] = studentLabel;
                 studentLabel.setVisible(true);
-               displayPanel.add(studentLabel);
-               
-               JLabel finalGradesLabel = new JLabel(finalGrades[i]);
-                finalGradesList[i]=finalGradesLabel;
+                displayPanel.add(studentLabel);
+
+                JLabel finalGradesLabel = new JLabel(finalGrades[i]);
+                finalGradesList[i] = finalGradesLabel;
                 finalGradesLabel.setVisible(true);
-               displayPanel.add(finalGradesLabel);
-               
-               JLabel soGradesLabel = new JLabel(soGrades[i]);
-                soGradesList[i]=soGradesLabel;
+                displayPanel.add(finalGradesLabel);
+
+                JLabel soGradesLabel = new JLabel(soGrades[i]);
+                soGradesList[i] = soGradesLabel;
                 soGradesLabel.setVisible(true);
-               displayPanel.add(soGradesLabel);
-               
-               JButton editButton = new javax.swing.JButton();
-                editButton.setText("edit: "+students[i]);
+                displayPanel.add(soGradesLabel);
+
+                JButton editButton = new javax.swing.JButton();
+                editButton.setText("edit: " + students[i]);
                 editButton.setSize(5, 3);
                 editButton.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-                for (int j=0;j<count;j++){
-                        if(evt.getActionCommand().contains("edit: "+students[j])){
-                            
-                            student=students[(j)];
-                            try {
-                                editButtonActionPerformed(evt, student);
-                            } catch (SQLException ex) {
-                                Logger.getLogger(classList.class.getName()).log(Level.SEVERE, null, ex);
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                        for (int j = 0; j < count; j++) {
+                            if (evt.getActionCommand().contains("edit: " + students[j])) {
+
+                                student = students[(j)];
+                                try {
+                                    editButtonActionPerformed(evt, student);
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(classList.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
                         }
                     }
-                }
                 });
-                buttonList[i]=editButton;
+                buttonList[i] = editButton;
                 editButton.setVisible(true);
-               displayPanel.add(editButton);
+                displayPanel.add(editButton);
             }
-            
+
             displayPane.validate();
             displayPane.repaint();
-        } 
-            catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(classList.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void editButtonActionPerformed(java.awt.event.ActionEvent evt, String student) throws SQLException {                                           
+
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt, String student) throws SQLException {
         // TODO add your handling code here:
         System.out.println(subject);
         System.out.println(student);
         InputGrades inputGradesWindow = new InputGrades(student, subject, section);
         inputGradesWindow.setVisible(true);
         inputGradesWindow.setLocationRelativeTo(this);
-        
-    }  
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane displayPane;
     private javax.swing.JPanel displayPanel;

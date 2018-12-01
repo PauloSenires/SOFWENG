@@ -10,25 +10,28 @@ package sofweng;
  * @author Mave
  */
 public class User {
-    public User(){
-        
+
+    public User() {
+
     }
-    public String idNumber="";
-    private String passWord="";
-    public String emailAddress="";
+    public String idNumber = "";
+    private String passWord = "";
+    public String emailAddress = "";
     public String name = "";
     public String department = "";
     public String contactNumber = "";
     public String securityPIN = "";
-    public String accessLevel ="";
-    
-    public void LogIn(){
-        
+    public String accessLevel = "";
+
+    public void LogIn() {
+
     }
-    public void Register(){
-        
+
+    public void Register() {
+
     }
-    public String getPass(){
+
+    public String getPass() {
         return passWord;
     }
 }

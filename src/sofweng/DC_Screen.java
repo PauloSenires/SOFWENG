@@ -1,4 +1,5 @@
 package sofweng;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,9 +8,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*; 
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author iwcnrlee1
@@ -19,29 +21,29 @@ public class DC_Screen extends javax.swing.JFrame {
     /**
      * Creates new form QualityCoordinator
      */
-    ArrayList<String> courseList=new ArrayList<String>();
-    ArrayList<String> userList=new ArrayList<String>();
+    ArrayList<String> courseList = new ArrayList<String>();
+    ArrayList<String> userList = new ArrayList<String>();
     public int count;
     JButton courseBtn, facultyBtn;
-    int height= 40; //Height of Buttons
-    int space=0;
-    Font font = new Font("Arial", Font.BOLD,20);
-    
+    int height = 40; //Height of Buttons
+    int space = 0;
+    Font font = new Font("Arial", Font.BOLD, 20);
+
     public DC_Screen() {
         initComponents();
         this.setSize(900, 700);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((size.width-this.getSize().width)/2,(size.height-this.getSize().height)/2);
+        this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
         fetchCourseList();
-        viewCourseList(courseList,0);
+        viewCourseList(courseList, 0);
     }
-    
-    public void fetchCourseList(){
+
+    public void fetchCourseList() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
             PreparedStatement pst = conn.prepareStatement("Select distinct department from `classes` order by department");
             ResultSet rs = pst.executeQuery();
-            while(rs.next()) { 
+            while (rs.next()) {
                 String str1 = rs.getString("department");
                 courseList.add(str1);
             }
@@ -50,13 +52,13 @@ public class DC_Screen extends javax.swing.JFrame {
             Logger.getLogger(DC_Screen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void fetchUserList(int count){
+
+    public void fetchUserList(int count) {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-            PreparedStatement pst = conn.prepareStatement("SELECT name FROM `users` WHERE Department='"+courseList.get(count-1)+"'");
+            PreparedStatement pst = conn.prepareStatement("SELECT name FROM `users` WHERE Department='" + courseList.get(count - 1) + "'");
             ResultSet rs = pst.executeQuery();
-            while(rs.next()) { 
+            while (rs.next()) {
                 String str1 = rs.getString("name");
                 userList.add(str1);
             }
@@ -65,76 +67,80 @@ public class DC_Screen extends javax.swing.JFrame {
             Logger.getLogger(DC_Screen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void btnConfig(JButton btn,int indent){
+
+    public void btnConfig(JButton btn, int indent) {
         btn.setFont(font);
         btn.setHorizontalAlignment(JLabel.LEFT);
-        btn.setSize(MainPane.getWidth()-50-indent*2, height);
-        btn.setLocation(btn.getX()+indent*2,btn.getY()+space);
-        space=space+height;
+        btn.setSize(MainPane.getWidth() - 50 - indent * 2, height);
+        btn.setLocation(btn.getX() + indent * 2, btn.getY() + space);
+        space = space + height;
     }
-    
-    
-    public void viewCourseList(ArrayList list, int open){
+
+    public void viewCourseList(ArrayList list, int open) {
         MainPane.removeAll();
         MainPane.revalidate();
         MainPane.repaint();
         ScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        for (int i=1;i<list.size()+1;i++){
-            courseBtn = new JButton(list.get(i-1)+" Department");
+        for (int i = 1; i < list.size() + 1; i++) {
+            courseBtn = new JButton(list.get(i - 1) + " Department");
             courseBtn.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    for (int j=0;j<list.size();j++){
-                        if(e.getActionCommand().contains(""+list.get(j))){
-                            if(count==j+1) count=0;
-                            else count=j+1;
-                            viewCourseList(list,count);
+                    for (int j = 0; j < list.size(); j++) {
+                        if (e.getActionCommand().contains("" + list.get(j))) {
+                            if (count == j + 1) {
+                                count = 0;
+                            } else {
+                                count = j + 1;
+                            }
+                            viewCourseList(list, count);
                         }
                     }
                 }
             });
             MainPane.add(courseBtn);
-            btnConfig(courseBtn,0);
-            if(count==i) generateUsers(i);
+            btnConfig(courseBtn, 0);
+            if (count == i) {
+                generateUsers(i);
+            }
         }
-        Dimension size = new Dimension(900,space);
+        Dimension size = new Dimension(900, space);
         MainPane.setPreferredSize(size);
-        space=0;
-        
+        space = 0;
+
     }
-    
-    public void generateUsers(int count){
+
+    public void generateUsers(int count) {
         userList.clear();
         fetchUserList(count);
         JLabel header = new JLabel("Faculty List:");
         header.setFont(font);
-        header.setSize(MainPane.getWidth(),height);
-        header.setLocation(header.getX()+50,header.getY()+space);
-        space=space+height;
+        header.setSize(MainPane.getWidth(), height);
+        header.setLocation(header.getX() + 50, header.getY() + space);
+        space = space + height;
         MainPane.add(header);
-        for(int i=1;i<userList.size()+1;i++){
+        for (int i = 1; i < userList.size() + 1; i++) {
             DC_FacultyList check = new DC_FacultyList("");
             check.classList.clear();
-            facultyBtn = new JButton(userList.get(i-1));
-            facultyBtn.setText(facultyBtn.getText()+"   "+check.isFacultyListComplete(userList.get(i-1)));
-                facultyBtn.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        for (int j=0;j<userList.size();j++){
-                            if(e.getActionCommand().contains(""+userList.get(j))){
-                                String user=userList.get(j);
-                                java.awt.EventQueue.invokeLater(new Runnable() {
-                                    public void run() {
-                                        new DC_FacultyList(user).setVisible(true);
-                                        dispose();
-                                    }
-                                });
-                            }
+            facultyBtn = new JButton(userList.get(i - 1));
+            facultyBtn.setText(facultyBtn.getText() + "   " + check.isFacultyListComplete(userList.get(i - 1)));
+            facultyBtn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    for (int j = 0; j < userList.size(); j++) {
+                        if (e.getActionCommand().contains("" + userList.get(j))) {
+                            String user = userList.get(j);
+                            java.awt.EventQueue.invokeLater(new Runnable() {
+                                public void run() {
+                                    new DC_FacultyList(user).setVisible(true);
+                                    dispose();
+                                }
+                            });
                         }
                     }
-                });
-                MainPane.add(facultyBtn);
-                btnConfig(facultyBtn,25);
-                facultyBtn.setVisible(true);
+                }
+            });
+            MainPane.add(facultyBtn);
+            btnConfig(facultyBtn, 25);
+            facultyBtn.setVisible(true);
         }
     }
 
@@ -291,7 +297,6 @@ public class DC_Screen extends javax.swing.JFrame {
             }
         });
     }
-    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

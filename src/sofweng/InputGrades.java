@@ -23,13 +23,15 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 /**
  *
  * @author PauloSenires
  */
 public class InputGrades extends javax.swing.JFrame {
-    public String ID  = "11500001";
-    public String subject  = "BASICEE";
+
+    public String ID = "11500001";
+    public String subject = "BASICEE";
     public String section = "EE";
     public String soGrade = "";
     public String rawScores = "";
@@ -40,9 +42,10 @@ public class InputGrades extends javax.swing.JFrame {
     public String[] soGradesList;
     public String[] rawScoresList;
     public JTextField[] soGradeFieldList;
-    int soCount=0;
-    int subjectCount=0;
-    int qaScore,feScore,pgScore,ogScore;
+    int soCount = 0;
+    int subjectCount = 0;
+    int qaScore, feScore, pgScore, ogScore;
+
     /**
      * Creates new form InputGrades
      */
@@ -52,18 +55,19 @@ public class InputGrades extends javax.swing.JFrame {
         fetchStudent(ID);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
-        
+
     }
-    public InputGrades(String ID,String subject, String sec) throws SQLException {
+
+    public InputGrades(String ID, String subject, String sec) throws SQLException {
         this.ID = ID;
         this.subject = subject;
-        section=sec;
+        section = sec;
         initComponents();
         fetchSOs(subject);
         fetchStudent(ID);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
-        
+
     }
 
     /**
@@ -344,46 +348,45 @@ public class InputGrades extends javax.swing.JFrame {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
-        soGrade="";
+        soGrade = "";
         soGradesList = new String[soCount];
         gradesList = new String[soCount];
         for (int i = 0; i < soCount; i++) {
-                soGradesList[i]=soGradeFieldList[i].getText();
-                if(i<soCount-1){
-                soGrade=soGrade+soGradesList[i]+",";
-                }
-                else{
-                soGrade=soGrade+soGradesList[i];    
-                }
+            soGradesList[i] = soGradeFieldList[i].getText();
+            if (i < soCount - 1) {
+                soGrade = soGrade + soGradesList[i] + ",";
+            } else {
+                soGrade = soGrade + soGradesList[i];
+            }
         }
-        qaScore=Integer.parseInt(quizAverage.getText())*Integer.parseInt(bdArray[0])/100;
-        feScore=Integer.parseInt(finalExam.getText())*Integer.parseInt(bdArray[1])/100;
-        pgScore=Integer.parseInt(projectGrade.getText())*Integer.parseInt(bdArray[2])/100;
-        ogScore=Integer.parseInt(othersGrade.getText())*Integer.parseInt(bdArray[3])/100;
-        rawScores=(quizAverage.getText()+","+finalExam.getText()+","+projectGrade.getText()+","+othersGrade.getText());
-        int totalGrade= qaScore+feScore+pgScore+ogScore;
-        if(totalGrade>=95){
-            finalGrade=(float) 4.0;
-        }else if(totalGrade>=90&&totalGrade<95){
+        qaScore = Integer.parseInt(quizAverage.getText()) * Integer.parseInt(bdArray[0]) / 100;
+        feScore = Integer.parseInt(finalExam.getText()) * Integer.parseInt(bdArray[1]) / 100;
+        pgScore = Integer.parseInt(projectGrade.getText()) * Integer.parseInt(bdArray[2]) / 100;
+        ogScore = Integer.parseInt(othersGrade.getText()) * Integer.parseInt(bdArray[3]) / 100;
+        rawScores = (quizAverage.getText() + "," + finalExam.getText() + "," + projectGrade.getText() + "," + othersGrade.getText());
+        int totalGrade = qaScore + feScore + pgScore + ogScore;
+        if (totalGrade >= 95) {
+            finalGrade = (float) 4.0;
+        } else if (totalGrade >= 90 && totalGrade < 95) {
             finalGrade = (float) 3.5;
-        }else if(totalGrade>=85&&totalGrade<90){
+        } else if (totalGrade >= 85 && totalGrade < 90) {
             finalGrade = (float) 3.0;
-        }else if(totalGrade>=80&&totalGrade<85){
+        } else if (totalGrade >= 80 && totalGrade < 85) {
             finalGrade = (float) 2.5;
-        }else if(totalGrade>=75&&totalGrade<80){
+        } else if (totalGrade >= 75 && totalGrade < 80) {
             finalGrade = (float) 2.0;
-        }else if(totalGrade>=70&&totalGrade<75){
+        } else if (totalGrade >= 70 && totalGrade < 75) {
             finalGrade = (float) 1.5;
-        }else if(totalGrade>=65&&totalGrade<70){
+        } else if (totalGrade >= 65 && totalGrade < 70) {
             finalGrade = (float) 1.0;
-        }else if(totalGrade<65){
+        } else if (totalGrade < 65) {
             finalGrade = (float) 0.0;
         }
         //System.out.println(totalGrade);
         finalGradeLabel.setText(String.valueOf(finalGrade));
         //System.out.println(soGrade);
-        
-        try {    
+
+        try {
             updateDatabase(ID);
         } catch (SQLException ex) {
             Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
@@ -396,7 +399,7 @@ public class InputGrades extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        
+
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -438,131 +441,132 @@ public class InputGrades extends javax.swing.JFrame {
             }
         });
     }
-    private void fetchSOs(String subject) throws SQLException{
+
+    private void fetchSOs(String subject) throws SQLException {
         try {
             java.lang.Class.forName("com.mysql.jdbc.Driver");
-            
+
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-            
+
             PreparedStatement pst = conn.prepareStatement("Select * from classes where Name = ?");
-            pst.setString(1,subject);
+            pst.setString(1, subject);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            
+
             String studentOutcomes = rs.getString("SO");
             String[] soArray = studentOutcomes.split(",");
             //System.out.println("" + soArray);
-            
+
             String breakDown = rs.getString("percent");
             String[] breakdownArray = breakDown.split(",");
             //System.out.println("" + breakdownArray);
-            qaPercentageLabel.setText(breakdownArray[0]+"%");
-            fePercentageLabel.setText(breakdownArray[1]+"%");
-            pgPercentageLabel.setText(breakdownArray[2]+"%");
-            ogPercentageLabel.setText(breakdownArray[3]+"%");
-            bdArray=breakdownArray;
-            
+            qaPercentageLabel.setText(breakdownArray[0] + "%");
+            fePercentageLabel.setText(breakdownArray[1] + "%");
+            pgPercentageLabel.setText(breakdownArray[2] + "%");
+            ogPercentageLabel.setText(breakdownArray[3] + "%");
+            bdArray = breakdownArray;
+
             //System.out.println(soArray.length);
             soList = new String[soArray.length];
             soGradeFieldList = new JTextField[soArray.length];
             for (int i = 0; i < soArray.length; i++) {
-                soList[i]=("SO "+(soArray[i]));
+                soList[i] = ("SO " + (soArray[i]));
                 //System.out.println(soList[i]);
             }
-            soPanel.setLayout(new GridLayout(5,1));
-            
+            soPanel.setLayout(new GridLayout(5, 1));
+
             for (String studentOutcome : soList) {
                 JLabel soLabel = new JLabel(studentOutcome);
                 JTextField soTextField = new JTextField();
-                soGradeFieldList[soCount]=soTextField;
+                soGradeFieldList[soCount] = soTextField;
                 soLabel.setVisible(true);
-               soPanel.add(soLabel);
-               soPanel.add(soTextField);
-               soCount++;
+                soPanel.add(soLabel);
+                soPanel.add(soTextField);
+                soCount++;
             }
-            
+
             soPanel.validate();
             soPanel.repaint();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void fetchStudent(String ID) throws SQLException{
+
+    private void fetchStudent(String ID) throws SQLException {
         try {
             java.lang.Class.forName("com.mysql.jdbc.Driver");
-            
+
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-            
+
             PreparedStatement pst = conn.prepareStatement("Select * from students where ID = ?");
-            pst.setString(1,ID);
+            pst.setString(1, ID);
             ResultSet rs = pst.executeQuery();
-            rs.next();          
-            
-            while(!subject.equals(rs.getString("subject"+(subjectCount+1))) && subjectCount<10){
+            rs.next();
+
+            while (!subject.equals(rs.getString("subject" + (subjectCount + 1))) && subjectCount < 10) {
                 //System.out.println(rs.getString("subject"+(subjectCount+1)));
                 subjectCount++;
-                if(subjectCount==10){
+                if (subjectCount == 10) {
                     break;
                 }
             }
-            section= rs.getString("section"+(subjectCount+1));
+            section = rs.getString("section" + (subjectCount + 1));
             subjectLabel.setText(subject);
             studentNumberLabel.setText(ID);
             sectionLabel.setText(section);
-            
-            if(rs.getString("grade"+(subjectCount+1)).equals("na")||rs.getString("grade"+(subjectCount+1))==null){
-                finalGrade=(float)0.0;
-            }else{
-            finalGrade=parseFloat(rs.getString("grade"+(subjectCount+1)));
+
+            if (rs.getString("grade" + (subjectCount + 1)).equals("na") || rs.getString("grade" + (subjectCount + 1)) == null) {
+                finalGrade = (float) 0.0;
+            } else {
+                finalGrade = parseFloat(rs.getString("grade" + (subjectCount + 1)));
             }
             finalGradeLabel.setText(String.valueOf(finalGrade));
-            
-            rawScores=rs.getString("rawScore"+(subjectCount+1));
-            if(rawScores.equals("na")||rawScores==null){
-                rawScores="0,0,0,0";
+
+            rawScores = rs.getString("rawScore" + (subjectCount + 1));
+            if (rawScores.equals("na") || rawScores == null) {
+                rawScores = "0,0,0,0";
             }
             String[] rawScoresArray = rawScores.split(",");
             quizAverage.setText(rawScoresArray[0]);
             finalExam.setText(rawScoresArray[1]);
             projectGrade.setText(rawScoresArray[2]);
             othersGrade.setText(rawScoresArray[3]);
-            
-            String studentOutcomes = rs.getString("so"+(subjectCount+1));
+
+            String studentOutcomes = rs.getString("so" + (subjectCount + 1));
             System.out.println(studentOutcomes);
             String[] soGradesArray = studentOutcomes.split(",");
             System.out.println(Arrays.toString(soGradesArray));
-            if(soGradesArray.length>1){
-            for(int i=0;i<soCount;i++){
-            soGradeFieldList[i].setText(soGradesArray[i]);
+            if (soGradesArray.length > 1) {
+                for (int i = 0; i < soCount; i++) {
+                    soGradeFieldList[i].setText(soGradesArray[i]);
+                }
             }
-            }
-            
-            
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void updateDatabase(String ID) throws SQLException{
+
+    public void updateDatabase(String ID) throws SQLException {
         try {
             java.lang.Class.forName("com.mysql.jdbc.Driver");
-            
+
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=");
-            
+
             Statement data = conn.createStatement();
             data.execute("use cpe_database;");
-            data.execute("update students set so"+(subjectCount+1)+"='" + soGrade + "' where ID ='" + ID + "';");
-            data.execute("update students set grade"+(subjectCount+1)+"='" + finalGrade + "' where ID='" + ID + "';");
-            data.execute("update students set rawScore"+(subjectCount+1)+"='" + rawScores + "' where ID='" + ID + "';");
-            
+            data.execute("update students set so" + (subjectCount + 1) + "='" + soGrade + "' where ID ='" + ID + "';");
+            data.execute("update students set grade" + (subjectCount + 1) + "='" + finalGrade + "' where ID='" + ID + "';");
+            data.execute("update students set rawScore" + (subjectCount + 1) + "='" + rawScores + "' where ID='" + ID + "';");
+
             String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
             //System.out.println(timeStamp);
-            data.execute("update students set time"+(subjectCount+1)+"='" + timeStamp + "' where ID='" + ID + "';");
+            data.execute("update students set time" + (subjectCount + 1) + "='" + timeStamp + "' where ID='" + ID + "';");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JLabel fePercentageLabel;

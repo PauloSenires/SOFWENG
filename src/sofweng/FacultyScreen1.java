@@ -39,20 +39,20 @@ public class FacultyScreen1 extends javax.swing.JFrame {
      * Creates new form Faculty
      */
     public FacultyScreen1() throws SQLException {
-this.setSize(900, 700);
+        this.setSize(900, 700);
         initComponents();
         fetchInfo(ID);
         this.setSize(900, 700);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
-        
+
     }
 
     public FacultyScreen1(String ID) throws SQLException {
         this.setSize(900, 700);
         initComponents();
         fetchInfo(ID);
-        
+
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
 
@@ -259,7 +259,7 @@ this.setSize(900, 700);
         jTree2.setModel(new javax.swing.tree.DefaultTreeModel(root2));
         jTree1.setToggleClickCount(0);
         jTree2.setToggleClickCount(0);
-        
+
         DefaultTreeCellRenderer renderer1 = (DefaultTreeCellRenderer) jTree1.getCellRenderer();
         renderer1.setLeafIcon(renderer1.getClosedIcon());
         DefaultTreeCellRenderer renderer2 = (DefaultTreeCellRenderer) jTree2.getCellRenderer();
@@ -287,35 +287,33 @@ this.setSize(900, 700);
                 //do this once for every subject with a student (this assumes that every class has a student)
                 int subjectNumber = 0;
                 boolean isSubmitted = false;
-                
+
                 //continue moving the pointer
                 while (rs.next()) {
                     String id = rs.getString("ID");
                     DefaultMutableTreeNode student = new DefaultMutableTreeNode(id);
-                    
-                    
-                //find the subject number
-                
-                for (int i = 1; i < 11; i++) {
-                    if(rs.getString("subject"+i).equalsIgnoreCase(subj)){
-                        subjectNumber =i;
+
+                    //find the subject number
+                    for (int i = 1; i < 11; i++) {
+                        if (rs.getString("subject" + i).equalsIgnoreCase(subj)) {
+                            subjectNumber = i;
+                        }
+                    }
+//                System.out.println(subjectNumber + " "+subj);
+                    //check if there is a submission for this subject
+                    String submissionTime = rs.getString("time" + subjectNumber);
+//                    System.out.println(submissionTime + " "+subj);
+                    if (submissionTime.equals("na")) {
+                        temp1.add(student);
+
+                    } else {
+                        temp2.add(student);
                     }
                 }
-//                System.out.println(subjectNumber + " "+subj);
-                //check if there is a submission for this subject
-                String submissionTime = rs.getString("time"+subjectNumber);
-//                    System.out.println(submissionTime + " "+subj);
-                if(submissionTime.equals("na")){
-                    temp1.add(student);
-                    
-                }else{
-                    temp2.add(student); 
-                }
-                }
-                
+
                 root1.add(temp1);
                 root2.add(temp2);
-                
+
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(FacultyScreen1.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -351,47 +349,45 @@ this.setSize(900, 700);
         }
     }
 
-
     void doMouseClicked(MouseEvent me) throws SQLException {
         TreePath tp = jTree1.getPathForLocation(me.getX(), me.getY());
         try {
             if (tp != null) {
-                
-        System.out.println(jTree1.getPathForLocation(me.getX(), me.getY()).toString());
-            if(tp.getPath().length==2){
-            Object[] path = tp.getPath();
-            String subjectAndSection = path[1].toString();
-            String subject = subjectAndSection.substring(0, subjectAndSection.length()-3);
-            String section = subjectAndSection.toString().substring(subjectAndSection.length()-2);
-                System.out.println("section "+section);
-            classList cl = new classList(subject, section);
-            cl.setVisible(true);
-            cl.addWindowListener(new WindowAdapter() {
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                try {
-                    System.out.println("Window closed");
-                    
-                    addSubjectTree();
-                    
-                } catch (SQLException ex) {
-                    Logger.getLogger(FacultyScreen1.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(jTree1.getPathForLocation(me.getX(), me.getY()).toString());
+                if (tp.getPath().length == 2) {
+                    Object[] path = tp.getPath();
+                    String subjectAndSection = path[1].toString();
+                    String subject = subjectAndSection.substring(0, subjectAndSection.length() - 3);
+                    String section = subjectAndSection.toString().substring(subjectAndSection.length() - 2);
+                    System.out.println("section " + section);
+                    classList cl = new classList(subject, section);
+                    cl.setVisible(true);
+                    cl.addWindowListener(new WindowAdapter() {
+
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            try {
+                                System.out.println("Window closed");
+
+                                addSubjectTree();
+
+                            } catch (SQLException ex) {
+                                Logger.getLogger(FacultyScreen1.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+
+                    });
+
                 }
+            } else {
+                System.out.println("null");
             }
-
-            
-
-        });
-            
-            }
-        }else {
-            System.out.println("null");
-        }
         } catch (Exception e) {
         }
     }
-    public void update() throws SQLException{
+
+    public void update() throws SQLException {
         addSubjectTree();
     }
     private java.awt.ScrollPane scrollPane2;

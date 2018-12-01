@@ -13,7 +13,9 @@ import java.awt.Toolkit;
  * @author iwcnrlee1
  */
 public class QC_ExcelNotification extends javax.swing.JFrame {
+
     String text;
+
     /**
      * Creates new form ExcelNotification
      */
@@ -22,7 +24,7 @@ public class QC_ExcelNotification extends javax.swing.JFrame {
         jLabel1.setText("File export is complete ");
         this.setSize(400, 200);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((size.width-this.getSize().width)/2,(size.height-this.getSize().height)/2);
+        this.setLocation((size.width - this.getSize().width) / 2, (size.height - this.getSize().height) / 2);
     }
 
     /**

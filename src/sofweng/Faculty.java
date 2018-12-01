@@ -9,22 +9,29 @@ package sofweng;
  *
  * @author Mave
  */
-public class Faculty extends User{
+public class Faculty extends User {
+
     public String[] subjectList;
-    public void inputGrade(){
-        
+
+    public void inputGrade() {
+
     }
-    public void inputSOGrade(){
+
+    public void inputSOGrade() {
     }
-    public void editGrade(){
-        
+
+    public void editGrade() {
+
     }
-    public void editSOGrade(){
-        
+
+    public void editSOGrade() {
+
     }
-    public void viewClassList(){
+
+    public void viewClassList() {
     }
-    public void uploadSOEvidence(){
-        
+
+    public void uploadSOEvidence() {
+
     }
 }

@@ -7,7 +7,6 @@ package sofweng;
 
 import java.sql.Connection;
 import java.sql.Driver;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 import javax.swing.JOptionPane;
@@ -221,10 +220,10 @@ public class Register extends javax.swing.JFrame {
             dept = deptField.getText();
             secPin = secPinField.getText();
             confirmSecPin = confirmSecPinField.getText();
-            if(confirmPassword.equals(password) && confirmSecPin.equals(secPin)){
+            if (confirmPassword.equals(password) && confirmSecPin.equals(secPin)) {
                 Register();
                 this.dispose();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Password and Security Pin mismatch!");
             }
         }

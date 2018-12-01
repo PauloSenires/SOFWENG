@@ -8,8 +8,6 @@ package sofweng;
 import acm.program.*;
 import javax.swing.*;
 import acm.graphics.*;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.text.DecimalFormat;
@@ -48,7 +46,7 @@ public class StudentGraph extends Program {
     private final GCanvas canvas = new GCanvas();
     private GOval[] oval = new GOval[10];
     private GLine[] lineArray = new GLine[numberSO];
-    private GLine[] aesLine = new GLine[numberSO+1];
+    private GLine[] aesLine = new GLine[numberSO + 1];
 
     private Statement stat;
 
@@ -69,17 +67,17 @@ public class StudentGraph extends Program {
             }
             stat = con.createStatement();
             stat.execute("USE cpe_database;");
-            System.out.println("use cpe_database");
-            if(id.equals("")){
+            if (id.equals("")) {
                 ResultSet resultSet = stat.executeQuery("SELECT id FROM students;");
                 resultSet.first();
                 name = resultSet.getString(1);
+            } else {
+                name = id;
             }
-            else name=id;
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
-         //actually needs to be an input thrown to this function
+        //actually needs to be an input thrown to this function
         //remove the main here if interfaced correctly with the rest of the program
         // then modify the constructor function: public StudentGraph(String IDNumber)
 
@@ -98,17 +96,15 @@ public class StudentGraph extends Program {
         add(next, NORTH);
         next.addActionListener(this);
 
-        
         drawCanvas(name);
-
     }
 
     public void drawCanvas(String name) {
         for (int i = 1; i <= 10; i++) {
             oval[i - 1] = new GOval(ovalDim * i, ovalDim * i);
             oval[i - 1].setColor(java.awt.Color.LIGHT_GRAY);
-            if(i - 1 == 6){
-                oval[i-1].setColor(java.awt.Color.RED);
+            if (i - 1 == 6) {
+                oval[i - 1].setColor(java.awt.Color.RED);
             }
             jLabelArray[i - 1] = new JLabel("" + (i * 10));
         }
@@ -162,8 +158,8 @@ public class StudentGraph extends Program {
             }
         }
         //creating the aesthetic lines
-        for (GLine line :lineArray ) {
-            GOval oval = new GOval(line.getEndPoint().getX()-2.5, line.getEndPoint().getY()-2.5, 5, 5);
+        for (GLine line : lineArray) {
+            GOval oval = new GOval(line.getEndPoint().getX() - 2.5, line.getEndPoint().getY() - 2.5, 5, 5);
             oval.setColor(java.awt.Color.RED);
             oval.setFillColor(java.awt.Color.RED);
             oval.setFilled(true);
@@ -189,15 +185,15 @@ public class StudentGraph extends Program {
         for (int i = 0; i < lineArray.length; i++) {
             DecimalFormat dc = new DecimalFormat("0.00");
             GLabel gradeLabel = new GLabel("" + dc.format(SOGrades[i]));
-            if (SOGrades[i] != 0 && SOGrades[i] != 100){
-                if(lineArray[i].getEndPoint().getX() < oval[0].getX()+ovalDim/2){
-                    canvas.add(gradeLabel,lineArray[i].getEndPoint().getX()-offset,lineArray[i].getEndPoint().getY());
+            if (SOGrades[i] != 0 && SOGrades[i] != 100) {
+                if (lineArray[i].getEndPoint().getX() < oval[0].getX() + ovalDim / 2) {
+                    canvas.add(gradeLabel, lineArray[i].getEndPoint().getX() - offset, lineArray[i].getEndPoint().getY());
                 } else {
-                    canvas.add(gradeLabel,lineArray[i].getEndPoint().getX(),lineArray[i].getEndPoint().getY());
+                    canvas.add(gradeLabel, lineArray[i].getEndPoint().getX(), lineArray[i].getEndPoint().getY());
                 }
             }
         }
-        
+
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -281,7 +277,7 @@ public class StudentGraph extends Program {
 
             while (classSet.next()) {
                 classMap.put(classSet.getString(1), classSet.getString(2).split(","));
-                System.out.println(classSet.getString(1) + " " +classSet.getString(2));
+                System.out.println(classSet.getString(1) + " " + classSet.getString(2));
             }
 
             for (int i = 0; i < numberSO; i++) {
@@ -299,9 +295,9 @@ public class StudentGraph extends Program {
                     }
                 }
                 System.out.println(classMap.toString());
-                
+
                 for (int i = 0; i < className.length; i++) {
-                    if(className[i]==null){
+                    if (className[i] == null) {
                         break;
                     }
                     System.out.println(Arrays.toString(classMap.get(className[i])));
@@ -329,9 +325,9 @@ public class StudentGraph extends Program {
         }
         return grades;
     }
-    
+
     public static void main(String[] args) {
         new StudentGraph("").start();
     }
- 
+
 }

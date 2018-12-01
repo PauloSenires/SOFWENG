@@ -31,13 +31,13 @@ import javax.swing.JLabel;
  * @author Harley Orines
  */
 public class SOGraph extends Program implements ActionListener {
-    
+
     private final int applicationWidth = 800;
     private final int applicationHeight = 800;
     private final int width = 700;
     private final int height = 700;
     private int currentCanvas;
-    
+
     private final JButton soa = new JButton("SO-A");
     private final JButton sob = new JButton("SO-B");
     private final JButton soc = new JButton("SO-C");
@@ -50,14 +50,14 @@ public class SOGraph extends Program implements ActionListener {
     private final JButton soj = new JButton("SO-J");
     private final JButton sok = new JButton("SO-K");
     private final JButton sol = new JButton("SO-L");
-    
+
     private final GCanvas canvas = new GCanvas();
-    
+
     @SuppressWarnings("FieldMayBeFinal")
     private JLabel SOCodeAndDescription;
     private JLabel CanvasSOLabel;
     private String[] SOCodeArray = {"SO-A", "SO-B", "SO-C", "SO-D", "SO-E", "SO-F", "SO-G", "SO-H", "SO-I", "SO-J", "SO-K", "SO-L"};
-    
+
     private String SOADesc = "An ability to apply knowledge of mathematics, sciences, and engineering sciences to the practice of computer engineering. ";
     private String SOBDesc = "An ability to design and conduct experiments as well as analyse and interpret data. ";
     private String SOCDesc = "An ability to design a system to meet desired needs. ";
@@ -70,14 +70,14 @@ public class SOGraph extends Program implements ActionListener {
     private String SOJDesc = "A knowledge of contemporary issues. ";
     private String SOKDesc = "An ability to use appropriate techniques, skills, and modern tools necessary for computer engineering practice to be locally and globally competitive. ";
     private String SOLDesc = "An ability to apply acquired computer engineering knowledge and skills for national development. ";
-    
+
     Panel panelOne = new Panel();
     Panel panelTwo = new Panel();
-    
+
     ArrayList<String> soLetters = new ArrayList<>();
-    
+
     private Statement statement;
-    
+
     private boolean hasSOA = false;
     private boolean hasSOB = false;
     private boolean hasSOC = false;
@@ -90,11 +90,11 @@ public class SOGraph extends Program implements ActionListener {
     private boolean hasSOJ = false;
     private boolean hasSOK = false;
     private boolean hasSOL = false;
-    
+
     private static String TEST_SUBJ_NAME;
     private static String TEST_SECTION;
     private static int currentSubjNumberOfSos;
-    
+
     public SOGraph(String subjName, String Section) {
 
         TEST_SUBJ_NAME = subjName;
@@ -105,7 +105,7 @@ public class SOGraph extends Program implements ActionListener {
         add(panelOne, NORTH);
         add(panelTwo, SOUTH);
         add(canvas);
-        
+
         try {
             String url = "jdbc:mysql://localhost:3306/cpe_database";
             Properties prop = new Properties();
@@ -124,7 +124,7 @@ public class SOGraph extends Program implements ActionListener {
         } catch (SQLException e) {
             System.out.println("ERROR");
         }
-        
+
         try {
             ResultSet soLetterRS = statement.executeQuery("SELECT Name, SO FROM classes WHERE Name = '" + subjName + "'");
             while (soLetterRS.next()) {
@@ -172,84 +172,82 @@ public class SOGraph extends Program implements ActionListener {
                 SOCodeAndDescription = new JLabel(" ");
                 panelTwo.add(SOCodeAndDescription);
                 soLetters.addAll(Arrays.asList(var));
-            }   
-        }
-        
-        catch (SQLException ex) {
+            }
+        } catch (SQLException ex) {
             System.out.println("Class SOs not obtained");
         }
-        
+
         if (hasSOA) {
-           panelOne.add(soa);
-           soa.addActionListener(this); 
+            panelOne.add(soa);
+            soa.addActionListener(this);
         }
-        
+
         if (hasSOB) {
-           panelOne.add(sob);
-           sob.addActionListener(this); 
+            panelOne.add(sob);
+            sob.addActionListener(this);
         }
-        
+
         if (hasSOC) {
-           panelOne.add(soc);
-           soc.addActionListener(this); 
+            panelOne.add(soc);
+            soc.addActionListener(this);
         }
-        
+
         if (hasSOD) {
-           panelOne.add(sod);
-           sod.addActionListener(this); 
+            panelOne.add(sod);
+            sod.addActionListener(this);
         }
-        
+
         if (hasSOE) {
-           panelOne.add(soe);
-           soe.addActionListener(this); 
+            panelOne.add(soe);
+            soe.addActionListener(this);
         }
-        
+
         if (hasSOF) {
-           panelOne.add(sof);
-           sof.addActionListener(this); 
+            panelOne.add(sof);
+            sof.addActionListener(this);
         }
-        
+
         if (hasSOG) {
-           panelOne.add(sog);
-           sog.addActionListener(this); 
+            panelOne.add(sog);
+            sog.addActionListener(this);
         }
-        
+
         if (hasSOH) {
-           panelOne.add(soh);
-           soh.addActionListener(this); 
+            panelOne.add(soh);
+            soh.addActionListener(this);
         }
-        
+
         if (hasSOI) {
-           panelOne.add(soi);
-           soi.addActionListener(this); 
+            panelOne.add(soi);
+            soi.addActionListener(this);
         }
-        
+
         if (hasSOJ) {
-           panelOne.add(soj);
-           soj.addActionListener(this); 
+            panelOne.add(soj);
+            soj.addActionListener(this);
         }
-        
+
         if (hasSOK) {
-           panelOne.add(sok);
-           sok.addActionListener(this); 
+            panelOne.add(sok);
+            sok.addActionListener(this);
         }
-        
+
         if (hasSOL) {
-           panelOne.add(sol);
-           sol.addActionListener(this); 
+            panelOne.add(sol);
+            sol.addActionListener(this);
         }
-        
+
     }
-    
+
     public void drawCanvas(String[] SOCodeArray, int currentCanvas, String subjName, String section) {
-        
+
         int p = 0;
         String currentSelectedButton = null;
         CanvasSOLabel = new JLabel(SOCodeArray[currentCanvas]);
         canvas.add(CanvasSOLabel);
         ArrayList<Integer> idlist = new ArrayList<>();
         String[] tempString = new String[currentSubjNumberOfSos];
-        
+
         if (currentCanvas == 0) {
             currentSelectedButton = "A";
         }
@@ -286,7 +284,7 @@ public class SOGraph extends Program implements ActionListener {
         if (currentCanvas == 11) {
             currentSelectedButton = "L";
         }
-        
+
         try {
             ResultSet IdSoSet1 = statement.executeQuery("SELECT * FROM students WHERE ((subject1 = '" + subjName + "') AND (section1 = '" + section + "')) OR ((subject2 = '" + subjName + "') AND (section2 = '" + section + "')) OR ((subject3 = '" + subjName + "') AND (section3 = '" + section + "')) OR ((subject4 = '" + subjName + "') AND (section4 = '" + section + "')) OR ((subject5 = '" + subjName + "') AND (section5 = '" + section + "')) OR ((subject6 = '" + subjName + "') AND (section6 = '" + section + "')) OR ((subject7 = '" + subjName + "') AND (section7 = '" + section + "')) OR ((subject8 = '" + subjName + "') AND (section8 = '" + section + "')) OR ((subject9 = '" + subjName + "') AND (section9 = '" + section + "')) OR ((subject10 = '" + subjName + "') AND (section10 = '" + section + "'))");
             while (IdSoSet1.next()) {
@@ -298,58 +296,58 @@ public class SOGraph extends Program implements ActionListener {
             while (IdSoSet2.next()) {
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject1")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so1")).equals("na")) {
-                        tempString = IdSoSet2.getString(IdSoSet2.findColumn("so1")).split(","); 
+                        tempString = IdSoSet2.getString(IdSoSet2.findColumn("so1")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject2")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so2")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so2")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject3")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so3")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so3")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject4")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so4")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so4")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject5")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so5")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so5")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject6")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so6")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so6")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject7")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so7")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so7")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject8")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so8")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so8")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject9")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so9")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so9")).split(",");
                     }
                 }
-                
+
                 if (IdSoSet2.getString(IdSoSet2.findColumn("subject10")).equals(subjName)) {
                     if (!IdSoSet2.getString(IdSoSet2.findColumn("so10")).equals("na")) {
                         tempString = IdSoSet2.getString(IdSoSet2.findColumn("so10")).split(",");
@@ -358,13 +356,13 @@ public class SOGraph extends Program implements ActionListener {
                 StringArray2d[p] = tempString;
                 p++;
             }
-            
+
             for (int j = 0; j < idlist.size(); j++) {
                 for (int k = 0; k < currentSubjNumberOfSos; k++) {
                     DoubleArray2d[j][k] = Double.parseDouble(StringArray2d[j][k]);
-                }   
+                }
             }
-             
+
             double xItemSpace = 60;
             double xGilidSpace = 30;
             double xStart = 100;
@@ -397,16 +395,16 @@ public class SOGraph extends Program implements ActionListener {
             canvas.add(ylabel80);
             canvas.add(ylabel90);
             canvas.add(ylabel100);
-            
+
             GLabel[] idLabelArray = new GLabel[idlist.size()];
             GLabel[] gradeLabelArray = new GLabel[idlist.size()];
             GRect[] barArray = new GRect[idlist.size()];
-            
-            for (int i = 0; i <idlist.size(); i++) {
+
+            for (int i = 0; i < idlist.size(); i++) {
                 idLabelArray[i] = new GLabel(Integer.toString(idlist.get(i)), xStart + xGilidSpace + (xItemSpace * i), yEnd + 11);
                 canvas.add(idLabelArray[i]);
             }
-            
+
             for (int i = 0; i < soLetters.size(); i++) {
                 if (currentSelectedButton.equals(soLetters.get(i))) {
                     //Create graph i;
@@ -418,16 +416,14 @@ public class SOGraph extends Program implements ActionListener {
                     }
                 }
             }
-        }
-        
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println("SO grades not obtained");
         }
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         if (e.getSource() == soa) {
             canvas.removeAll();
             currentCanvas = 0;
@@ -489,11 +485,11 @@ public class SOGraph extends Program implements ActionListener {
             drawCanvas(SOCodeArray, currentCanvas, TEST_SUBJ_NAME, TEST_SECTION);
             SOCodeAndDescription.setText(SOCodeArray[currentCanvas] + " : " + SOLDesc);
         }
-        
+
     }
-    
+
     public static void main(String[] args) {
         new SOGraph("DYNAMIC", "EI").start(args); // inputs are subject string and section string
     }
-    
+
 }
