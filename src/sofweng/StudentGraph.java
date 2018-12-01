@@ -79,6 +79,8 @@ public class StudentGraph extends Program {
             }
         } catch (SQLException e) {
             System.out.println("ERROR");
+            JOptionPane.showMessageDialog(null, "Error in retrieving the database");
+            
         }
         currentDisplay = new JLabel(display + name + spaces);
         add(currentDisplay, NORTH);
