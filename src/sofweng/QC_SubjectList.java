@@ -278,7 +278,13 @@ public final class QC_SubjectList extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
                     for (int j=0;j<classList.size();j++){
                         if(e.getActionCommand().contains(classList.get(j).toString().substring(8))){
-                           //Lagay dito SO graph ito param(subject,classList.get(j).toString().substring(8)) //subject at class
+                                JFrame frame = new JFrame();
+                                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                SOGraph SOGraph = new SOGraph(classList.get(j).toString().substring(0,7),classList.get(j).toString().substring(8));
+                                frame.add(SOGraph);
+                                frame.setVisible(true);
+                                frame.setSize(750,600);
+                                SOGraph.start(); 
                         }
                     }
                 }

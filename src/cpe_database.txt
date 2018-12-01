@@ -24,6 +24,7 @@ INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) 
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('INTECAL', 'Integral Calculus', 'CHE', 'G,H,I,J', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('MPROSYS', 'Microprocessing Systems', 'ECE', 'H,I,J,K', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('DIGITDE', 'Digital Design', 'ECE', 'I,J,K,L', 'Q,FE,TE,P', '40,35,5,20');INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ADVECE1', 'Advance Electronics 1', 'ECE', 'B,C,F,I', 'Q,FE,TE,P', '40,35,5,20');
+INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ADVECE1', 'Advance Electronics 2', 'ECE', 'J,K,L,A', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('ADVECE2', 'Advance Electronics 2', 'ECE', 'J,K,L,A', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('CPENETW', 'Computer Networks', 'ECE', 'K,L,A,B', 'Q,FE,TE,P', '40,35,5,20');
 INSERT INTO `classes` (`Name`, `Detail`, `Department`, `SO`, `work`, `percent`) VALUES ('FCONSYS', 'Fundamental of Control Systems', 'ECE', 'L,A,B,C', 'Q,FE,TE,P', '40,35,5,20');
