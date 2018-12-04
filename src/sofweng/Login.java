@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 import javax.swing.JOptionPane;
+import adminui.*;
 
 /**
  *
@@ -314,7 +315,7 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                     break;
                 case "3": //Administrator
-                    QC_Screen adminWindow = new QC_Screen();
+                    AdminMainMenu adminWindow = new AdminMainMenu();
                     adminWindow.setVisible(true);
                     adminWindow.setLocationRelativeTo(this);
                     this.dispose();
