@@ -71,9 +71,9 @@ public class DC_Screen extends javax.swing.JFrame {
     public void btnConfig(JButton btn, int indent) {
         btn.setFont(font);
         btn.setHorizontalAlignment(JLabel.LEFT);
-        btn.setSize(MainPane.getWidth() - 50 - indent * 2, height);
-        btn.setLocation(btn.getX() + indent * 2, btn.getY() + space);
-        space = space + height;
+        btn.setSize(850-50*(indent), height);
+        btn.setLocation(btn.getX()+50*(indent), btn.getY() + space);
+            space = space + height;
     }
 
     public void viewCourseList(ArrayList list, int open) {
@@ -139,7 +139,7 @@ public class DC_Screen extends javax.swing.JFrame {
                 }
             });
             MainPane.add(facultyBtn);
-            btnConfig(facultyBtn, 25);
+            btnConfig(facultyBtn, 1);
             facultyBtn.setVisible(true);
         }
     }

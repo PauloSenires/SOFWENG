@@ -67,6 +67,7 @@ public final class DC_FacultyList extends javax.swing.JFrame {
                         String str1 = rs.getString("subject" + i);
                         if (!str1.equals("na")) {
                             classList.add(str1);
+                            System.out.println(str1);
                         }
                     }
                 }
@@ -85,6 +86,7 @@ public final class DC_FacultyList extends javax.swing.JFrame {
                 int i = count;
                 text = "SELECT `ID` FROM students WHERE";
                 for (int j = 1; j <= 10; j++) {
+                    System.out.println(j+"");
                     text = text + " (subject" + j + "= '" + classList.get(i - 1).substring(0, 7) + "' AND section" + j + "= '" + classList.get(i - 1).substring(8) + "')";
                     if (j != 10) {
                         text = text + " OR";
@@ -128,6 +130,7 @@ public final class DC_FacultyList extends javax.swing.JFrame {
             try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cpe_database?" + "user=root&password=")) {
                 for (int i = 1; i <= classList.size(); i++) {
                     fetchStudentsList(i);
+                    submission = 9632;
                     for (int k = 1; k <= studentsList.size(); k++) {
                         for (int j = 1; j <= 10; j++) {
                             text = "SELECT `time" + j + "` FROM students WHERE";
