@@ -297,7 +297,7 @@ public class Login extends javax.swing.JFrame {
             }
             switch (databaseLevel) {
                 default: //Faculty
-                    FacultyScreen1 facultyWindow = new FacultyScreen1();
+                    FacultyScreen1 facultyWindow = new FacultyScreen1(idNumber);
                     facultyWindow.setVisible(true);
                     facultyWindow.setLocationRelativeTo(this);
                     this.dispose();
