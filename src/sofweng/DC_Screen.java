@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import adminui.AddCourseForm; 
+import adminui.AdminAddCourseForm;
 
 /**
  *
@@ -24,7 +26,7 @@ public class DC_Screen extends javax.swing.JFrame {
     ArrayList<String> courseList = new ArrayList<String>();
     ArrayList<String> userList = new ArrayList<String>();
     public int count;
-    JButton courseBtn, facultyBtn;
+    JButton courseBtn, facultyBtn, addBtn;
     int height = 40; //Height of Buttons
     int space = 0;
     Font font = new Font("Arial", Font.BOLD, 20);
@@ -103,6 +105,21 @@ public class DC_Screen extends javax.swing.JFrame {
                 generateUsers(i);
             }
         }
+        
+        addBtn = new JButton("Add Course");
+        addBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    AdminAddCourseForm courseform = new AdminAddCourseForm();
+                    courseform.setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DC_Screen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        MainPane.add(addBtn);
+        btnConfig(addBtn, 0);
+        space=space+height;
         Dimension size = new Dimension(900, space);
         MainPane.setPreferredSize(size);
         space = 0;
@@ -182,7 +199,7 @@ public class DC_Screen extends javax.swing.JFrame {
         ScrollPane.setViewportView(MainPane);
 
         Greeting.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
-        Greeting.setText("Welcome, Department Coordinator");
+        Greeting.setText("Welcome, Department Chair");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Gokongwei College of Engineering");
