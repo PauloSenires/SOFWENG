@@ -359,8 +359,9 @@ public class AdminMainMenu extends javax.swing.JFrame {
         }
         else if(tab3.equals(tabbedPane.getTitleAt(tabbedPane.getSelectedIndex())))
         {
-            courseform = new AdminAddCourseForm();
-            courseform.setVisible(true);
+            //courseform = new AdminAddCourseForm();
+            //courseform.setVisible(true);
+            JOptionPane.showMessageDialog(null, "Action unavailable for selected list");
         }
     }                                                     
 
