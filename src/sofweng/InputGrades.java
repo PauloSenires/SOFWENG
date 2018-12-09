@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -31,8 +32,8 @@ import javax.swing.JTextField;
 public class InputGrades extends javax.swing.JFrame {
 
     public String ID = "11500001";
-    public String subject = "BASICEE";
-    public String section = "EE";
+    public String subject = "ENGPHY1";
+    public String section = "EA";
     public String soGrade = "";
     public String rawScores = "";
     float finalGrade;
@@ -348,9 +349,38 @@ public class InputGrades extends javax.swing.JFrame {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
+        int errorCount=0;
         soGrade = "";
         soGradesList = new String[soCount];
         gradesList = new String[soCount];
+    
+            try {
+                    Integer.parseInt(quizAverage.getText());
+                    Integer.parseInt(finalExam.getText());
+                    Integer.parseInt(projectGrade.getText());
+                    Integer.parseInt(othersGrade.getText());
+                    
+                    System.out.println("An integer");
+                    
+                    for (int i = 0; i < soCount; i++) {
+                        
+                    soGradesList[i] = soGradeFieldList[i].getText();
+                        Integer.parseInt(soGradesList[i]);
+                    if (Integer.parseInt(quizAverage.getText())>100 || Integer.parseInt(quizAverage.getText())<0
+                        || Integer.parseInt(finalExam.getText())>100 || Integer.parseInt(finalExam.getText())<0
+                        || Integer.parseInt(projectGrade.getText())>100 || Integer.parseInt(projectGrade.getText())<0
+                        || Integer.parseInt(othersGrade.getText())>100 || Integer.parseInt(othersGrade.getText())<0
+                        || Integer.parseInt(soGradesList[i])<0||Integer.parseInt(soGradesList[i])>100) {
+                    errorCount++;
+                    }
+                    } 
+                   }
+                   catch (NumberFormatException e) {
+                        errorCount++;
+                   }
+        
+        if(errorCount==0){
+        
         for (int i = 0; i < soCount; i++) {
             soGradesList[i] = soGradeFieldList[i].getText();
             if (i < soCount - 1) {
@@ -390,6 +420,10 @@ public class InputGrades extends javax.swing.JFrame {
             updateDatabase(ID);
         } catch (SQLException ex) {
             Logger.getLogger(InputGrades.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Invalid inputs.\nGrades must be numerical values from 0-100");
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
